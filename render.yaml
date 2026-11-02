@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: sportscast-studio
+    runtime: python
+    plan: free
+    buildCommand: echo "No dependencies"
+    startCommand: python3 app.py
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: SPORTSCAST_CONTROL_KEY
+        sync: false
