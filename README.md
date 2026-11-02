@@ -1,16 +1,21 @@
-# Sportscast Studio — NBC / ESPN scoreboard quick switch
+# Sportscast Studio — NBC + ESPN, Flag + Timeout Broadcast Edition
 
-This update adds two large buttons at the top of the controller, **NBC** and **ESPN**.
+Includes: team-logo and record improvements, team-highlighted penalty flags, near-down yardage +/- buttons, resized OBS overlay, and new team timeout calls.
 
-- **NBC**: original rounded-wing scoreboard (Classic).
-- **ESPN**: new compact black scoreboard with possession-colored down & distance in the middle; when no team has possession, it shows SPORTSCAST instead.
-- Choose either button at any time. It updates the controller preview, saves the choice in that browser, and automatically synchronizes the design to the `/obs` display. The Settings design selector still works and stays synchronized.
-- Team logos, scores, clock, FLAG, timeout controls, and editing remain available.
+## Timeout controls
 
-## Publish to your existing Render site
+- **+ / −** adjust each team's remaining timeouts (0–3). The scoreboard shows only the remaining marks — used marks disappear.
+- Press **TIMEOUT · TEAM** directly below that team's +/- controls to use one timeout and show a team-colored **TIMEOUT** where down-and-distance normally appears, plus a strip reading `TIMEOUT · TEAM NAME · 2 REMAINING`.
+- Press **Hide Timeout Strip** in Game Information when the timeout ends. This does not restore any used timeout.
+- Selecting a penalty flag clears the timeout announcement; calling a timeout clears the penalty graphic.
 
-Unzip and upload `controller.html`, `overlay.html`, and `app.py` to the root of your existing GitHub repository, choosing to replace existing files. The `README.md` is optional. **Do not upload the zip itself.** Render auto-deploys the updated `main` branch.
+## Publishing
 
-Do not replace your existing `render.yaml` or change the private `SPORTSCAST_CONTROL_KEY` setting.
+Upload `controller.html`, `overlay.html`, `app.py`, and `README.md` to your existing `Sports-cast-scroebord` GitHub repository, replacing the existing files. Keep `index.html` unchanged. Render automatically deploys the new commit.
 
-The ESPN label is a visual style choice, not an official ESPN asset or an ESPN-operated scoreboard.
+## OBS
+
+Browser Source URL: `https://sportscast-studio-colten.onrender.com/obs`
+Recommended width **1280** and height **220**. The layout also scales down for other sizes.
+
+Your controller remains private and access-protected. Never upload or share your controller password.

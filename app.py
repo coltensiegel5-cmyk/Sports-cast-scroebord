@@ -141,7 +141,7 @@ class Handler(BaseHTTPRequestHandler):
             if not isinstance(data, dict) or not isinstance(data.get('away'), dict) or not isinstance(data.get('home'), dict):
                 raise ValueError('invalid scoreboard state')
             # Allow only data fields needed by our overlay.
-            fields = ('code', 'record', 'score', 'logoUrl', 'logoHidden', 'recordHidden', 'wingBg', 'wingBorder', 'tabHidden', 'tabBg', 'tabBorder', 'tabText', 'timeoutCount')
+            fields = ('code', 'record', 'score', 'logoUrl', 'logoHidden', 'recordHidden', 'wingBg', 'wingBorder', 'tabHidden', 'tabBg', 'tabBorder', 'tabText', 'tabTextColor', 'timeoutCount')
             cleaned = {}
             for side in ('away', 'home'):
                 d = data[side]
@@ -150,6 +150,15 @@ class Handler(BaseHTTPRequestHandler):
                 cleaned[k] = str(data.get(k, ''))[:40]
             cleaned['design'] = 'tv' if data.get('design') == 'tv' else 'classic'
             cleaned['possession'] = data.get('possession') if data.get('possession') in ('away', 'home') else 'none'
+            cleaned['flagTeam'] = data.get('flagTeam') if data.get('flagTeam') in ('away', 'home') else 'none'
+            cleaned['timeoutSide'] = data.get('timeoutSide') if data.get('timeoutSide') in ('away', 'home') else 'none'
+            cleaned['timeoutActive'] = bool(data.get('timeoutActive', False)) and cleaned['timeoutSide'] != 'none'
+            cleaned['timeoutRemaining'] = str(data.get('timeoutRemaining', ''))[:24]
+            cleaned['timeoutTeamName'] = str(data.get('timeoutTeamName', ''))[:45]
+            import re
+            for name in ('timeoutBg','timeoutTrim'):
+                value = str(data.get(name, ''))[:32].strip()
+                cleaned[name] = value if re.fullmatch(r'#[0-9A-Fa-f]{6}', value) else '#284560'
             cleaned['centerText'] = str(data.get('centerText', 'SPORTSCAST'))[:40]
             bg = str(data.get('centerBg', ''))[:250]
             cleaned['centerBg'] = bg if ('linear-gradient(' in bg and not any(x in bg for x in '<>\\')) else ''
