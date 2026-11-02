@@ -286,6 +286,49 @@ html,body{width:100%;height:100%;margin:0;padding:0;background:transparent!impor
 #nfl-night[data-design="tv"] .scorebug{height:min(150px,68vh)!important}
 @media(max-height:135px){#nfl-night .scorebug,#nfl-night[data-design="tv"] .scorebug{height:65vh!important}#nfl-night .timeout-callout{height:19px;bottom:-11px;font-size:clamp(7px,1.7cqw,10px)}}
 
+
+/* NOV 2 V2: Logo fit, clearly legible team abbreviations & win-loss records.
+   Deliberately last in the stylesheet to override earlier competing rules. */
+#nfl-night .wing {min-width:0;box-sizing:border-box}
+#nfl-night .wing.away{padding-left:1.5%;padding-right:9.5%}
+#nfl-night .wing.home{padding-left:9.5%;padding-right:1.5%}
+#nfl-night .logo{box-sizing:border-box;flex:0 0 27%;width:27%;height:84%;max-width:none;min-width:0;overflow:hidden!important;padding:1px!important;margin:0!important;display:flex;align-items:center;justify-content:center}
+#nfl-night .logo img{box-sizing:border-box;display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center;filter:drop-shadow(0 1px 2px #000a)}
+#nfl-night .team{min-width:0;flex:1;box-sizing:border-box;padding-bottom:4px}
+#nfl-night .abbr{font-size:clamp(16px,2.55cqw,33px);font-weight:950;letter-spacing:.025em;line-height:1.05;color:#fff;opacity:1;text-shadow:0 2px 3px #000e;white-space:nowrap}
+#nfl-night .record{font-size:clamp(14px,1.75cqw,22px);font-weight:950;line-height:1.05;letter-spacing:.015em;color:#fff;opacity:1;margin-top:3px;text-shadow:0 1px 3px #000e;white-space:nowrap}
+#nfl-night .timeouts-inline{margin-top:4px}
+#nfl-night .score{flex:0 0 22%;min-width:0;font-size:clamp(24px,5.1cqw,61px);white-space:nowrap}
+/* ESPN compact uses absolute logo and text placement, bounded by the wing. */
+#nfl-night[data-design="tv"] .wing{overflow:hidden}
+#nfl-night[data-design="tv"] .logo{position:absolute;top:50%;transform:translateY(-50%);left:1.2%;right:auto;width:25%;height:86%;max-width:none;flex:none;overflow:hidden!important;padding:1px!important}
+#nfl-night[data-design="tv"] .wing.home .logo{left:auto;right:1.2%}
+#nfl-night[data-design="tv"] .logo img{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center}
+#nfl-night[data-design="tv"] .abbr{position:absolute;top:7%;left:29%;right:auto;font-size:clamp(15px,1.6cqw,22px);line-height:1;font-weight:950;color:#fff;opacity:1;text-shadow:0 1px 3px #000e;white-space:nowrap}
+#nfl-night[data-design="tv"] .record{position:absolute;top:32%;left:29%;right:auto;font-size:clamp(13px,1.5cqw,19px);line-height:1;font-weight:950;color:#fff;opacity:1;text-shadow:0 1px 3px #000e;white-space:nowrap;margin:0}
+#nfl-night[data-design="tv"] .wing.home .abbr,#nfl-night[data-design="tv"] .wing.home .record{left:auto;right:29%;text-align:right}
+#nfl-night[data-design="tv"] .score{font-size:clamp(29px,5.45cqw,64px)}
+#nfl-night[data-design="tv"] .timeouts-inline{margin-top:0}
+/* During a penalty, switch from white labels to contrasting dark ink. */
+#nfl-night .wing.penalized .abbr,#nfl-night .wing.penalized .record{color:#211a12!important;text-shadow:none!important}
+/* Guarantee the timeout announcer is drawn when visible, including OBS. */
+#nfl-night .timeout-callout{z-index:25;left:13%;width:74%;bottom:-13px;height:30px;max-width:74%;padding:3px 10px;white-space:nowrap;line-height:1;overflow:hidden;visibility:visible}
+#nfl-night .timeout-callout:not([hidden]){display:flex!important;opacity:1!important;visibility:visible!important}
+#nfl-night .timeout-callout[hidden]{display:none!important}
+@media(max-width:700px){
+#nfl-night .wing.away{padding-right:9%}#nfl-night .wing.home{padding-left:9%}
+#nfl-night .logo{flex-basis:25%;width:25%;height:78%}
+#nfl-night .abbr{font-size:clamp(12px,2.6cqw,19px)}
+#nfl-night .record{font-size:clamp(10px,2.0cqw,15px)}
+#nfl-night .score{font-size:clamp(19px,5.3cqw,36px)}
+#nfl-night[data-design="tv"] .logo{width:23%;height:78%;left:1%}
+#nfl-night[data-design="tv"] .wing.home .logo{right:1%}
+#nfl-night[data-design="tv"] .abbr{left:27%;font-size:clamp(11px,2.2cqw,16px)}
+#nfl-night[data-design="tv"] .record{left:27%;font-size:clamp(10px,1.9cqw,14px);top:33%}
+#nfl-night[data-design="tv"] .wing.home .abbr,#nfl-night[data-design="tv"] .wing.home .record{right:27%}
+#nfl-night .timeout-callout{left:7%;width:86%;max-width:86%;height:23px;bottom:-11px;gap:4px;font-size:clamp(8px,1.65cqw,12px);padding:2px 5px}
+}
+
 </style></head><body><div id="nfl-night" data-design="tv" data-possession="none"><div class="stage" id="nn-stage"><div class="scorebug" id="nn-bug"><div class="wing away" id="nn-away-wing"><div class="logo" id="nn-away-logobox"><img alt="Away team logo" id="nn-away-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/Los%20Angeles%20Chargers/los-angeles-chargers_small_square.png"/><span class="fallback" id="nn-away-fallback">LAC</span></div><div class="team"><span class="abbr" id="nn-away-abbr">LAC</span><span class="record" id="nn-away-record">—</span><div class="timeouts-inline" aria-label="Away team timeouts"><span class="to-label">TO</span><span class="to-dots" id="nn-to-away-dots" aria-label="Away timeouts remaining: 3">●●●</span></div></div><div class="score" id="nn-away-score">0</div></div><div class="wing home" id="nn-home-wing"><div class="score" id="nn-home-score">0</div><div class="team"><span class="abbr" id="nn-home-abbr">NE</span><span class="record" id="nn-home-record">—</span><div class="timeouts-inline" aria-label="Home team timeouts"><span class="to-label">TO</span><span class="to-dots" id="nn-to-home-dots" aria-label="Home timeouts remaining: 3">●●●</span></div></div><div class="logo" id="nn-home-logobox"><img alt="Home team logo" id="nn-home-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/New%20England%20Patriots/new-england-patriots_small_square.png"/><span class="fallback" id="nn-home-fallback">NE</span></div></div><div class="postab away" id="nn-away-tab"><span>▶</span><span id="nn-away-down">3RD &amp; 6</span></div><div class="postab home" hidden="" id="nn-home-tab"><span id="nn-home-down">3RD &amp; 6</span><span>◀</span></div><div class="flag-banner" id="nn-flag-banner" hidden>⚑ FLAG</div><div class="timeout-callout" id="nn-timeout-callout" hidden aria-live="polite"><span class="timeout-header">TIMEOUT</span><span id="nn-timeout-team">TEAM</span><span class="timeout-remain" id="nn-timeout-left">2 REMAINING</span></div><div class="center"><span class="symbol">SPORTSCAST</span><span class="clock" id="nn-clock">13:04</span><div class="clockline"><span id="nn-quarter">1ST</span><span class="playclock" id="nn-playclock">06</span></div></div></div></div></div><script>
 (function(){
 'use strict';const $=id=>document.getElementById(id);let version=-1;
