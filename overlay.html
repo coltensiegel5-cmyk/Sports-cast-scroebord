@@ -56,7 +56,24 @@ html,body{margin:0;background:transparent!important;width:100%;height:100%;overf
 #nfl-night #nn-home-wing{background:linear-gradient(180deg,#002244,#002244 22%,#111b2e 160%);border-color:#c60c30}
 #nfl-night #nn-away-tab{background:linear-gradient(180deg,#0080c6,#0080c6 70%,#111b2c);border-color:#ffc20e}
 #nfl-night #nn-home-tab{background:linear-gradient(180deg,#002244,#002244 70%,#111b2c);border-color:#c60c30}
-</style></head><body><div id="nfl-night"><div class="stage" id="nn-stage"><div class="scorebug" id="nn-bug"><div class="wing away" id="nn-away-wing"><div class="logo" id="nn-away-logobox"><img alt="Away team logo" id="nn-away-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/Los%20Angeles%20Chargers/los-angeles-chargers_small_square.png"/><span class="fallback" id="nn-away-fallback">LAC</span></div><div class="team"><span class="abbr" id="nn-away-abbr">LAC</span><span class="record" id="nn-away-record">—</span></div><div class="score" id="nn-away-score">0</div></div><div class="wing home" id="nn-home-wing"><div class="score" id="nn-home-score">0</div><div class="team"><span class="abbr" id="nn-home-abbr">NE</span><span class="record" id="nn-home-record">—</span></div><div class="logo" id="nn-home-logobox"><img alt="Home team logo" id="nn-home-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/New%20England%20Patriots/new-england-patriots_small_square.png"/><span class="fallback" id="nn-home-fallback">NE</span></div></div><div class="postab away" id="nn-away-tab"><span>▶</span><span id="nn-away-down">3RD &amp; 6</span></div><div class="postab home" hidden="" id="nn-home-tab"><span id="nn-home-down">3RD &amp; 6</span><span>◀</span></div><div class="center"><span class="symbol">✦ ◉ ✦</span><span class="clock" id="nn-clock">13:04</span><div class="clockline"><span id="nn-quarter">1ST</span><span class="playclock" id="nn-playclock">06</span></div></div></div></div></div><script>
+
+/* Logo positions: balanced outer-wing placement without covering the score or center clock. */
+#nfl-night .wing.away{padding-left:3%;padding-right:9%}
+#nfl-night .wing.home{padding-left:9%;padding-right:3%}
+#nfl-night .logo{flex:0 0 24%;width:24%;height:86%;max-width:135px;min-width:0;overflow:hidden;padding:4px 2px}
+#nfl-night .wing.away .logo{margin-left:3px;margin-right:2px}
+#nfl-night .wing.home .logo{margin-right:3px;margin-left:2px}
+#nfl-night .logo img{width:100%;height:100%;max-width:114px;max-height:78px;object-fit:contain;object-position:center;display:block}
+#nfl-night .team{min-width:0}
+#nfl-night .flag-banner{position:absolute;z-index:8;left:50%;top:0;transform:translateX(-50%);border:2px solid #f6dd44;border-radius:5px;background:linear-gradient(180deg,#ffed72,#e7b72a);color:#1e2027;text-shadow:none;padding:3px 13px;white-space:nowrap;box-shadow:0 3px 8px #0009;font:900 clamp(10px,2.4cqw,18px)/1.3 system-ui,sans-serif;letter-spacing:.08em}
+#nfl-night .flag-banner[hidden]{display:none!important}
+@media(max-width:600px){#nfl-night .logo{height:80%;padding:2px 0}#nfl-night .logo img{max-height:48px}#nfl-night .flag-banner{top:-2px;padding:2px 8px}}
+
+#nfl-night .logo{position:relative}
+#nfl-night .logo .fallback{display:block;font-size:clamp(11px,2.4cqw,19px);font-weight:900;color:#e8f2ff;letter-spacing:-.03em}
+#nfl-night .logo.loaded .fallback{display:none}
+#nfl-night .logo:not(.loaded) img{visibility:hidden}
+</style></head><body><div id="nfl-night"><div class="stage" id="nn-stage"><div class="scorebug" id="nn-bug"><div class="wing away" id="nn-away-wing"><div class="logo" id="nn-away-logobox"><img alt="Away team logo" id="nn-away-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/Los%20Angeles%20Chargers/los-angeles-chargers_small_square.png"/><span class="fallback" id="nn-away-fallback">LAC</span></div><div class="team"><span class="abbr" id="nn-away-abbr">LAC</span><span class="record" id="nn-away-record">—</span></div><div class="score" id="nn-away-score">0</div></div><div class="wing home" id="nn-home-wing"><div class="score" id="nn-home-score">0</div><div class="team"><span class="abbr" id="nn-home-abbr">NE</span><span class="record" id="nn-home-record">—</span></div><div class="logo" id="nn-home-logobox"><img alt="Home team logo" id="nn-home-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/New%20England%20Patriots/new-england-patriots_small_square.png"/><span class="fallback" id="nn-home-fallback">NE</span></div></div><div class="postab away" id="nn-away-tab"><span>▶</span><span id="nn-away-down">3RD &amp; 6</span></div><div class="postab home" hidden="" id="nn-home-tab"><span id="nn-home-down">3RD &amp; 6</span><span>◀</span></div><div class="flag-banner" id="nn-flag-banner" hidden>⚑ FLAG</div><div class="center"><span class="symbol">✦ ◉ ✦</span><span class="clock" id="nn-clock">13:04</span><div class="clockline"><span id="nn-quarter">1ST</span><span class="playclock" id="nn-playclock">06</span></div></div></div></div></div><script>
 (function(){
 'use strict';const $=id=>document.getElementById(id);let version=-1;
 function set(id,x){$(id).textContent=String(x??'')}
@@ -66,13 +83,14 @@ function draw(s){if(!s)return;
   const wing=$(p+'wing');if(v.wingBg)wing.style.background=v.wingBg;if(v.wingBorder)wing.style.borderColor=v.wingBorder;
   const tab=$(p+'tab');tab.hidden=!!v.tabHidden;if(v.tabBg)tab.style.background=v.tabBg;if(v.tabBorder)tab.style.borderColor=v.tabBorder;
   const box=$(p+'logobox');box.style.visibility=v.logoHidden?'hidden':'visible';$(p+'record').style.visibility=v.recordHidden?'hidden':'visible';
-  const img=$(p+'logo');if(v.logoUrl&&img.src!==v.logoUrl){box.classList.remove('failed');img.src=v.logoUrl;}
+  const img=$(p+'logo');if(v.logoUrl&&img.src!==v.logoUrl){box.classList.remove('failed','loaded');img.src=v.logoUrl;}
  });
  set('nn-clock',s.clock);set('nn-quarter',s.quarter);set('nn-playclock',s.playclock);
  $('nn-clock').style.visibility=s.clockHidden?'hidden':'visible';$('nn-playclock').hidden=!!s.playclockHidden;
  $('nn-bug').style.maxWidth=s.scale||'100%';
+ $('nn-flag-banner').hidden=!s.flag;
 }
-['away','home'].forEach(side=>{const wrap=$('nn-'+side+'-logobox'),img=$('nn-'+side+'-logo');img.onerror=()=>wrap.classList.add('failed');img.onload=()=>wrap.classList.remove('failed')});
+['away','home'].forEach(side=>{const wrap=$('nn-'+side+'-logobox'),img=$('nn-'+side+'-logo');img.onerror=()=>{wrap.classList.add('failed');wrap.classList.remove('loaded')};img.onload=()=>{wrap.classList.remove('failed');wrap.classList.add('loaded')}});
 async function poll(){try{const r=await fetch('/api/state',{cache:'no-store'});if(!r.ok)return;const x=await r.json();if(x.version!==version){version=x.version;draw(x.state)}}catch(e){}}
 poll();setInterval(poll,300);
 })();

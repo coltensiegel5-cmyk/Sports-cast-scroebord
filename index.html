@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="referrer" content="no-referrer" />
+<title>Sportscast Studio — Live NFL Scoreboard</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+*{box-sizing:border-box}
+body{margin:0;color:#edf5ff;background:radial-gradient(ellipse at 50% -24%,#234c86 0%,transparent 60%),#0b1423;min-height:100vh}
+header{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:19px clamp(16px,5vw,42px);background:#101d30e8;border-bottom:1px solid #344861}
+.brand{font-size:clamp(20px,3vw,26px);font-weight:900;letter-spacing:-.6px;display:flex;gap:10px;align-items:center}
+.mark{display:grid;place-items:center;background:#3367e5;border-radius:10px;width:40px;height:40px}
+.pill{display:inline-block;font-size:10px;font-weight:900;letter-spacing:.8px;color:#a8ecd0;padding:7px 10px;border:1px solid #397c65;background:#174339;border-radius:999px}
+main{max-width:1120px;margin:0 auto;padding:28px 16px 55px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;padding:5px;background:#14233b;border:1px solid #364c68;border-radius:12px;width:max-content;max-width:100%}
+.tab{border:0;border-radius:9px;padding:11px 19px;background:transparent;color:#bdcce0;font:700 13px system-ui;cursor:pointer}
+.tab.on{color:#fff;background:#3064df;box-shadow:0 2px 9px #162e5888}
+section[hidden]{display:none}
+h1{font-size:clamp(22px,3.7vw,32px);letter-spacing:-.7px;margin:0 0 6px}
+p{color:#aebfd7;line-height:1.55;margin:7px 0 18px}
+.surface{background:#15243b;border:1px solid #38506f;border-radius:14px;padding:22px;box-shadow:0 14px 35px #0003}
+.frame{background:repeating-linear-gradient(0deg,transparent 0,transparent 40px,#ffffff0a 41px,transparent 42px,transparent 82px),linear-gradient(135deg,#183b34,#295847,#173d35);border:1px solid #4b7763;border-radius:12px;width:100%;overflow:hidden;display:grid;place-items:center;min-height:255px}
+iframe{display:block;width:100%;height:245px;border:0;background:transparent}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+a.btn,button.btn{color:white;background:#315fd5;border:1px solid #6089ff;border-radius:8px;font-size:13px;text-decoration:none;font-weight:800;padding:12px 17px;display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+a.btn.secondary,button.btn.secondary{background:#253954;border-color:#516b8a}
+.badge{color:#9bd5ba;font-size:12px;font-weight:800}
+label{display:block;font-size:12px;color:#c6d6eb;font-weight:700;margin:15px 0 7px}
+.link-row{display:flex;gap:8px;flex-wrap:wrap}
+input[type=text]{flex:1;min-width:250px;background:#0c1a2c;border:1px solid #4a6689;color:#f0f5ff;border-radius:8px;padding:12px;font:13px ui-monospace,SFMono-Regular,Consolas,monospace}
+.note{font-size:12px;color:#91a8c5;margin:12px 0}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:19px 0 0}
+.step{background:#102037;border:1px solid #344b68;border-radius:10px;padding:14px;font-size:13px;line-height:1.5}
+.step b{display:block;margin:0 0 6px;color:white}
+.step span{color:#b0c3db}
+footer{text-align:center;color:#8397b3;font-size:11px;padding:25px}
+@media(max-width:700px){.surface{padding:12px}.frame{min-height:130px}iframe{height:165px}.steps{grid-template-columns:1fr}main{padding-top:18px}}
+</style>
+</head>
+<body>
+<header><div class="brand"><span class="mark">▤</span> SPORTSCAST <span style="font-size:12px;font-weight:700;color:#a6bad4;letter-spacing:.5px">STUDIO</span></div><span class="pill">PUBLIC LIVE SCOREBOARD</span></header>
+<main>
+<div class="tabs" role="tablist" aria-label="Sportscast site sections">
+<button class="tab on" type="button" role="tab" aria-selected="true" id="tab-score" aria-controls="view-score">🏈 Scoreboard</button>
+<button class="tab" type="button" role="tab" aria-selected="false" id="tab-obs" aria-controls="view-obs">▣ Connect to OBS</button>
+</div>
+<section id="view-score" role="tabpanel" aria-labelledby="tab-score">
+<h1>Live NFL Scoreboard</h1><p>The scoreboard updates as the streamer changes the game. Anyone can view this page without a code.</p>
+<div class="surface"><div class="frame"><iframe src="/obs" title="Live NFL scoreboard" loading="eager"></iframe></div>
+<div class="actions"><a href="/control" class="btn">✎ Edit scoreboard</a><button class="btn secondary" type="button" id="go-obs">▣ Connect to OBS</button></div>
+<div class="note">Editing is protected. You can remember your controller access on your device so you don't enter the code every visit.</div>
+</div></section>
+<section id="view-obs" role="tabpanel" aria-labelledby="tab-obs" hidden>
+<h1>Connect to OBS</h1><p>Put the live scoreboard in OBS as a Browser Source. No separate website is needed — this is an overlay link on the same Sportscast site.</p>
+<div class="surface"><label for="obs-url">Your scoreboard-only OBS link</label><div class="link-row"><input id="obs-url" type="text" readonly value="" aria-label="OBS scoreboard link"/><button id="copy-obs" type="button" class="btn">Copy link</button></div>
+<div class="actions"><a id="preview-obs" class="btn secondary" target="_blank" rel="noopener" href="/obs">Preview the scoreboard</a></div>
+<div class="steps"><div class="step"><b>1. Open OBS Studio</b><span>In Sources, select + and choose Browser.</span></div><div class="step"><b>2. Paste the link</b><span>Paste the link above into the URL field.</span></div><div class="step"><b>3. Choose a size</b><span>Set width to 1280 and height to 220, then press OK.</span></div></div>
+<div class="note" id="obs-status" aria-live="polite">Your OBS source shows only the scoreboard, without the website controls.</div></div>
+</section>
+</main><footer>Sportscast Studio · One website for your live scoreboard and OBS connection</footer>
+<script>
+(function(){
+const scoreTab=document.getElementById('tab-score'),obsTab=document.getElementById('tab-obs');
+const score=document.getElementById('view-score'),obs=document.getElementById('view-obs');
+function select(page){const o=page==='obs';score.hidden=o;obs.hidden=!o;scoreTab.classList.toggle('on',!o);obsTab.classList.toggle('on',o);scoreTab.setAttribute('aria-selected',String(!o));obsTab.setAttribute('aria-selected',String(o));if(o)history.replaceState(null,'','#obs-setup');else history.replaceState(null,'',location.pathname);}
+scoreTab.addEventListener('click',()=>select('score'));
+obsTab.addEventListener('click',()=>select('obs'));
+document.getElementById('go-obs').addEventListener('click',()=>select('obs'));
+const base=location.origin==='null'?'https://sportscast-studio-colten.onrender.com':location.origin;const url=base+'/obs';document.getElementById('obs-url').value=url;
+document.getElementById('copy-obs').addEventListener('click',async()=>{
+const field=document.getElementById('obs-url'),status=document.getElementById('obs-status');
+try{await navigator.clipboard.writeText(url);status.textContent='Copied! Paste the OBS link into your Browser Source.';}
+catch(e){field.select();status.textContent='Copy the selected URL, then paste it into OBS.'}
+});
+if(location.hash==='#obs-setup')select('obs');
+})();
+</script>
+</body></html>
