@@ -329,6 +329,46 @@
 #nfl-night .timeout-callout{left:7%;width:86%;max-width:86%;height:23px;bottom:-11px;gap:4px;font-size:clamp(8px,1.65cqw,12px);padding:2px 5px}
 }
 
+
+
+/* NOV 2 FINAL LOGO-FIT PATCH — both broadcast layouts and OBS resolutions.
+   Each logo stays inside its team wing; readable text has a separate region. */
+#nfl-night .wing{min-width:0;overflow:hidden}
+#nfl-night .logo{
+  box-sizing:border-box;position:relative;flex:0 0 23%;width:23%;
+  min-width:0;max-width:100px;height:78%;max-height:100%;
+  margin:0!important;padding:0!important;overflow:hidden!important;
+  display:flex;align-items:center;justify-content:center;
+}
+#nfl-night .logo img{
+  display:block!important;box-sizing:border-box;width:100%!important;height:100%!important;
+  min-width:0;min-height:0;max-width:100%!important;max-height:100%!important;
+  object-fit:contain!important;object-position:center!important;transform:none!important;
+}
+#nfl-night .abbr{font-size:clamp(14px,2.7cqw,30px);font-weight:950;line-height:1;white-space:nowrap}
+#nfl-night .record{font-size:clamp(12px,1.85cqw,19px);font-weight:950;line-height:1.05;white-space:nowrap}
+#nfl-night .team{flex:1;min-width:0}
+#nfl-night[data-design="tv"] .logo{
+  position:absolute;top:50%;left:1.5%;right:auto;
+  transform:translateY(-50%);flex:none;width:23%;max-width:100px;
+  height:78%;max-height:100%;
+}
+#nfl-night[data-design="tv"] .wing.home .logo{left:auto;right:1.5%}
+#nfl-night[data-design="tv"] .abbr{left:28%;right:auto;top:8%;font-size:clamp(13px,1.6cqw,20px)}
+#nfl-night[data-design="tv"] .record{left:28%;right:auto;top:32%;font-size:clamp(11px,1.35cqw,17px);margin:0}
+#nfl-night[data-design="tv"] .wing.home .abbr,
+#nfl-night[data-design="tv"] .wing.home .record{left:auto;right:28%;text-align:right}
+@media(max-width:700px){
+ #nfl-night .logo{flex-basis:22%;width:22%;height:72%;max-width:76px}
+ #nfl-night .abbr{font-size:clamp(11px,2.6cqw,19px)}
+ #nfl-night .record{font-size:clamp(9px,1.9cqw,14px)}
+ #nfl-night[data-design="tv"] .logo{width:22%;height:72%;max-width:76px}
+ #nfl-night[data-design="tv"] .abbr{left:27%;font-size:clamp(10px,1.7cqw,15px)}
+ #nfl-night[data-design="tv"] .record{left:27%;font-size:clamp(9px,1.5cqw,13px)}
+ #nfl-night[data-design="tv"] .wing.home .abbr,
+ #nfl-night[data-design="tv"] .wing.home .record{right:27%}
+}
+
 </style>
 <div class="top"><div class="brand"><span>▤</span> SPORTSCAST STUDIO</div><div class="live">NFL DESIGN 01</div></div>
 <div class="sports"><span>🏈 NFL</span><span>⚾ MLB · Soon</span><span>🏀 NBA · Soon</span><span>⚽ Soccer · Soon</span></div>
