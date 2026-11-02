@@ -73,12 +73,150 @@ html,body{margin:0;background:transparent!important;width:100%;height:100%;overf
 #nfl-night .logo .fallback{display:block;font-size:clamp(11px,2.4cqw,19px);font-weight:900;color:#e8f2ff;letter-spacing:-.03em}
 #nfl-night .logo.loaded .fallback{display:none}
 #nfl-night .logo:not(.loaded) img{visibility:hidden}
-</style></head><body><div id="nfl-night"><div class="stage" id="nn-stage"><div class="scorebug" id="nn-bug"><div class="wing away" id="nn-away-wing"><div class="logo" id="nn-away-logobox"><img alt="Away team logo" id="nn-away-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/Los%20Angeles%20Chargers/los-angeles-chargers_small_square.png"/><span class="fallback" id="nn-away-fallback">LAC</span></div><div class="team"><span class="abbr" id="nn-away-abbr">LAC</span><span class="record" id="nn-away-record">—</span></div><div class="score" id="nn-away-score">0</div></div><div class="wing home" id="nn-home-wing"><div class="score" id="nn-home-score">0</div><div class="team"><span class="abbr" id="nn-home-abbr">NE</span><span class="record" id="nn-home-record">—</span></div><div class="logo" id="nn-home-logobox"><img alt="Home team logo" id="nn-home-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/New%20England%20Patriots/new-england-patriots_small_square.png"/><span class="fallback" id="nn-home-fallback">NE</span></div></div><div class="postab away" id="nn-away-tab"><span>▶</span><span id="nn-away-down">3RD &amp; 6</span></div><div class="postab home" hidden="" id="nn-home-tab"><span id="nn-home-down">3RD &amp; 6</span><span>◀</span></div><div class="flag-banner" id="nn-flag-banner" hidden>⚑ FLAG</div><div class="center"><span class="symbol">✦ ◉ ✦</span><span class="clock" id="nn-clock">13:04</span><div class="clockline"><span id="nn-quarter">1ST</span><span class="playclock" id="nn-playclock">06</span></div></div></div></div></div><script>
+
+/* Sportscast update: larger broadcast graphics + a separate timeout area on the far right. */
+#nfl-night .scorebug{overflow:visible}
+#nfl-night .wing{width:44%;flex:0 0 44%}
+#nfl-night .wing.away{padding:0 9% 0 2%}
+#nfl-night .wing.home{padding:0 2% 0 9%}
+#nfl-night .logo{flex:0 0 30%;width:30%;height:93%;max-width:160px;padding:1px;overflow:visible}
+#nfl-night .logo img{width:100%;height:100%;max-width:160px;max-height:112px;object-fit:contain}
+#nfl-night .team{min-width:0;padding-bottom:7px}
+#nfl-night .abbr{font-size:clamp(12px,3.6cqw,32px)}
+#nfl-night .record{font-size:clamp(10px,2.1cqw,19px);font-weight:900;margin-top:5px}
+#nfl-night .score{flex:0 0 25%;font-size:clamp(24px,6.0cqw,56px);font-weight:950;padding-bottom:7px}
+#nfl-night .center{left:44%;width:clamp(75px,16.3cqw,132px);height:clamp(75px,16.3cqw,132px)}
+#nfl-night .clock{font-size:clamp(16px,3.8cqw,34px);line-height:1.1}
+#nfl-night .clockline{font-size:clamp(9px,1.8cqw,16px)}
+#nfl-night .postab{width:35%;height:34px;font-size:clamp(11px,2.25cqw,20px);gap:4px}
+#nfl-night .postab.away{left:5%}
+#nfl-night .postab.home{right:17%}
+#nfl-night .timeouts-display{box-sizing:border-box;position:absolute;top:50%;right:0;transform:translateY(-50%);width:11.8%;height:66%;min-width:0;z-index:3;border:2px solid #8eaec3;border-radius:9px;background:linear-gradient(155deg,#1d3955,#101b30);display:flex;flex-direction:column;justify-content:center;gap:5px;padding:4px 5px;color:#f7fbff;box-shadow:inset 0 2px 5px #ffffff17,0 3px 7px #0006}
+#nfl-night .to-head{font-size:clamp(8px,1.2cqw,12px);font-weight:900;letter-spacing:.04em;text-align:center;color:#e3ebf3;line-height:1.1}
+#nfl-night .to-row{min-width:0;display:flex;align-items:center;justify-content:space-between;gap:2px;font-size:clamp(8px,1.2cqw,12px);line-height:1.3}
+#nfl-night .to-row b{flex:0 0 auto;font-size:inherit;font-weight:900}
+#nfl-night .to-dots{display:inline-block;color:#ffce4d;letter-spacing:-.06em;font-size:clamp(11px,1.7cqw,18px);font-weight:950;white-space:nowrap;font-family:Arial,sans-serif}
+#nfl-night .timeout-editors{margin-top:14px;background:#10243c;border:1px solid #425e7c;border-radius:8px;padding:10px}
+#nfl-night .timeout-editors label{margin-bottom:7px;font-weight:800;color:#dae9fd}
+#nfl-night .timeout-stepper{display:flex;gap:8px;align-items:center}
+#nfl-night .timeout-stepper button{font:900 18px/1 system-ui;background:#294d77;border:1px solid #6383aa;color:#fff;border-radius:7px;padding:8px 13px;cursor:pointer}
+#nfl-night .timeout-stepper button:hover{background:#3972b1}
+#nfl-night .timeout-stepper output{min-width:35px;text-align:center;font-size:22px;font-weight:950;color:#ffd867}
+@media(max-width:600px){
+#nfl-night .logo{height:88%;padding:1px}
+#nfl-night .logo img{max-height:66px}
+#nfl-night .record{font-size:clamp(8px,2cqw,13px)}
+#nfl-night .score{font-size:clamp(19px,5.6cqw,38px)}
+#nfl-night .postab{top:calc(50% + 33.5% - 1px);height:22px;font-size:clamp(8px,1.9cqw,13px)}
+#nfl-night .timeouts-display{height:69%;padding:2px 2px;gap:2px;border-width:1px}
+#nfl-night .to-head{font-size:7px}
+#nfl-night .to-row{display:flex;flex-direction:column;gap:0;font-size:8px;line-height:1}
+#nfl-night .to-dots{font-size:11px}
+#nfl-night .center{width:clamp(65px,16cqw,110px);height:clamp(65px,16cqw,110px)}
+#nfl-night .clock{font-size:clamp(13px,3.4cqw,25px)}
+}
+
+/* Timeout indicators are now built INTO each team's scoreboard wing. */
+#nfl-night .scorebug{overflow:visible}
+#nfl-night .wing{width:50%;flex:0 0 50%}
+#nfl-night .wing.away{padding:0 8.5% 0 1.8%}
+#nfl-night .wing.home{padding:0 1.8% 0 8.5%}
+#nfl-night .center{left:50%;width:clamp(76px,16.4cqw,132px);height:clamp(76px,16.4cqw,132px)}
+#nfl-night .postab{width:36%;height:34px;font-size:clamp(11px,2.25cqw,20px)}
+#nfl-night .postab.away{left:7%}
+#nfl-night .postab.home{right:7%}
+#nfl-night .logo{flex:0 0 27%;width:27%;height:90%;max-width:160px}
+#nfl-night .logo img{max-width:160px;max-height:108px}
+#nfl-night .team{min-width:0;padding-bottom:1px}
+#nfl-night .abbr{font-size:clamp(13px,3.6cqw,32px)}
+#nfl-night .record{font-size:clamp(10px,1.95cqw,18px);font-weight:900;margin-top:2px}
+#nfl-night .score{flex:0 0 24%;font-size:clamp(24px,6cqw,56px);padding-bottom:5px}
+#nfl-night .clock{font-size:clamp(17px,3.5cqw,32px)}
+#nfl-night .timeouts-inline{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:6px;line-height:1;white-space:nowrap;min-height:13px}
+#nfl-night .timeouts-inline .to-label{color:#edf3fb;opacity:.9;font-size:clamp(8px,1.15cqw,11px);font-weight:900;letter-spacing:.05em}
+#nfl-night .timeouts-inline .to-dots{color:#ffd558;letter-spacing:1px;font-size:clamp(12px,1.9cqw,20px);font-weight:950;white-space:nowrap;font-family:Arial,sans-serif;text-shadow:0 1px 3px #0008}
+@media(max-width:600px){
+  #nfl-night .wing.away{padding-right:9%}
+  #nfl-night .wing.home{padding-left:9%}
+  #nfl-night .logo{flex-basis:26%;width:26%;height:84%}
+  #nfl-night .logo img{max-height:66px}
+  #nfl-night .score{font-size:clamp(18px,5.7cqw,36px)}
+  #nfl-night .record{font-size:clamp(8px,1.9cqw,12px)}
+  #nfl-night .timeouts-inline{margin-top:3px;gap:3px;min-height:8px}
+  #nfl-night .timeouts-inline .to-label{font-size:7px}
+  #nfl-night .timeouts-inline .to-dots{font-size:clamp(9px,2.1cqw,13px);letter-spacing:0}
+  #nfl-night .postab{height:22px;font-size:clamp(8px,1.8cqw,13px)}
+  #nfl-night .center{width:clamp(65px,16cqw,110px);height:clamp(65px,16cqw,110px)}
+}
+
+/* Sportscast TV Compact scoreboard design — intentionally not affiliated with a broadcaster. */
+#nfl-night[data-design="tv"] .scorebug{max-width:1150px;height:130px;overflow:visible;filter:drop-shadow(0 3px 5px #000b)}
+#nfl-night[data-design="tv"] .wing{height:72%;width:50%;flex:0 0 50%;border:1px solid #8d9299;border-top-color:#c5c9ce;border-bottom-color:#36383a;border-radius:0;overflow:hidden;box-shadow:inset 0 2px 3px #ffffff20,inset 0 -5px 10px #000a}
+#nfl-night[data-design="tv"] .wing.away{padding:0;border-radius:10px 0 0 2px;border-left:3px solid #d1d8db}
+#nfl-night[data-design="tv"] .wing.home{padding:0;border-radius:0 10px 2px 0;border-right:3px solid #d1d8db}
+#nfl-night[data-design="tv"] .wing:after{display:none}
+#nfl-night[data-design="tv"] .logo{position:absolute;top:50%;transform:translateY(-50%);left:2.5%;width:22%;height:91%;max-width:140px;padding:0;flex:none;display:grid;place-items:center;overflow:hidden}
+#nfl-night[data-design="tv"] .wing.home .logo{left:auto;right:2.5%;margin:0}
+#nfl-night[data-design="tv"] .wing.away .logo{margin:0}
+#nfl-night[data-design="tv"] .logo img{max-width:140px;max-height:92px;object-fit:contain;filter:drop-shadow(0 2px 2px #0009)}
+#nfl-night[data-design="tv"] .team{position:absolute;inset:0;padding:0;min-width:0;display:block;pointer-events:none}
+#nfl-night[data-design="tv"] .abbr{position:absolute;top:7%;left:27%;font-size:clamp(8px,1.05cqw,12px);line-height:1.1;font-weight:900;letter-spacing:.05em;color:#eee;opacity:.92}
+#nfl-night[data-design="tv"] .record{position:absolute;top:24%;left:27%;font-size:clamp(8px,.95cqw,11px);line-height:1.1;margin:0;color:#dadde2;opacity:.82}
+#nfl-night[data-design="tv"] .wing.home .abbr,#nfl-night[data-design="tv"] .wing.home .record{left:auto;right:27%;text-align:right}
+#nfl-night[data-design="tv"] .score{position:absolute;left:67%;top:48%;transform:translate(-50%,-50%);padding:0;display:block;width:auto;flex:none;line-height:1;font-size:clamp(42px,5.7cqw,68px);letter-spacing:-.04em;text-shadow:0 2px 2px #000b;font-weight:1000;font-variant-numeric:tabular-nums}
+#nfl-night[data-design="tv"] .wing.home .score{left:33%}
+#nfl-night[data-design="tv"] .timeouts-inline{position:absolute;left:67%;top:76%;margin:0;transform:translateX(-50%);height:13px;min-height:0;line-height:1;white-space:nowrap;gap:0}
+#nfl-night[data-design="tv"] .wing.home .timeouts-inline{left:33%}
+#nfl-night[data-design="tv"] .timeouts-inline .to-label{display:none}
+#nfl-night[data-design="tv"] .timeouts-inline .to-dots{color:#ecf0f4;text-shadow:0 1px 3px #000a;font-size:clamp(13px,2.6cqw,27px);font-weight:950;letter-spacing:2px;font-family:Arial,sans-serif;white-space:nowrap}
+#nfl-night[data-design="tv"] .center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:24%;height:72%;border-radius:0;border:0;box-shadow:inset 0 2px 4px #ffffff22,inset 0 -4px 8px #0009;background:linear-gradient(180deg,#202124 0%,#101216 100%);z-index:4;overflow:hidden;display:block}
+#nfl-night[data-design="tv"] .center .symbol{display:block;position:absolute;top:13%;left:0;width:100%;font-size:clamp(10px,2.0cqw,19px);line-height:1.1;text-align:center;letter-spacing:.11em;font-style:italic;font-weight:1000;color:#f1f3f6;text-shadow:0 2px 2px #000}
+#nfl-night[data-design="tv"] .clockline{position:absolute;bottom:8%;left:7%;width:86%;height:40%;padding:0 6%;border-radius:35px;background:linear-gradient(180deg,#fff,#d9dce1);color:#14171c;box-shadow:0 1px 2px #1117;display:flex;align-items:center;justify-content:space-between;gap:4px;font-size:clamp(9px,1.25cqw,13px);font-weight:1000}
+#nfl-night[data-design="tv"] .clock{position:absolute;bottom:12%;left:50%;transform:translateX(-50%);z-index:6;width:49%;text-align:center;font-size:clamp(16px,2.3cqw,25px);font-weight:1000;letter-spacing:-.025em;color:#101319;line-height:1}
+#nfl-night[data-design="tv"] .playclock{background:transparent;color:#2a2f36;border-radius:0;padding:0;font-size:inherit;font-weight:1000}
+#nfl-night[data-design="tv"] .postab{height:25px;top:calc(50% + 35% - 1px);width:30%;font-size:clamp(9px,1.6cqw,15px);border-radius:0 0 5px 5px;background:#25272b!important;border-color:#616a75!important}
+#nfl-night[data-design="tv"] .postab.away{left:8%}
+#nfl-night[data-design="tv"] .postab.home{right:8%}
+#nfl-night[data-design="tv"] .flag-banner{top:-7px;z-index:9;font-size:clamp(10px,1.6cqw,16px)}
+@media(max-width:600px){
+#nfl-night[data-design="tv"] .scorebug{height:95px}
+#nfl-night[data-design="tv"] .wing,#nfl-night[data-design="tv"] .center{height:73%}
+#nfl-night[data-design="tv"] .logo{width:23%;height:88%}
+#nfl-night[data-design="tv"] .logo img{max-height:72px}
+#nfl-night[data-design="tv"] .abbr{font-size:7px}
+#nfl-night[data-design="tv"] .record{font-size:7px}
+#nfl-night[data-design="tv"] .score{font-size:clamp(20px,6.0cqw,38px)}
+#nfl-night[data-design="tv"] .timeouts-inline{top:76%}
+#nfl-night[data-design="tv"] .timeouts-inline .to-dots{font-size:clamp(10px,2.3cqw,15px);letter-spacing:0}
+#nfl-night[data-design="tv"] .center .symbol{font-size:clamp(8px,2.0cqw,11px);letter-spacing:0}
+#nfl-night[data-design="tv"] .clockline{font-size:clamp(7px,1.45cqw,9px);padding:0 4%;width:94%;left:3%}
+#nfl-night[data-design="tv"] .clock{font-size:clamp(11px,2.9cqw,17px)}
+#nfl-night[data-design="tv"] .postab{height:17px;font-size:clamp(7px,1.75cqw,10px);top:calc(50% + 35% - 1px)}
+}
+
+/* TV Compact: center possession down-and-distance badge and verified visible team logos. */
+#nfl-night[data-design="tv"] .postab{display:none!important}
+#nfl-night[data-design="tv"] .logo{width:26%;height:94%;max-width:155px}
+#nfl-night[data-design="tv"] .logo img{max-width:155px;max-height:100%;width:100%;height:100%;object-fit:contain}
+#nfl-night[data-design="tv"] .abbr,#nfl-night[data-design="tv"] .record{left:31%}
+#nfl-night[data-design="tv"] .wing.home .abbr,#nfl-night[data-design="tv"] .wing.home .record{left:auto;right:31%}
+#nfl-night[data-design="tv"] .center .symbol{box-sizing:border-box;top:8%;left:5%;width:90%;height:36%;border:2px solid transparent;border-radius:5px;display:flex;align-items:center;justify-content:center;padding:2px 4px;font:900 clamp(11px,1.55cqw,17px)/1 system-ui,sans-serif;letter-spacing:.04em;font-style:normal;white-space:nowrap;color:#f5f7fb;overflow:hidden}
+#nfl-night[data-design="tv"] .center .symbol.has-possession{text-shadow:0 1px 3px #000b;letter-spacing:.01em;box-shadow:inset 0 1px 2px #ffffff3d,0 1px 3px #0008}
+@media(max-width:600px){
+  #nfl-night[data-design="tv"] .logo{height:93%}
+  #nfl-night[data-design="tv"] .abbr,#nfl-night[data-design="tv"] .record{left:32%}
+  #nfl-night[data-design="tv"] .wing.home .abbr,#nfl-night[data-design="tv"] .wing.home .record{right:32%}
+  #nfl-night[data-design="tv"] .center .symbol{font-size:clamp(8px,1.8cqw,12px);padding:1px 2px}
+}
+</style></head><body><div id="nfl-night" data-design="tv" data-possession="none"><div class="stage" id="nn-stage"><div class="scorebug" id="nn-bug"><div class="wing away" id="nn-away-wing"><div class="logo" id="nn-away-logobox"><img alt="Away team logo" id="nn-away-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/Los%20Angeles%20Chargers/los-angeles-chargers_small_square.png"/><span class="fallback" id="nn-away-fallback">LAC</span></div><div class="team"><span class="abbr" id="nn-away-abbr">LAC</span><span class="record" id="nn-away-record">—</span><div class="timeouts-inline" aria-label="Away team timeouts"><span class="to-label">TO</span><span class="to-dots" id="nn-to-away-dots" aria-label="Away timeouts remaining: 3">●●●</span></div></div><div class="score" id="nn-away-score">0</div></div><div class="wing home" id="nn-home-wing"><div class="score" id="nn-home-score">0</div><div class="team"><span class="abbr" id="nn-home-abbr">NE</span><span class="record" id="nn-home-record">—</span><div class="timeouts-inline" aria-label="Home team timeouts"><span class="to-label">TO</span><span class="to-dots" id="nn-to-home-dots" aria-label="Home timeouts remaining: 3">●●●</span></div></div><div class="logo" id="nn-home-logobox"><img alt="Home team logo" id="nn-home-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/New%20England%20Patriots/new-england-patriots_small_square.png"/><span class="fallback" id="nn-home-fallback">NE</span></div></div><div class="postab away" id="nn-away-tab"><span>▶</span><span id="nn-away-down">3RD &amp; 6</span></div><div class="postab home" hidden="" id="nn-home-tab"><span id="nn-home-down">3RD &amp; 6</span><span>◀</span></div><div class="flag-banner" id="nn-flag-banner" hidden>⚑ FLAG</div><div class="center"><span class="symbol">SPORTSCAST</span><span class="clock" id="nn-clock">13:04</span><div class="clockline"><span id="nn-quarter">1ST</span><span class="playclock" id="nn-playclock">06</span></div></div></div></div></div><script>
 (function(){
 'use strict';const $=id=>document.getElementById(id);let version=-1;
 function set(id,x){$(id).textContent=String(x??'')}
 function draw(s){if(!s)return;
  ['away','home'].forEach(side=>{const p='nn-'+side+'-',v=s[side];if(!v)return;
+  
+  const available=Number(v.timeoutCount);const n=Number.isFinite(available)?Math.max(0,Math.min(3,Math.floor(available))):3;
+  set('nn-to-'+side+'-dots',s.design==='tv'?'━'.repeat(n)+'─'.repeat(3-n):'●'.repeat(n)+'○'.repeat(3-n));$('nn-to-'+side+'-dots').setAttribute('aria-label',v.code+' timeouts remaining: '+n);
   set(p+'abbr',v.code);set(p+'record',v.record);set(p+'score',v.score);set(p+'fallback',v.code);set(p+'down',v.tabText);
   const wing=$(p+'wing');if(v.wingBg)wing.style.background=v.wingBg;if(v.wingBorder)wing.style.borderColor=v.wingBorder;
   const tab=$(p+'tab');tab.hidden=!!v.tabHidden;if(v.tabBg)tab.style.background=v.tabBg;if(v.tabBorder)tab.style.borderColor=v.tabBorder;
@@ -87,7 +225,13 @@ function draw(s){if(!s)return;
  });
  set('nn-clock',s.clock);set('nn-quarter',s.quarter);set('nn-playclock',s.playclock);
  $('nn-clock').style.visibility=s.clockHidden?'hidden':'visible';$('nn-playclock').hidden=!!s.playclockHidden;
- $('nn-bug').style.maxWidth=s.scale||'100%';
+ $('nn-bug').style.maxWidth=s.scale||'100%';document.getElementById('nfl-night').dataset.design=s.design==='tv'?'tv':'classic';const badge=$('nn-bug').querySelector('.center .symbol');
+ const hasBall=s.design==='tv' && (s.possession==='away'||s.possession==='home');
+ badge.textContent=s.design==='tv'?(hasBall?String(s.centerText||'1ST & 10'):'SPORTSCAST'):'✦ ◉ ✦';
+ badge.classList.toggle('has-possession',hasBall);
+ badge.style.background=hasBall?(s.centerBg||'linear-gradient(180deg,#343a45,#141820)'):'';
+ badge.style.borderColor=hasBall?(s.centerTrim||'#d7dce1'):'';
+ document.getElementById('nfl-night').dataset.possession=hasBall?s.possession:'none';
  $('nn-flag-banner').hidden=!s.flag;
 }
 ['away','home'].forEach(side=>{const wrap=$('nn-'+side+'-logobox'),img=$('nn-'+side+'-logo');img.onerror=()=>{wrap.classList.add('failed');wrap.classList.remove('loaded')};img.onload=()=>{wrap.classList.remove('failed');wrap.classList.add('loaded')}});

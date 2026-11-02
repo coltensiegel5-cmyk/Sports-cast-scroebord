@@ -141,13 +141,20 @@ class Handler(BaseHTTPRequestHandler):
             if not isinstance(data, dict) or not isinstance(data.get('away'), dict) or not isinstance(data.get('home'), dict):
                 raise ValueError('invalid scoreboard state')
             # Allow only data fields needed by our overlay.
-            fields = ('code', 'record', 'score', 'logoUrl', 'logoHidden', 'recordHidden', 'wingBg', 'wingBorder', 'tabHidden', 'tabBg', 'tabBorder', 'tabText')
+            fields = ('code', 'record', 'score', 'logoUrl', 'logoHidden', 'recordHidden', 'wingBg', 'wingBorder', 'tabHidden', 'tabBg', 'tabBorder', 'tabText', 'timeoutCount')
             cleaned = {}
             for side in ('away', 'home'):
                 d = data[side]
                 cleaned[side] = {k: (bool(d[k]) if isinstance(d.get(k), bool) else str(d.get(k, ''))[:500]) for k in fields}
             for k in ('clock','quarter','playclock','scale'):
                 cleaned[k] = str(data.get(k, ''))[:40]
+            cleaned['design'] = 'tv' if data.get('design') == 'tv' else 'classic'
+            cleaned['possession'] = data.get('possession') if data.get('possession') in ('away', 'home') else 'none'
+            cleaned['centerText'] = str(data.get('centerText', 'SPORTSCAST'))[:40]
+            bg = str(data.get('centerBg', ''))[:250]
+            cleaned['centerBg'] = bg if ('linear-gradient(' in bg and not any(x in bg for x in '<>\\')) else ''
+            trim = str(data.get('centerTrim', ''))[:45]
+            cleaned['centerTrim'] = trim if not any(x in trim for x in '<>\\') else ''
             for k in ('clockHidden','playclockHidden','flag'):
                 cleaned[k] = bool(data.get(k, False))
             with LOCK:

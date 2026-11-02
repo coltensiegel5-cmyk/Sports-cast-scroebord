@@ -22,8 +22,45 @@
 #nfl-night .logo .fallback{display:block;font-size:clamp(11px,2.4cqw,19px);font-weight:900;color:#e8f2ff;letter-spacing:-.03em}
 #nfl-night .logo.loaded .fallback{display:none}
 #nfl-night .logo:not(.loaded) img{visibility:hidden}
+
+/* TV Compact: center possession down-and-distance badge and verified visible team logos. */
+#nfl-night[data-design="tv"] .postab{display:none!important}
+#nfl-night[data-design="tv"] .logo{width:26%;height:94%;max-width:155px}
+#nfl-night[data-design="tv"] .logo img{max-width:155px;max-height:100%;width:100%;height:100%;object-fit:contain}
+#nfl-night[data-design="tv"] .abbr,#nfl-night[data-design="tv"] .record{left:31%}
+#nfl-night[data-design="tv"] .wing.home .abbr,#nfl-night[data-design="tv"] .wing.home .record{left:auto;right:31%}
+#nfl-night[data-design="tv"] .center .symbol{box-sizing:border-box;top:8%;left:5%;width:90%;height:36%;border:2px solid transparent;border-radius:5px;display:flex;align-items:center;justify-content:center;padding:2px 4px;font:900 clamp(11px,1.55cqw,17px)/1 system-ui,sans-serif;letter-spacing:.04em;font-style:normal;white-space:nowrap;color:#f5f7fb;overflow:hidden}
+#nfl-night[data-design="tv"] .center .symbol.has-possession{text-shadow:0 1px 3px #000b;letter-spacing:.01em;box-shadow:inset 0 1px 2px #ffffff3d,0 1px 3px #0008}
+@media(max-width:600px){
+  #nfl-night[data-design="tv"] .logo{height:93%}
+  #nfl-night[data-design="tv"] .abbr,#nfl-night[data-design="tv"] .record{left:32%}
+  #nfl-night[data-design="tv"] .wing.home .abbr,#nfl-night[data-design="tv"] .wing.home .record{right:32%}
+  #nfl-night[data-design="tv"] .center .symbol{font-size:clamp(8px,1.8cqw,12px);padding:1px 2px}
+}
 </style></head><body><div id="nfl-night">
+<div class="broadcast-picker" aria-label="Choose scoreboard network">
+  <div class="broadcast-picker-label"><strong>CHOOSE SCOREBOARD</strong><small>Instantly switches the controller preview and OBS overlay</small></div>
+  <div class="broadcast-picker-buttons" role="group" aria-label="Scoreboard design">
+    <button id="nn-design-nbc" type="button" aria-pressed="false">NBC</button>
+    <button id="nn-design-espn" type="button" aria-pressed="true">ESPN</button>
+  </div>
+</div>
 <style>
+
+/* Broadcast design selector: stays above all score-control buttons. */
+#nfl-night .broadcast-picker{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(110deg,#0c1728,#152540);border-bottom:1px solid #40546e;padding:14px 18px}
+#nfl-night .broadcast-picker-label{display:flex;flex-direction:column;gap:3px}
+#nfl-night .broadcast-picker-label strong{font-size:13px;letter-spacing:.055em;color:#eaf3ff}
+#nfl-night .broadcast-picker-label small{font-size:11px;color:#9fb5d0}
+#nfl-night .broadcast-picker-buttons{display:flex;gap:10px;flex-wrap:wrap}
+#nfl-night .broadcast-picker-buttons button{appearance:none;min-width:148px;padding:11px 22px;background:#17263d;color:#bdcce1;border:2px solid #3e5069;border-radius:9px;font-weight:950;font-size:16px;letter-spacing:.06em;transition:background-color .15s,color .15s;cursor:pointer}
+#nfl-night .broadcast-picker-buttons button:hover{background:#243953;border-color:#8796ac}
+#nfl-night .broadcast-picker-buttons button.active{color:#fff;background:#244782;box-shadow:0 0 0 1px #ffffff24,0 5px 16px #0005}
+#nfl-night #nn-design-nbc.active{border-color:#a9d6ff;background:#174272}
+#nfl-night #nn-design-espn.active{border-color:#ff7782;background:#801d33}
+#nfl-night .broadcast-picker-buttons button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+@media(max-width:600px){#nfl-night .broadcast-picker-buttons{width:100%}#nfl-night .broadcast-picker-buttons button{min-width:0;flex:1;font-size:14px;padding:11px 8px}}
+
 #nfl-night{font:13px system-ui,-apple-system,sans-serif;background:#0d1729;color:#f1f6ff;border:1px solid #34465f;border-radius:14px;overflow:hidden}
 #nfl-night *{box-sizing:border-box}#nfl-night [hidden]{display:none!important}#nfl-night button,#nfl-night input,#nfl-night select{font:inherit}#nfl-night button{cursor:pointer}
 #nfl-night .top{padding:15px 18px;background:#15243c;border-bottom:1px solid #344960;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -65,12 +102,132 @@
 #nfl-night .obs-connected.error{color:#ffd6b0;background:#52301f}
 #nfl-night .obs-panel .obs-sub{font-size:11px;color:#9eb4cc}
 @media(max-width:600px){#nfl-night .obs-layout{grid-template-columns:1fr}#nfl-night .obs-url-row{flex-wrap:wrap}#nfl-night .obs-url-row input{flex-basis:100%}}
+
+/* Sportscast update: larger broadcast graphics + a separate timeout area on the far right. */
+#nfl-night .scorebug{overflow:visible}
+#nfl-night .wing{width:44%;flex:0 0 44%}
+#nfl-night .wing.away{padding:0 9% 0 2%}
+#nfl-night .wing.home{padding:0 2% 0 9%}
+#nfl-night .logo{flex:0 0 30%;width:30%;height:93%;max-width:160px;padding:1px;overflow:visible}
+#nfl-night .logo img{width:100%;height:100%;max-width:160px;max-height:112px;object-fit:contain}
+#nfl-night .team{min-width:0;padding-bottom:7px}
+#nfl-night .abbr{font-size:clamp(12px,3.6cqw,32px)}
+#nfl-night .record{font-size:clamp(10px,2.1cqw,19px);font-weight:900;margin-top:5px}
+#nfl-night .score{flex:0 0 25%;font-size:clamp(24px,6.0cqw,56px);font-weight:950;padding-bottom:7px}
+#nfl-night .center{left:44%;width:clamp(75px,16.3cqw,132px);height:clamp(75px,16.3cqw,132px)}
+#nfl-night .clock{font-size:clamp(16px,3.8cqw,34px);line-height:1.1}
+#nfl-night .clockline{font-size:clamp(9px,1.8cqw,16px)}
+#nfl-night .postab{width:35%;height:34px;font-size:clamp(11px,2.25cqw,20px);gap:4px}
+#nfl-night .postab.away{left:5%}
+#nfl-night .postab.home{right:17%}
+#nfl-night .timeouts-display{box-sizing:border-box;position:absolute;top:50%;right:0;transform:translateY(-50%);width:11.8%;height:66%;min-width:0;z-index:3;border:2px solid #8eaec3;border-radius:9px;background:linear-gradient(155deg,#1d3955,#101b30);display:flex;flex-direction:column;justify-content:center;gap:5px;padding:4px 5px;color:#f7fbff;box-shadow:inset 0 2px 5px #ffffff17,0 3px 7px #0006}
+#nfl-night .to-head{font-size:clamp(8px,1.2cqw,12px);font-weight:900;letter-spacing:.04em;text-align:center;color:#e3ebf3;line-height:1.1}
+#nfl-night .to-row{min-width:0;display:flex;align-items:center;justify-content:space-between;gap:2px;font-size:clamp(8px,1.2cqw,12px);line-height:1.3}
+#nfl-night .to-row b{flex:0 0 auto;font-size:inherit;font-weight:900}
+#nfl-night .to-dots{display:inline-block;color:#ffce4d;letter-spacing:-.06em;font-size:clamp(11px,1.7cqw,18px);font-weight:950;white-space:nowrap;font-family:Arial,sans-serif}
+#nfl-night .timeout-editors{margin-top:14px;background:#10243c;border:1px solid #425e7c;border-radius:8px;padding:10px}
+#nfl-night .timeout-editors label{margin-bottom:7px;font-weight:800;color:#dae9fd}
+#nfl-night .timeout-stepper{display:flex;gap:8px;align-items:center}
+#nfl-night .timeout-stepper button{font:900 18px/1 system-ui;background:#294d77;border:1px solid #6383aa;color:#fff;border-radius:7px;padding:8px 13px;cursor:pointer}
+#nfl-night .timeout-stepper button:hover{background:#3972b1}
+#nfl-night .timeout-stepper output{min-width:35px;text-align:center;font-size:22px;font-weight:950;color:#ffd867}
+@media(max-width:600px){
+#nfl-night .logo{height:88%;padding:1px}
+#nfl-night .logo img{max-height:66px}
+#nfl-night .record{font-size:clamp(8px,2cqw,13px)}
+#nfl-night .score{font-size:clamp(19px,5.6cqw,38px)}
+#nfl-night .postab{top:calc(50% + 33.5% - 1px);height:22px;font-size:clamp(8px,1.9cqw,13px)}
+#nfl-night .timeouts-display{height:69%;padding:2px 2px;gap:2px;border-width:1px}
+#nfl-night .to-head{font-size:7px}
+#nfl-night .to-row{display:flex;flex-direction:column;gap:0;font-size:8px;line-height:1}
+#nfl-night .to-dots{font-size:11px}
+#nfl-night .center{width:clamp(65px,16cqw,110px);height:clamp(65px,16cqw,110px)}
+#nfl-night .clock{font-size:clamp(13px,3.4cqw,25px)}
+}
+
+/* Timeout indicators are now built INTO each team's scoreboard wing. */
+#nfl-night .scorebug{overflow:visible}
+#nfl-night .wing{width:50%;flex:0 0 50%}
+#nfl-night .wing.away{padding:0 8.5% 0 1.8%}
+#nfl-night .wing.home{padding:0 1.8% 0 8.5%}
+#nfl-night .center{left:50%;width:clamp(76px,16.4cqw,132px);height:clamp(76px,16.4cqw,132px)}
+#nfl-night .postab{width:36%;height:34px;font-size:clamp(11px,2.25cqw,20px)}
+#nfl-night .postab.away{left:7%}
+#nfl-night .postab.home{right:7%}
+#nfl-night .logo{flex:0 0 27%;width:27%;height:90%;max-width:160px}
+#nfl-night .logo img{max-width:160px;max-height:108px}
+#nfl-night .team{min-width:0;padding-bottom:1px}
+#nfl-night .abbr{font-size:clamp(13px,3.6cqw,32px)}
+#nfl-night .record{font-size:clamp(10px,1.95cqw,18px);font-weight:900;margin-top:2px}
+#nfl-night .score{flex:0 0 24%;font-size:clamp(24px,6cqw,56px);padding-bottom:5px}
+#nfl-night .clock{font-size:clamp(17px,3.5cqw,32px)}
+#nfl-night .timeouts-inline{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:6px;line-height:1;white-space:nowrap;min-height:13px}
+#nfl-night .timeouts-inline .to-label{color:#edf3fb;opacity:.9;font-size:clamp(8px,1.15cqw,11px);font-weight:900;letter-spacing:.05em}
+#nfl-night .timeouts-inline .to-dots{color:#ffd558;letter-spacing:1px;font-size:clamp(12px,1.9cqw,20px);font-weight:950;white-space:nowrap;font-family:Arial,sans-serif;text-shadow:0 1px 3px #0008}
+@media(max-width:600px){
+  #nfl-night .wing.away{padding-right:9%}
+  #nfl-night .wing.home{padding-left:9%}
+  #nfl-night .logo{flex-basis:26%;width:26%;height:84%}
+  #nfl-night .logo img{max-height:66px}
+  #nfl-night .score{font-size:clamp(18px,5.7cqw,36px)}
+  #nfl-night .record{font-size:clamp(8px,1.9cqw,12px)}
+  #nfl-night .timeouts-inline{margin-top:3px;gap:3px;min-height:8px}
+  #nfl-night .timeouts-inline .to-label{font-size:7px}
+  #nfl-night .timeouts-inline .to-dots{font-size:clamp(9px,2.1cqw,13px);letter-spacing:0}
+  #nfl-night .postab{height:22px;font-size:clamp(8px,1.8cqw,13px)}
+  #nfl-night .center{width:clamp(65px,16cqw,110px);height:clamp(65px,16cqw,110px)}
+}
+
+/* Sportscast TV Compact scoreboard design — intentionally not affiliated with a broadcaster. */
+#nfl-night[data-design="tv"] .scorebug{max-width:1150px;height:130px;overflow:visible;filter:drop-shadow(0 3px 5px #000b)}
+#nfl-night[data-design="tv"] .wing{height:72%;width:50%;flex:0 0 50%;border:1px solid #8d9299;border-top-color:#c5c9ce;border-bottom-color:#36383a;border-radius:0;overflow:hidden;box-shadow:inset 0 2px 3px #ffffff20,inset 0 -5px 10px #000a}
+#nfl-night[data-design="tv"] .wing.away{padding:0;border-radius:10px 0 0 2px;border-left:3px solid #d1d8db}
+#nfl-night[data-design="tv"] .wing.home{padding:0;border-radius:0 10px 2px 0;border-right:3px solid #d1d8db}
+#nfl-night[data-design="tv"] .wing:after{display:none}
+#nfl-night[data-design="tv"] .logo{position:absolute;top:50%;transform:translateY(-50%);left:2.5%;width:22%;height:91%;max-width:140px;padding:0;flex:none;display:grid;place-items:center;overflow:hidden}
+#nfl-night[data-design="tv"] .wing.home .logo{left:auto;right:2.5%;margin:0}
+#nfl-night[data-design="tv"] .wing.away .logo{margin:0}
+#nfl-night[data-design="tv"] .logo img{max-width:140px;max-height:92px;object-fit:contain;filter:drop-shadow(0 2px 2px #0009)}
+#nfl-night[data-design="tv"] .team{position:absolute;inset:0;padding:0;min-width:0;display:block;pointer-events:none}
+#nfl-night[data-design="tv"] .abbr{position:absolute;top:7%;left:27%;font-size:clamp(8px,1.05cqw,12px);line-height:1.1;font-weight:900;letter-spacing:.05em;color:#eee;opacity:.92}
+#nfl-night[data-design="tv"] .record{position:absolute;top:24%;left:27%;font-size:clamp(8px,.95cqw,11px);line-height:1.1;margin:0;color:#dadde2;opacity:.82}
+#nfl-night[data-design="tv"] .wing.home .abbr,#nfl-night[data-design="tv"] .wing.home .record{left:auto;right:27%;text-align:right}
+#nfl-night[data-design="tv"] .score{position:absolute;left:67%;top:48%;transform:translate(-50%,-50%);padding:0;display:block;width:auto;flex:none;line-height:1;font-size:clamp(42px,5.7cqw,68px);letter-spacing:-.04em;text-shadow:0 2px 2px #000b;font-weight:1000;font-variant-numeric:tabular-nums}
+#nfl-night[data-design="tv"] .wing.home .score{left:33%}
+#nfl-night[data-design="tv"] .timeouts-inline{position:absolute;left:67%;top:76%;margin:0;transform:translateX(-50%);height:13px;min-height:0;line-height:1;white-space:nowrap;gap:0}
+#nfl-night[data-design="tv"] .wing.home .timeouts-inline{left:33%}
+#nfl-night[data-design="tv"] .timeouts-inline .to-label{display:none}
+#nfl-night[data-design="tv"] .timeouts-inline .to-dots{color:#ecf0f4;text-shadow:0 1px 3px #000a;font-size:clamp(13px,2.6cqw,27px);font-weight:950;letter-spacing:2px;font-family:Arial,sans-serif;white-space:nowrap}
+#nfl-night[data-design="tv"] .center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:24%;height:72%;border-radius:0;border:0;box-shadow:inset 0 2px 4px #ffffff22,inset 0 -4px 8px #0009;background:linear-gradient(180deg,#202124 0%,#101216 100%);z-index:4;overflow:hidden;display:block}
+#nfl-night[data-design="tv"] .center .symbol{display:block;position:absolute;top:13%;left:0;width:100%;font-size:clamp(10px,2.0cqw,19px);line-height:1.1;text-align:center;letter-spacing:.11em;font-style:italic;font-weight:1000;color:#f1f3f6;text-shadow:0 2px 2px #000}
+#nfl-night[data-design="tv"] .clockline{position:absolute;bottom:8%;left:7%;width:86%;height:40%;padding:0 6%;border-radius:35px;background:linear-gradient(180deg,#fff,#d9dce1);color:#14171c;box-shadow:0 1px 2px #1117;display:flex;align-items:center;justify-content:space-between;gap:4px;font-size:clamp(9px,1.25cqw,13px);font-weight:1000}
+#nfl-night[data-design="tv"] .clock{position:absolute;bottom:12%;left:50%;transform:translateX(-50%);z-index:6;width:49%;text-align:center;font-size:clamp(16px,2.3cqw,25px);font-weight:1000;letter-spacing:-.025em;color:#101319;line-height:1}
+#nfl-night[data-design="tv"] .playclock{background:transparent;color:#2a2f36;border-radius:0;padding:0;font-size:inherit;font-weight:1000}
+#nfl-night[data-design="tv"] .postab{height:25px;top:calc(50% + 35% - 1px);width:30%;font-size:clamp(9px,1.6cqw,15px);border-radius:0 0 5px 5px;background:#25272b!important;border-color:#616a75!important}
+#nfl-night[data-design="tv"] .postab.away{left:8%}
+#nfl-night[data-design="tv"] .postab.home{right:8%}
+#nfl-night[data-design="tv"] .flag-banner{top:-7px;z-index:9;font-size:clamp(10px,1.6cqw,16px)}
+@media(max-width:600px){
+#nfl-night[data-design="tv"] .scorebug{height:95px}
+#nfl-night[data-design="tv"] .wing,#nfl-night[data-design="tv"] .center{height:73%}
+#nfl-night[data-design="tv"] .logo{width:23%;height:88%}
+#nfl-night[data-design="tv"] .logo img{max-height:72px}
+#nfl-night[data-design="tv"] .abbr{font-size:7px}
+#nfl-night[data-design="tv"] .record{font-size:7px}
+#nfl-night[data-design="tv"] .score{font-size:clamp(20px,6.0cqw,38px)}
+#nfl-night[data-design="tv"] .timeouts-inline{top:76%}
+#nfl-night[data-design="tv"] .timeouts-inline .to-dots{font-size:clamp(10px,2.3cqw,15px);letter-spacing:0}
+#nfl-night[data-design="tv"] .center .symbol{font-size:clamp(8px,2.0cqw,11px);letter-spacing:0}
+#nfl-night[data-design="tv"] .clockline{font-size:clamp(7px,1.45cqw,9px);padding:0 4%;width:94%;left:3%}
+#nfl-night[data-design="tv"] .clock{font-size:clamp(11px,2.9cqw,17px)}
+#nfl-night[data-design="tv"] .postab{height:17px;font-size:clamp(7px,1.75cqw,10px);top:calc(50% + 35% - 1px)}
+}
 </style>
 <div class="top"><div class="brand"><span>▤</span> SPORTSCAST STUDIO</div><div class="live">NFL DESIGN 01</div></div>
 <div class="sports"><span>🏈 NFL</span><span>⚾ MLB · Soon</span><span>🏀 NBA · Soon</span><span>⚽ Soccer · Soon</span></div>
 <div class="content">
 <div class="titleline"><div><b>NFL Scoreboard</b><div class="subtitle">Real logos · Team records · Fast down controls · Custom colors</div></div><div class="tabs"><button type="button" class="active" id="nn-tab-game">Scoreboard</button><button type="button" id="nn-tab-edit">✎ Edit</button><button type="button" id="nn-tab-settings">⚙ Settings</button><button id="nn-tab-obs">◉ Connect to OBS</button></div></div>
-<div class="stage" id="nn-stage"><div class="scorebug" id="nn-bug"><div class="wing away" id="nn-away-wing"><div class="logo" id="nn-away-logobox"><img id="nn-away-logo" alt="Away team logo"/><span class="fallback" id="nn-away-fallback">LAC</span></div><div class="team"><span class="abbr" id="nn-away-abbr">LAC</span><span class="record" id="nn-away-record">—</span></div><div class="score" id="nn-away-score">0</div></div><div class="wing home" id="nn-home-wing"><div class="score" id="nn-home-score">0</div><div class="team"><span class="abbr" id="nn-home-abbr">NE</span><span class="record" id="nn-home-record">—</span></div><div class="logo" id="nn-home-logobox"><img id="nn-home-logo" alt="Home team logo"/><span class="fallback" id="nn-home-fallback">NE</span></div></div><div class="postab away" id="nn-away-tab"><span>▶</span><span id="nn-away-down">3RD &amp; 6</span></div><div class="postab home" id="nn-home-tab" hidden><span id="nn-home-down">3RD &amp; 6</span><span>◀</span></div><div class="flag-banner" id="nn-flag-banner" hidden>⚑ FLAG</div><div class="center"><span class="symbol">✦ ◉ ✦</span><span class="clock" id="nn-clock">13:04</span><div class="clockline"><span id="nn-quarter">1ST</span><span class="playclock" id="nn-playclock">06</span></div></div></div></div>
+<div class="stage" id="nn-stage"><div class="scorebug" id="nn-bug"><div class="wing away" id="nn-away-wing"><div class="logo" id="nn-away-logobox"><img id="nn-away-logo" alt="Away team logo"/><span class="fallback" id="nn-away-fallback">LAC</span></div><div class="team"><span class="abbr" id="nn-away-abbr">LAC</span><span class="record" id="nn-away-record">—</span><div class="timeouts-inline" aria-label="Away team timeouts"><span class="to-label">TO</span><span class="to-dots" id="nn-to-away-dots" aria-label="Away timeouts remaining: 3">●●●</span></div></div><div class="score" id="nn-away-score">0</div></div><div class="wing home" id="nn-home-wing"><div class="score" id="nn-home-score">0</div><div class="team"><span class="abbr" id="nn-home-abbr">NE</span><span class="record" id="nn-home-record">—</span><div class="timeouts-inline" aria-label="Home team timeouts"><span class="to-label">TO</span><span class="to-dots" id="nn-to-home-dots" aria-label="Home timeouts remaining: 3">●●●</span></div></div><div class="logo" id="nn-home-logobox"><img id="nn-home-logo" alt="Home team logo"/><span class="fallback" id="nn-home-fallback">NE</span></div></div><div class="postab away" id="nn-away-tab"><span>▶</span><span id="nn-away-down">3RD &amp; 6</span></div><div class="postab home" id="nn-home-tab" hidden><span id="nn-home-down">3RD &amp; 6</span><span>◀</span></div><div class="flag-banner" id="nn-flag-banner" hidden>⚑ FLAG</div><div class="center"><span class="symbol">✦ ◉ ✦</span><span class="clock" id="nn-clock">13:04</span><div class="clockline"><span id="nn-quarter">1ST</span><span class="playclock" id="nn-playclock">06</span></div></div></div></div>
 <div class="hint">Use the new clock controls directly under Game Clock. Team possession and downs update instantly.</div>
 <div class="status"><div><b id="nn-status">Saved team records ready</b><small id="nn-detail">Checking ESPN for new standings when available</small></div><button class="btn" type="button" id="nn-refresh">↻ Refresh Records</button></div>
 
@@ -94,11 +251,11 @@
 </div>
 
 <div id="nn-page-game"><div class="grid">
-<div class="panel"><h4>Away · Left</h4><div class="field"><label>Choose team</label><select id="nn-away-team"></select></div><div class="recordline">Record <span class="recordpill" id="nn-away-pill">—</span></div><label>Score</label><div class="scores"><output id="nn-away-value">0</output><button class="btn" data-score="away" data-add="-1">−1</button><button class="btn" data-score="away" data-add="1">+1</button><button class="btn" data-score="away" data-add="3">+3</button><button class="btn" data-score="away" data-add="6">+6</button><button class="btn" data-score="away" data-add="7">+7</button></div></div>
-<div class="panel"><h4>Home · Right</h4><div class="field"><label>Choose team</label><select id="nn-home-team"></select></div><div class="recordline">Record <span class="recordpill" id="nn-home-pill">—</span></div><label>Score</label><div class="scores"><output id="nn-home-value">0</output><button class="btn" data-score="home" data-add="-1">−1</button><button class="btn" data-score="home" data-add="1">+1</button><button class="btn" data-score="home" data-add="3">+3</button><button class="btn" data-score="home" data-add="6">+6</button><button class="btn" data-score="home" data-add="7">+7</button></div></div>
+<div class="panel"><h4>Away · Left</h4><div class="field"><label>Choose team</label><select id="nn-away-team"></select></div><div class="recordline">Record <span class="recordpill" id="nn-away-pill">—</span></div><label>Score</label><div class="scores"><output id="nn-away-value">0</output><button class="btn" data-score="away" data-add="-1">−1</button><button class="btn" data-score="away" data-add="1">+1</button><button class="btn" data-score="away" data-add="3">+3</button><button class="btn" data-score="away" data-add="6">+6</button><button class="btn" data-score="away" data-add="7">+7</button></div><div class="timeout-editors"><label for="nn-away-timeouts-output">Timeouts remaining (0–3)</label><div class="timeout-stepper"><button type="button" data-timeout="away" data-delta="-1" aria-label="Remove one away timeout">−</button><output id="nn-away-timeouts-output" aria-live="polite">3</output><button type="button" data-timeout="away" data-delta="1" aria-label="Add one away timeout">+</button></div></div></div>
+<div class="panel"><h4>Home · Right</h4><div class="field"><label>Choose team</label><select id="nn-home-team"></select></div><div class="recordline">Record <span class="recordpill" id="nn-home-pill">—</span></div><label>Score</label><div class="scores"><output id="nn-home-value">0</output><button class="btn" data-score="home" data-add="-1">−1</button><button class="btn" data-score="home" data-add="1">+1</button><button class="btn" data-score="home" data-add="3">+3</button><button class="btn" data-score="home" data-add="6">+6</button><button class="btn" data-score="home" data-add="7">+7</button></div><div class="timeout-editors"><label for="nn-home-timeouts-output">Timeouts remaining (0–3)</label><div class="timeout-stepper"><button type="button" data-timeout="home" data-delta="-1" aria-label="Remove one home timeout">−</button><output id="nn-home-timeouts-output" aria-live="polite">3</output><button type="button" data-timeout="home" data-delta="1" aria-label="Add one home timeout">+</button></div></div></div>
 <div class="panel wide"><h4>🏈 Game Information</h4><div class="gamefields"><div class="field"><label>Quarter</label><select id="nn-quarter-input"><option>1ST</option><option>2ND</option><option>3RD</option><option>4TH</option><option>OT</option><option>FINAL</option></select></div><div class="field clockfield"><label for="nn-clock-input">Game Clock</label><div class="clockedit"><button class="clockstep" type="button" id="nn-clock-minus" aria-label="Subtract one second">−1</button><input type="text" id="nn-clock-input" value="13:04" maxlength="6" inputmode="numeric" placeholder="M:SS" aria-label="Type game clock in minutes and seconds"/><button class="clockstep" type="button" id="nn-clock-plus" aria-label="Add one second">+1</button></div><div class="clockactions"><button class="btn primary" type="button" id="nn-run">▶ Start Clock</button><button class="btn" type="button" id="nn-resetclock">↺ Reset 15:00</button></div><div class="clocknote">±1 second · Type exact time (M:SS)</div></div><div class="field"><label>Play clock</label><input type="text" id="nn-play-input" value="06" maxlength="2"/></div><div class="field"><label>Down</label><select id="nn-down-input"><option>1ST</option><option>2ND</option><option selected>3RD</option><option>4TH</option></select></div><div class="field distance"><label>Distance</label><div class="stepper"><button id="nn-distance-minus" type="button" aria-label="Decrease yards">−</button><output id="nn-distance-output" aria-live="polite">6</output><button id="nn-distance-plus" type="button" aria-label="Increase yards">+</button></div><div class="quick"><button type="button" id="nn-first-ten">1ST &amp; 10</button><button type="button" id="nn-goal">GOAL</button><button type="button" id="nn-inches">INCHES</button></div></div></div><div class="posbox"><strong>Possession — who has the ball?</strong><div class="posbuttons"><button class="active" id="nn-pos-away">▶ Away · LAC</button><button id="nn-pos-home">Home · NE ◀</button><button id="nn-pos-none">No Possession</button></div></div><div class="flag-control"><div><strong>Penalty Flag</strong><small>Show a yellow FLAG alert on the live scoreboard and OBS</small></div><button type="button" id="nn-flag-toggle" class="flag-toggle" aria-pressed="false">⚑ Show FLAG</button></div><div class="actions"><button class="btn" id="nn-resetgame">Reset Game</button></div></div></div></div>
 <div id="nn-page-edit" hidden><div class="grid"><div class="panel"><h4>Edit Away / Left</h4><div class="field"><label>Team</label><select id="nn-away-editteam"></select></div><div class="colorfields"><div class="colorbox"><label>Background</label><input type="color" id="nn-away-bg"/><small id="nn-away-bg-label"></small></div><div class="colorbox"><label>Trim</label><input type="color" id="nn-away-trim"/><small id="nn-away-trim-label"></small></div></div><div class="palette" id="nn-away-palette"></div><button class="btn" id="nn-away-resetcolors">Reset Team Colors</button></div><div class="panel"><h4>Edit Home / Right</h4><div class="field"><label>Team</label><select id="nn-home-editteam"></select></div><div class="colorfields"><div class="colorbox"><label>Background</label><input type="color" id="nn-home-bg"/><small id="nn-home-bg-label"></small></div><div class="colorbox"><label>Trim</label><input type="color" id="nn-home-trim"/><small id="nn-home-trim-label"></small></div></div><div class="palette" id="nn-home-palette"></div><button class="btn" id="nn-home-resetcolors">Reset Team Colors</button></div></div><div class="actions"><button class="btn" id="nn-swap">⇄ Swap Teams</button></div></div>
-<div id="nn-page-settings" hidden><div class="grid"><div class="panel"><h4>Scoreboard Display</h4><label class="setting"><span><b>Show Team Logos</b><small>Display real team logos</small></span><input type="checkbox" id="nn-setting-logos" checked/></label><label class="setting"><span><b>Show Team Records</b><small>Display win-loss records</small></span><input type="checkbox" id="nn-setting-records" checked/></label><label class="setting"><span><b>Show Possession Tab</b><small>Colored down and distance beneath the team</small></span><input type="checkbox" id="nn-setting-down" checked/></label><label class="setting"><span><b>Show Game Clock</b><small>Show main center clock</small></span><input type="checkbox" id="nn-setting-clock" checked/></label><label class="setting"><span><b>Show Play Clock</b><small>Hide or show the red play clock</small></span><input type="checkbox" id="nn-setting-playclock" checked/></label></div><div class="panel"><h4>Preview &amp; Updates</h4><label class="setting"><span><b>Checkerboard Preview</b><small>Preview transparency pattern</small></span><input type="checkbox" id="nn-setting-checker"/></label><label class="setting"><span><b>Automatic Record Updates</b><small>Try ESPN every two minutes</small></span><input type="checkbox" id="nn-setting-updates" checked/></label><div class="field" style="margin-top:15px"><label>Scoreboard Size <output id="nn-size-text">100%</output></label><input type="range" min="65" max="100" step="5" value="100" id="nn-setting-size"/></div><button class="btn" id="nn-resetsettings">Reset Settings</button></div></div></div>
+<div id="nn-page-settings" hidden><div class="grid"><div class="panel"><h4>Scoreboard Display</h4><label class="setting"><span><b>Show Team Logos</b><small>Display real team logos</small></span><input type="checkbox" id="nn-setting-logos" checked/></label><label class="setting"><span><b>Show Team Records</b><small>Display win-loss records</small></span><input type="checkbox" id="nn-setting-records" checked/></label><label class="setting"><span><b>Show Possession Tab</b><small>Colored down and distance beneath the team</small></span><input type="checkbox" id="nn-setting-down" checked/></label><label class="setting"><span><b>Show Game Clock</b><small>Show main center clock</small></span><input type="checkbox" id="nn-setting-clock" checked/></label><label class="setting"><span><b>Show Play Clock</b><small>Hide or show the red play clock</small></span><input type="checkbox" id="nn-setting-playclock" checked/></label></div><div class="panel"><h4>Preview &amp; Updates</h4><label class="setting"><span><b>Checkerboard Preview</b><small>Preview transparency pattern</small></span><input type="checkbox" id="nn-setting-checker"/></label><label class="setting"><span><b>Automatic Record Updates</b><small>Try ESPN every two minutes</small></span><input type="checkbox" id="nn-setting-updates" checked/></label><div class="field" style="margin-top:15px"><label for="nn-setting-design">Scoreboard Design</label><select id="nn-setting-design"><option value="classic">NBC — Classic Rounded Wings</option><option value="tv">ESPN — TV Compact</option></select><small style="color:#b0c3dc;display:block;margin-top:6px">Use the NBC / ESPN buttons above the controls to switch instantly. OBS mirrors the selection.</small></div><div class="field" style="margin-top:15px"><label>Scoreboard Size <output id="nn-size-text">100%</output></label><input type="range" min="65" max="100" step="5" value="100" id="nn-setting-size"/></div><button class="btn" id="nn-resetsettings">Reset Settings</button></div></div></div>
 </div><div class="foot"><span>NFL Design 01</span><span>Clock ±1 second · Direct time entry · Quick distance controls</span></div>
 <script>
 (function(){'use strict';
@@ -106,20 +263,34 @@ const R=document.getElementById('nfl-night');if(!R||R.dataset.ready)return;R.dat
 const $=id=>R.querySelector('#'+id),put=(id,v)=>{$(id).textContent=String(v)};
 const data=`ARI|Arizona Cardinals|22|NFC|97233F|FFB612|2-5;ATL|Atlanta Falcons|1|NFC|A71930|A5ACAF|3-4;BAL|Baltimore Ravens|33|AFC|241773|9E7C0C|4-3;BUF|Buffalo Bills|2|AFC|00338D|C60C30|5-1;CAR|Carolina Panthers|29|NFC|0085CA|BFC0BF|3-4;CHI|Chicago Bears|3|NFC|0B162A|C83803|5-2;CIN|Cincinnati Bengals|4|AFC|FB4F14|101820|4-2;CLE|Cleveland Browns|5|AFC|311D00|FF3C00|5-2;DAL|Dallas Cowboys|6|NFC|003594|869397|3-4;DEN|Denver Broncos|7|AFC|FB4F14|002244|5-2;DET|Detroit Lions|8|NFC|0076B6|B0B7BC|4-2;GB|Green Bay Packers|9|NFC|203731|FFB612|5-3;HOU|Houston Texans|34|AFC|03202F|A71930|2-5;IND|Indianapolis Colts|11|AFC|002C5F|A2AAAD|2-5;JAX|Jacksonville Jaguars|30|AFC|006778|D7A22A|4-2;KC|Kansas City Chiefs|12|AFC|E31837|FFB81C|5-1;LV|Las Vegas Raiders|13|AFC|101820|A5ACAF|3-4;LAC|Los Angeles Chargers|24|AFC|0080C6|FFC20E|0-6;LAR|Los Angeles Rams|14|NFC|003594|FFA300|3-4;MIA|Miami Dolphins|15|AFC|008E97|FC4C02|1-5;MIN|Minnesota Vikings|16|NFC|4F2683|FFC62F|6-0;NE|New England Patriots|17|AFC|002244|C60C30|4-3;NO|New Orleans Saints|18|NFC|101820|D3BC8D|2-5;NYG|New York Giants|19|NFC|0B2265|A71930|4-2-1;NYJ|New York Jets|20|AFC|125740|FFFFFF|2-5;PHI|Philadelphia Eagles|21|NFC|004C54|A5ACAF|2-5;PIT|Pittsburgh Steelers|23|AFC|101820|FFB612|5-2;SF|San Francisco 49ers|25|NFC|AA0000|B3995D|6-1;SEA|Seattle Seahawks|26|NFC|002244|69BE28|4-3;TB|Tampa Bay Buccaneers|27|NFC|D50A0A|FF7900|2-5;TEN|Tennessee Titans|10|AFC|0C2340|4B92DB|1-6;WSH|Washington Commanders|28|NFC|5A1414|FFB612|1-4-1`;
 const teams=data.split(';').map(x=>{const a=x.split('|');return {code:a[0],name:a[1],id:a[2],conf:a[3],bg:'#'+a[4],trim:'#'+a[5],snapshot:a[6]}}),byCode=new Map(teams.map(t=>[t.code,t])),byId=new Map(teams.map(t=>[t.id,t]));
-const defaults={logos:true,records:true,down:true,clock:true,playclock:true,checker:false,updates:true,size:100};
-const S={teams:{away:'LAC',home:'NE'},scores:{away:0,home:0},possession:'away',flag:false,yards:6,mode:'yards',colors:{},records:new Map(),settings:{...defaults},lastSuccess:null};
+const defaults={logos:true,records:true,down:true,clock:true,playclock:true,checker:false,updates:true,size:100,design:"tv"};
+const S={teams:{away:'LAC',home:'NE'},scores:{away:0,home:0},timeouts:{away:3,home:3},possession:'away',flag:false,yards:6,mode:'yards',colors:{},records:new Map(),settings:{...defaults},lastSuccess:null};
 let timer=null,loading=false;const logoSeq={away:0,home:0},focus={away:'bg',home:'bg'};
 const presets=['#ffffff','#101820','#000000','#003594','#0080c6','#00a9ce','#125740','#69be28','#ffc20e','#fb4f14','#e31837','#97233f','#4f2683','#869397','#c60c30','#b3995d'];
 const validHex=x=>typeof x==='string'&&/^#[0-9a-f]{6}$/i.test(x);
 try{const saved=JSON.parse(localStorage.getItem('scorestudio10-colors')||'{}');for(const code in saved){if(byCode.has(code)&&validHex(saved[code]?.bg)&&validHex(saved[code]?.trim))S.colors[code]=saved[code]}}catch(e){}
-try{const saved=JSON.parse(localStorage.getItem('scorestudio13-settings')||'{}');for(const k of Object.keys(defaults)){if(k==='size'&&Number.isFinite(Number(saved[k])))S.settings.size=Math.max(65,Math.min(100,Number(saved[k])));else if(k!=='size'&&typeof saved[k]==='boolean')S.settings[k]=saved[k]}}catch(e){}
-function save(){try{localStorage.setItem('scorestudio10-colors',JSON.stringify(S.colors));localStorage.setItem('scorestudio13-settings',JSON.stringify(S.settings))}catch(e){}}
+try{const saved=JSON.parse(localStorage.getItem('scorestudio15-settings')||'{}');for(const k of Object.keys(defaults)){if(k==='size'&&Number.isFinite(Number(saved[k])))S.settings.size=Math.max(65,Math.min(100,Number(saved[k])));else if(k==='design'&&(saved[k]==='tv'||saved[k]==='classic'))S.settings.design=saved[k];else if(k!=='size'&&typeof saved[k]==='boolean')S.settings[k]=saved[k]}}catch(e){}
+function save(){try{localStorage.setItem('scorestudio10-colors',JSON.stringify(S.colors));localStorage.setItem('scorestudio15-settings',JSON.stringify(S.settings))}catch(e){}}
 function theme(code){const t=byCode.get(code);return S.colors[code]||{bg:t.bg,trim:t.trim}}
-function logos(t){const slug=t.name.toLowerCase().replace(/[^a-z0-9]+/g,'-'),path='/NFL/'+t.conf+'/'+encodeURIComponent(t.name)+'/'+slug+'_small_square.png';return ['https://raw.githubusercontent.com/frertommy/team-logos/main'+path,'https://cdn.jsdelivr.net/gh/frertommy/team-logos@main'+path,'https://static.www.nfl.com/league/api/clubs/logos/'+(t.code==='WSH'?'WAS':t.code),'https://a.espncdn.com/i/teamlogos/nfl/500/'+t.code.toLowerCase()+'.png']}
+function logos(t){const slug=t.name.toLowerCase().replace(/[^a-z0-9]+/g,'-'),path='/NFL/'+t.conf+'/'+encodeURIComponent(t.name)+'/'+slug+'_small_square.png';return ['https://a.espncdn.com/i/teamlogos/nfl/500/'+t.code.toLowerCase()+'.png','https://static.www.nfl.com/league/api/clubs/logos/'+(t.code==='WSH'?'WAS':t.code),'https://raw.githubusercontent.com/frertommy/team-logos/main'+path,'https://cdn.jsdelivr.net/gh/frertommy/team-logos@main'+path]}
 function loadLogo(side){const t=byCode.get(S.teams[side]),img=$('nn-'+side+'-logo'),box=$('nn-'+side+'-logobox'),urls=logos(t);const seq=++logoSeq[side];let idx=0;box.classList.remove('failed','loaded');put('nn-'+side+'-fallback',t.code);img.alt=t.name+' logo';function next(){if(seq!==logoSeq[side])return;if(idx>=urls.length){box.classList.add('failed');return}img.src=urls[idx++]}img.onload=()=>{if(seq===logoSeq[side]){box.classList.remove('failed');box.classList.add('loaded')}};img.onerror=next;next()}
 function yardsText(){return S.mode==='goal'?'GOAL':S.mode==='inches'?'INCHES':String(S.yards)}
-function updateDown(){const text=$('nn-down-input').value+' & '+yardsText();put('nn-distance-output',yardsText());put('nn-away-down',text);put('nn-home-down',text);for(const side of ['away','home']){const tab=$('nn-'+side+'-tab'),c=theme(S.teams[side]);tab.style.background='linear-gradient(180deg,'+c.bg+','+c.bg+' 70%,#111b2c)';tab.style.borderColor=c.trim;tab.hidden=S.possession!==side||!S.settings.down||$('nn-quarter-input').value==='FINAL';$('nn-pos-'+side).classList.toggle('active',S.possession===side);$('nn-pos-'+side).setAttribute('aria-pressed',String(S.possession===side));put('nn-pos-'+side,side==='away'?'▶ Away · '+S.teams.away:'Home · '+S.teams.home+' ◀')} $('nn-pos-none').classList.toggle('active',S.possession==='none');$('nn-first-ten').classList.toggle('active',$('nn-down-input').value==='1ST'&&S.mode==='yards'&&S.yards===10);$('nn-goal').classList.toggle('active',S.mode==='goal');$('nn-inches').classList.toggle('active',S.mode==='inches')}
-function showTeam(side,changeLogo){const code=S.teams[side],t=byCode.get(code),c=theme(code);put('nn-'+side+'-abbr',code);put('nn-'+side+'-record',S.records.get(code)||t.snapshot);put('nn-'+side+'-pill',S.records.get(code)||t.snapshot);put('nn-'+side+'-score',S.scores[side]);put('nn-'+side+'-value',S.scores[side]);$('nn-'+side+'-team').value=code;$('nn-'+side+'-editteam').value=code;const wing=$('nn-'+side+'-wing');wing.style.background='linear-gradient(180deg,'+c.bg+','+c.bg+' 22%,#111b2e 160%)';wing.style.borderColor=c.trim;for(const k of ['bg','trim']){$('nn-'+side+'-'+k).value=c[k];put('nn-'+side+'-'+k+'-label',c[k].toUpperCase())}if(changeLogo)loadLogo(side);updateDown();applySettings()}
+function updateDown(){const text=$('nn-down-input').value+' & '+yardsText();put('nn-distance-output',yardsText());put('nn-away-down',text);put('nn-home-down',text);for(const side of ['away','home']){const tab=$('nn-'+side+'-tab'),c=theme(S.teams[side]);tab.style.background='linear-gradient(180deg,'+c.bg+','+c.bg+' 70%,#111b2c)';tab.style.borderColor=c.trim;tab.hidden=S.possession!==side||!S.settings.down||$('nn-quarter-input').value==='FINAL';$('nn-pos-'+side).classList.toggle('active',S.possession===side);$('nn-pos-'+side).setAttribute('aria-pressed',String(S.possession===side));put('nn-pos-'+side,side==='away'?'▶ Away · '+S.teams.away:'Home · '+S.teams.home+' ◀')} $('nn-pos-none').classList.toggle('active',S.possession==='none');$('nn-first-ten').classList.toggle('active',$('nn-down-input').value==='1ST'&&S.mode==='yards'&&S.yards===10);$('nn-goal').classList.toggle('active',S.mode==='goal');$('nn-inches').classList.toggle('active',S.mode==='inches');updateCenterPossession()}
+function updateCenterPossession(){
+ const badge=R.querySelector('.center .symbol');
+ const on=S.settings.design==='tv' && (S.possession==='away'||S.possession==='home') && $('nn-quarter-input').value!=='FINAL';
+ R.dataset.possession=on?S.possession:'none';
+ if(S.settings.design!=='tv'){
+   badge.textContent='✦ ◉ ✦';badge.classList.remove('has-possession');
+   badge.style.removeProperty('background');badge.style.removeProperty('border-color');return;
+ }
+ badge.textContent=on?($('nn-down-input').value+' & '+yardsText()):'SPORTSCAST';
+ badge.classList.toggle('has-possession',on);
+ if(on){const c=theme(S.teams[S.possession]);badge.style.background='linear-gradient(180deg,'+c.bg+' 0%,'+c.bg+' 68%,#141820 100%)';badge.style.borderColor=c.trim}
+ else {badge.style.removeProperty('background');badge.style.removeProperty('border-color')}
+}
+function showTimeouts(side){const code=S.teams[side],n=S.timeouts[side];put('nn-'+side+'-timeouts-output',n);put('nn-to-'+side+'-dots',S.settings.design==='tv'?'━'.repeat(n)+'─'.repeat(3-n):'●'.repeat(n)+'○'.repeat(3-n));$('nn-to-'+side+'-dots').setAttribute('aria-label',code+' timeouts remaining: '+n)}
+function showTeam(side,changeLogo){const code=S.teams[side],t=byCode.get(code),c=theme(code);put('nn-'+side+'-abbr',code);put('nn-'+side+'-record',S.records.get(code)||t.snapshot);put('nn-'+side+'-pill',S.records.get(code)||t.snapshot);put('nn-'+side+'-score',S.scores[side]);put('nn-'+side+'-value',S.scores[side]);showTimeouts(side);$('nn-'+side+'-team').value=code;$('nn-'+side+'-editteam').value=code;const wing=$('nn-'+side+'-wing');wing.style.background='linear-gradient(180deg,'+c.bg+','+c.bg+' 22%,#111b2e 160%)';wing.style.borderColor=c.trim;for(const k of ['bg','trim']){$('nn-'+side+'-'+k).value=c[k];put('nn-'+side+'-'+k+'-label',c[k].toUpperCase())}if(changeLogo)loadLogo(side);updateDown();applySettings()}
 function selectTeam(side,code){if(!byCode.has(code))return;S.teams[side]=code;showTeam(side,true)}
 function recolor(side,kind,value){if(!validHex(value))return;const code=S.teams[side],c=theme(code);S.colors[code]={bg:c.bg,trim:c.trim,[kind]:value.toUpperCase()};save();for(const s of ['away','home'])if(S.teams[s]===code)showTeam(s,false)}
 for(const side of ['away','home']){for(const name of ['team','editteam']){const sel=$('nn-'+side+'-'+name);teams.forEach(t=>{const o=document.createElement('option');o.value=t.code;o.textContent=t.name;sel.appendChild(o)});sel.addEventListener('change',()=>selectTeam(side,sel.value))}for(const kind of ['bg','trim']){const field=$('nn-'+side+'-'+kind);field.addEventListener('focus',()=>focus[side]=kind);field.addEventListener('click',()=>focus[side]=kind);field.addEventListener('input',e=>recolor(side,kind,e.target.value))}presets.forEach(col=>{const b=document.createElement('button');b.type='button';b.className='swatch';b.style.background=col;b.title=col;b.setAttribute('aria-label','Select '+col);b.addEventListener('click',()=>recolor(side,focus[side],col));$('nn-'+side+'-palette').appendChild(b)});$('nn-'+side+'-resetcolors').addEventListener('click',()=>{const code=S.teams[side];delete S.colors[code];save();for(const s of ['away','home'])if(S.teams[s]===code)showTeam(s,false)});showTeam(side,true)}
@@ -130,6 +301,7 @@ $('nn-goal').addEventListener('click',()=>{S.mode='goal';updateDown()});$('nn-in
 $('nn-down-input').addEventListener('change',updateDown);
 ['away','home','none'].forEach(p=>$('nn-pos-'+p).addEventListener('click',()=>{S.possession=p;updateDown()}));
 R.querySelectorAll('[data-score][data-add]').forEach(b=>b.addEventListener('click',()=>{const side=b.dataset.score;S.scores[side]=Math.max(0,Math.min(999,S.scores[side]+Number(b.dataset.add)));showTeam(side,false)}));
+R.querySelectorAll('[data-timeout][data-delta]').forEach(btn=>btn.addEventListener('click',()=>{const side=btn.dataset.timeout;S.timeouts[side]=Math.max(0,Math.min(3,S.timeouts[side]+Number(btn.dataset.delta)));showTimeouts(side)}));
 function updateFlag(){const on=!!S.flag;const banner=$('nn-flag-banner'),button=$('nn-flag-toggle');banner.hidden=!on;button.classList.toggle('active',on);button.setAttribute('aria-pressed',String(on));button.textContent=on?'⚑ Hide FLAG':'⚑ Show FLAG'}
 $('nn-flag-toggle').addEventListener('click',()=>{S.flag=!S.flag;updateFlag()});
 function game(){put('nn-clock',$('nn-clock-input').value||'0:00');put('nn-quarter',$('nn-quarter-input').value);put('nn-playclock',$('nn-play-input').value||'00');updateDown()}
@@ -143,11 +315,13 @@ $('nn-clock-input').addEventListener('blur',()=>{const n=parseClockValue($('nn-c
 function stopClock(){if(timer!==null){clearInterval(timer);timer=null}put('nn-run','▶ Start Clock')}
 $('nn-run').addEventListener('click',()=>{if(timer!==null){stopClock();return}if(!/^\d{1,3}:[0-5]\d$/.test($('nn-clock-input').value))return;put('nn-run','Ⅱ Pause Clock');timer=setInterval(()=>{const m=$('nn-clock-input').value.match(/^(\d{1,3}):([0-5]\d)$/);if(!m){stopClock();return}let secs=Number(m[1])*60+Number(m[2]);if(secs<=0){stopClock();return}secs--;$('nn-clock-input').value=Math.floor(secs/60)+':'+String(secs%60).padStart(2,'0');game();if(secs===0)stopClock()},1000)});
 $('nn-resetclock').addEventListener('click',()=>{stopClock();$('nn-clock-input').value='15:00';game()});
-$('nn-resetgame').addEventListener('click',()=>{stopClock();S.scores.away=0;S.scores.home=0;selectTeam('away','LAC');selectTeam('home','NE');S.possession='away';S.flag=false;updateFlag();S.mode='yards';S.yards=6;$('nn-quarter-input').value='1ST';$('nn-clock-input').value='13:04';$('nn-play-input').value='06';$('nn-down-input').value='3RD';game()});
-$('nn-swap').addEventListener('click',()=>{[S.teams.away,S.teams.home]=[S.teams.home,S.teams.away];[S.scores.away,S.scores.home]=[S.scores.home,S.scores.away];S.possession=S.possession==='away'?'home':S.possession==='home'?'away':'none';showTeam('away',true);showTeam('home',true)});
+$('nn-resetgame').addEventListener('click',()=>{stopClock();S.scores.away=0;S.scores.home=0;S.timeouts.away=3;S.timeouts.home=3;selectTeam('away','LAC');selectTeam('home','NE');S.possession='away';S.flag=false;updateFlag();S.mode='yards';S.yards=6;$('nn-quarter-input').value='1ST';$('nn-clock-input').value='13:04';$('nn-play-input').value='06';$('nn-down-input').value='3RD';game()});
+$('nn-swap').addEventListener('click',()=>{[S.teams.away,S.teams.home]=[S.teams.home,S.teams.away];[S.scores.away,S.scores.home]=[S.scores.home,S.scores.away];[S.timeouts.away,S.timeouts.home]=[S.timeouts.home,S.timeouts.away];S.possession=S.possession==='away'?'home':S.possession==='home'?'away':'none';showTeam('away',true);showTeam('home',true)});
 function showPage(page){for(const p of ['game','edit','settings','obs']){$('nn-page-'+p).hidden=p!==page;$('nn-tab-'+p).classList.toggle('active',p===page)}}['game','edit','settings','obs'].forEach(p=>$('nn-tab-'+p).addEventListener('click',()=>showPage(p)));
-function applySettings(){const x=S.settings;for(const side of ['away','home']){$('nn-'+side+'-logobox').style.visibility=x.logos?'visible':'hidden';$('nn-'+side+'-record').style.visibility=x.records?'visible':'hidden'}$('nn-clock').style.visibility=x.clock?'visible':'hidden';$('nn-playclock').hidden=!x.playclock;$('nn-stage').classList.toggle('checker',x.checker);$('nn-bug').style.maxWidth=x.size+'%';for(const k of ['logos','records','down','clock','playclock','checker','updates'])$('nn-setting-'+k).checked=x[k];$('nn-setting-size').value=x.size;put('nn-size-text',x.size+'%');updateDown()}
-['logos','records','down','clock','playclock','checker','updates'].forEach(k=>$('nn-setting-'+k).addEventListener('change',e=>{S.settings[k]=e.target.checked;save();applySettings()}));$('nn-setting-size').addEventListener('input',e=>{S.settings.size=Number(e.target.value);save();applySettings()});$('nn-resetsettings').addEventListener('click',()=>{Object.assign(S.settings,defaults);save();applySettings()});
+function applySettings(){const x=S.settings;for(const side of ['away','home']){$('nn-'+side+'-logobox').style.visibility=x.logos?'visible':'hidden';$('nn-'+side+'-record').style.visibility=x.records?'visible':'hidden'}$('nn-clock').style.visibility=x.clock?'visible':'hidden';$('nn-playclock').hidden=!x.playclock;$('nn-stage').classList.toggle('checker',x.checker);R.dataset.design=x.design;for(const side of ['away','home']){const c=theme(S.teams[side]);$('nn-'+side+'-wing').style.background=x.design==='tv'?('linear-gradient('+(side==='away'?'90deg':'270deg')+','+c.bg+' 0%,#26272b 25%,#121317 72%)'):('linear-gradient(180deg,'+c.bg+','+c.bg+' 22%,#111b2e 160%)');showTimeouts(side)}R.querySelector('.center .symbol').textContent=x.design==='tv'?'SPORTSCAST':'✦ ◉ ✦';$('nn-setting-design').value=x.design;for(const [name,design] of [['nbc','classic'],['espn','tv']]){const button=$('nn-design-'+name);const selected=x.design===design;button.classList.toggle('active',selected);button.setAttribute('aria-pressed',String(selected))}$('nn-bug').style.maxWidth=x.size+'%';for(const k of ['logos','records','down','clock','playclock','checker','updates'])$('nn-setting-'+k).checked=x[k];$('nn-setting-size').value=x.size;put('nn-size-text',x.size+'%');updateDown()}
+['logos','records','down','clock','playclock','checker','updates'].forEach(k=>$('nn-setting-'+k).addEventListener('change',e=>{S.settings[k]=e.target.checked;save();applySettings()}));$('nn-setting-size').addEventListener('input',e=>{S.settings.size=Number(e.target.value);save();applySettings()});$('nn-setting-design').addEventListener('change',e=>{S.settings.design=e.target.value==='tv'?'tv':'classic';save();applySettings()});
+for(const [name,design] of [['nbc','classic'],['espn','tv']]){$('nn-design-'+name).addEventListener('click',()=>{if(S.settings.design===design)return;S.settings.design=design;save();applySettings()})}
+$('nn-resetsettings').addEventListener('click',()=>{Object.assign(S.settings,defaults);save();applySettings()});
 function parseStats(stats){if(!Array.isArray(stats))return null;const get=n=>stats.find(s=>String(s.name||'').toLowerCase()===n),number=n=>{const a=get(n);if(!a)return null;const v=Number(a.value??a.displayValue);return Number.isFinite(v)?Math.floor(v):null};const w=number('wins'),l=number('losses'),t=number('ties');if(w!==null&&l!==null)return w+'-'+l+(t>0?'-'+t:'');return String(get('overall')?.displayValue||'')}
 function readStandings(raw){const found=new Map(),seen=new WeakSet();function walk(node,depth){if(!node||typeof node!=='object'||seen.has(node)||depth>12)return;seen.add(node);const entries=node.standings?.entries||node.entries;if(Array.isArray(entries))for(const e of entries){const t=byId.get(String(e.team?.id||''))||byCode.get(String(e.team?.abbreviation||'').toUpperCase());if(!t)continue;const r=parseStats(e.stats);if(/^\d+-\d+(?:-\d+)?$/.test(r))found.set(t.code,r)}if(Array.isArray(node.children))node.children.forEach(x=>walk(x,depth+1));if(Array.isArray(node.groups))node.groups.forEach(x=>walk(x,depth+1));if(Array.isArray(node))node.forEach(x=>walk(x,depth+1))}walk(raw,0);return found}
 function readGames(raw){const found=new Map();for(const game of raw.events||[])for(const comp of game.competitions||[])for(const entry of comp.competitors||[]){const t=byId.get(String(entry.team?.id||''))||byCode.get(String(entry.team?.abbreviation||'').toUpperCase());const record=(entry.records||[]).find(r=>r.type==='total'||r.name==='overall')||(entry.records||[])[0];const val=String(record?.summary||'');if(t&&/^\d+-\d+(?:-\d+)?$/.test(val))found.set(t.code,val)}return found}
@@ -175,9 +349,9 @@ $('nn-copy-obs').addEventListener('click',copyLink);
 $('nn-preview-obs').addEventListener('click',()=>{if(overlayURL)window.open(overlayURL,'_blank','noopener');else status('Start the Sportscast server first.',true)});
 function hidden(id){return $(id).hidden}
 function sideInfo(side){const prefix='nn-'+side+'-';const wrap=$(prefix+'logobox'),img=$(prefix+'logo'),tab=$(prefix+'tab'),wing=$(prefix+'wing');
-return {code:$(prefix+'abbr').textContent,record:$(prefix+'record').textContent,score:$(prefix+'score').textContent,logoUrl:img.getAttribute('src')||'',logoHidden:wrap.style.visibility==='hidden',recordHidden:$(prefix+'record').style.visibility==='hidden',wingBg:wing.style.background,wingBorder:wing.style.borderColor,tabHidden:tab.hidden,tabBg:tab.style.background,tabBorder:tab.style.borderColor,tabText:$(prefix+'down').textContent};
+return {code:$(prefix+'abbr').textContent,record:$(prefix+'record').textContent,score:$(prefix+'score').textContent,logoUrl:img.getAttribute('src')||'',logoHidden:wrap.style.visibility==='hidden',recordHidden:$(prefix+'record').style.visibility==='hidden',wingBg:wing.style.background,wingBorder:wing.style.borderColor,tabHidden:tab.hidden,tabBg:tab.style.background,tabBorder:tab.style.borderColor,tabText:$(prefix+'down').textContent,timeoutCount:$(prefix+'timeouts-output').textContent};
 }
-function snapshot(){return {away:sideInfo('away'),home:sideInfo('home'),clock:$('nn-clock').textContent,quarter:$('nn-quarter').textContent,playclock:$('nn-playclock').textContent,clockHidden:$('nn-clock').style.visibility==='hidden',playclockHidden:$('nn-playclock').hidden,checker:$('nn-stage').classList.contains('checker'),scale:$('nn-bug').style.maxWidth||'100%',flag:!$('nn-flag-banner').hidden,updated:Date.now()};}
+function snapshot(){return {away:sideInfo('away'),home:sideInfo('home'),clock:$('nn-clock').textContent,quarter:$('nn-quarter').textContent,playclock:$('nn-playclock').textContent,clockHidden:$('nn-clock').style.visibility==='hidden',playclockHidden:$('nn-playclock').hidden,checker:$('nn-stage').classList.contains('checker'),scale:$('nn-bug').style.maxWidth||'100%',design:document.getElementById('nfl-night').dataset.design==='tv'?'tv':'classic',possession:document.getElementById('nfl-night').dataset.possession||'none',centerText:$('nn-bug').querySelector('.center .symbol').textContent,centerBg:$('nn-bug').querySelector('.center .symbol').style.background,centerTrim:$('nn-bug').querySelector('.center .symbol').style.borderColor,flag:!$('nn-flag-banner').hidden,updated:Date.now()};}
 let sending=false,pending=false,debounce=null,lastSent='';
 async function sendNow(){if(!active)return status('Not connected. Open the controller through the Sportscast server.',true);
   if(sending){pending=true;return;}
