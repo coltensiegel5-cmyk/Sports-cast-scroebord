@@ -155,8 +155,12 @@ class Handler(BaseHTTPRequestHandler):
             cleaned['timeoutActive'] = bool(data.get('timeoutActive', False)) and cleaned['timeoutSide'] != 'none'
             cleaned['timeoutRemaining'] = str(data.get('timeoutRemaining', ''))[:24]
             cleaned['timeoutTeamName'] = str(data.get('timeoutTeamName', ''))[:45]
+            cleaned['fgSide'] = data.get('fgSide') if data.get('fgSide') in ('away', 'home') else 'away'
+            cleaned['fgActive'] = bool(data.get('fgActive', False))
+            fg_number = str(data.get('fgYards', '')).strip()
+            cleaned['fgYards'] = fg_number if fg_number.isascii() and fg_number.isdecimal() and 1 <= int(fg_number) <= 120 else '' 
             import re
-            for name in ('timeoutBg','timeoutTrim'):
+            for name in ('timeoutBg','timeoutTrim','fgBg','fgTrim'):
                 value = str(data.get(name, ''))[:32].strip()
                 cleaned[name] = value if re.fullmatch(r'#[0-9A-Fa-f]{6}', value) else '#284560'
             cleaned['centerText'] = str(data.get('centerText', 'SPORTSCAST'))[:40]
