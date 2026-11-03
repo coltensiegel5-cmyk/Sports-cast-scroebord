@@ -18,6 +18,8 @@ HERE = Path(__file__).resolve().parent
 PORT = int(os.environ.get('PORT', '8765'))
 HOST = os.environ.get('HOST', '127.0.0.1')
 EDIT_KEY = os.environ.get('SPORTSCAST_CONTROL_KEY') or secrets.token_urlsafe(20)
+PENALTY_TYPES = {'False Start': ('5 YARDS', 'False Start'), 'Offside': ('5 YARDS', 'Offside'), 'Encroachment': ('5 YARDS', 'Encroachment'), 'Neutral Zone Infraction': ('5 YARDS', 'Neutral Zone Infraction'), 'Delay of Game': ('5 YARDS', 'Delay of Game'), 'Illegal Formation': ('5 YARDS', 'Illegal Formation'), 'Illegal Shift / Motion': ('5 YARDS', 'Illegal Shift / Motion'), 'Illegal Substitution / Too Many Men on the Field': ('5 YARDS', 'Too Many Men on Field'), 'Ineligible Receiver Downfield': ('5 YARDS', 'Ineligible Downfield'), 'Running into the Kicker': ('5 YARDS', 'Running into the Kicker'), 'Defensive Holding': ('5 YARDS', 'Defensive Holding'), 'Illegal Use of Hands': ('5 YARDS', 'Illegal Use of Hands'), 'Offensive Holding': ('10 YARDS', 'Offensive Holding'), 'Offensive Pass Interference (OPI)': ('10 YARDS', 'Offensive Pass Interference'), 'Illegal Block in the Back': ('10 YARDS', 'Illegal Block in the Back'), 'Intentional Grounding': ('10 YARDS', 'Intentional Grounding'), 'Illegal Forward Pass': ('10 YARDS', 'Illegal Forward Pass'), 'Roughing the Passer': ('15 YARDS', 'Roughing the Passer'), 'Roughing the Kicker': ('15 YARDS', 'Roughing the Kicker'), 'Face Mask': ('15 YARDS', 'Face Mask'), 'Horse Collar Tackle': ('15 YARDS', 'Horse Collar Tackle'), 'Unnecessary Roughness': ('15 YARDS', 'Unnecessary Roughness'), 'Unsportsmanlike Conduct': ('15 YARDS', 'Unsportsmanlike Conduct'), 'Chop Block / Clipping': ('15 YARDS', 'Chop Block / Clipping'), 'Tripping': ('15 YARDS', 'Tripping'), 'Defensive Pass Interference (DPI)': ('SPOT FOUL', 'Defensive Pass Interference')}
+
 STATE = None
 VERSION = 0
 LOCK = threading.Lock()
@@ -151,6 +153,10 @@ class Handler(BaseHTTPRequestHandler):
             cleaned['design'] = 'tv' if data.get('design') == 'tv' else 'classic'
             cleaned['possession'] = data.get('possession') if data.get('possession') in ('away', 'home') else 'none'
             cleaned['flagTeam'] = data.get('flagTeam') if data.get('flagTeam') in ('away', 'home') else 'none'
+            selected_penalty = str(data.get('penaltyType', ''))[:90]
+            cleaned['penaltyType'] = selected_penalty if selected_penalty in PENALTY_TYPES else ''
+            penalty_meta = PENALTY_TYPES.get(cleaned['penaltyType'], ('', ''))
+            cleaned['penaltyYards'], cleaned['penaltyDisplay'] = penalty_meta
             cleaned['timeoutSide'] = data.get('timeoutSide') if data.get('timeoutSide') in ('away', 'home') else 'none'
             cleaned['timeoutActive'] = bool(data.get('timeoutActive', False)) and cleaned['timeoutSide'] != 'none'
             cleaned['timeoutRemaining'] = str(data.get('timeoutRemaining', ''))[:24]

@@ -468,7 +468,26 @@ html,body{width:100%;height:100%;margin:0;padding:0;background:transparent!impor
 @media(max-width:700px){
   #nfl-night .field-goal-indicator{top:-7px!important;min-height:17px!important;padding:3px 5px!important;border-width:1px!important;font-size:clamp(9px,1.8cqw,13px)!important;letter-spacing:0!important}
 }
-</style></head><body><div id="nfl-night" data-design="tv" data-possession="none" class="awaiting-saved-game"><div class="stage" id="nn-stage"><div class="scorebug" id="nn-bug"><div class="field-goal-indicator away" id="nn-fg-away" hidden aria-live="polite"><span id="nn-fg-away-text">— YARD ATTEMPT</span></div><div class="field-goal-indicator home" id="nn-fg-home" hidden aria-live="polite"><span id="nn-fg-home-text">— YARD ATTEMPT</span></div><div class="wing away" id="nn-away-wing"><div class="logo" id="nn-away-logobox"><img alt="Away team logo" id="nn-away-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/Los%20Angeles%20Chargers/los-angeles-chargers_small_square.png"/><span class="fallback" id="nn-away-fallback">LAC</span></div><div class="team"><span class="abbr" id="nn-away-abbr">LAC</span><span class="record" id="nn-away-record">—</span><div class="timeouts-inline" aria-label="Away team timeouts"><span class="to-label">TO</span><span class="to-dots" id="nn-to-away-dots" aria-label="Away timeouts remaining: 3">●●●</span></div></div><div class="score" id="nn-away-score">0</div></div><div class="wing home" id="nn-home-wing"><div class="score" id="nn-home-score">0</div><div class="team"><span class="abbr" id="nn-home-abbr">NE</span><span class="record" id="nn-home-record">—</span><div class="timeouts-inline" aria-label="Home team timeouts"><span class="to-label">TO</span><span class="to-dots" id="nn-to-home-dots" aria-label="Home timeouts remaining: 3">●●●</span></div></div><div class="logo" id="nn-home-logobox"><img alt="Home team logo" id="nn-home-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/New%20England%20Patriots/new-england-patriots_small_square.png"/><span class="fallback" id="nn-home-fallback">NE</span></div></div><div class="postab away" id="nn-away-tab"><span>▶</span><span id="nn-away-down">3RD &amp; 6</span></div><div class="postab home" hidden="" id="nn-home-tab"><span id="nn-home-down">3RD &amp; 6</span><span>◀</span></div><div class="flag-banner" id="nn-flag-banner" hidden>⚑ FLAG</div><div class="timeout-callout" id="nn-timeout-callout" hidden aria-live="polite"><span class="timeout-header">TIMEOUT</span><span id="nn-timeout-team">TEAM</span><span class="timeout-remain" id="nn-timeout-left">2 REMAINING</span></div><div class="center"><span class="symbol">SPORTSCAST</span><span class="clock" id="nn-clock">13:04</span><div class="clockline"><span id="nn-quarter">1ST</span><span class="playclock" id="nn-playclock">06</span></div></div></div></div></div><script>
+/* All-in-one penalty banner: above the team that committed the foul. */
+#nfl-night .penalty-announcement {
+ box-sizing:border-box!important;position:absolute!important;z-index:48!important;
+ top:-13px!important;left:25%!important;transform:translateX(-50%)!important;
+ width:max-content!important;max-width:46%!important;min-height:28px!important;
+ padding:5px 10px!important;border:2px solid #fff1a1!important;
+ border-radius:7px!important;background:linear-gradient(180deg,#ffe982,#e5b82e)!important;
+ color:#1b1b1b!important;text-shadow:none!important;
+ box-shadow:0 3px 10px #0009!important;
+ display:flex;align-items:center;justify-content:center;text-align:center!important;
+ font:950 clamp(10px,1.28cqw,16px)/1.08 system-ui,sans-serif!important;
+ letter-spacing:.005em!important;white-space:normal!important;overflow-wrap:break-word!important;
+ max-height:40px!important;overflow:hidden!important;pointer-events:none!important;
+}
+#nfl-night .penalty-announcement.home{left:75%!important}
+#nfl-night .penalty-announcement[hidden]{display:none!important}
+@media(max-width:700px){
+ #nfl-night .penalty-announcement{top:-8px!important;min-height:19px!important;padding:3px 4px!important;border-width:1px!important;font-size:clamp(8px,1.7cqw,12px)!important;max-height:31px!important}
+}
+</style></head><body><div id="nfl-night" data-design="tv" data-possession="none" class="awaiting-saved-game"><div class="stage" id="nn-stage"><div class="scorebug" id="nn-bug"><div class="field-goal-indicator away" id="nn-fg-away" hidden aria-live="polite"><span id="nn-fg-away-text">— YARD ATTEMPT</span></div><div class="field-goal-indicator home" id="nn-fg-home" hidden aria-live="polite"><span id="nn-fg-home-text">— YARD ATTEMPT</span></div><div class="wing away" id="nn-away-wing"><div class="logo" id="nn-away-logobox"><img alt="Away team logo" id="nn-away-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/Los%20Angeles%20Chargers/los-angeles-chargers_small_square.png"/><span class="fallback" id="nn-away-fallback">LAC</span></div><div class="team"><span class="abbr" id="nn-away-abbr">LAC</span><span class="record" id="nn-away-record">—</span><div class="timeouts-inline" aria-label="Away team timeouts"><span class="to-label">TO</span><span class="to-dots" id="nn-to-away-dots" aria-label="Away timeouts remaining: 3">●●●</span></div></div><div class="score" id="nn-away-score">0</div></div><div class="wing home" id="nn-home-wing"><div class="score" id="nn-home-score">0</div><div class="team"><span class="abbr" id="nn-home-abbr">NE</span><span class="record" id="nn-home-record">—</span><div class="timeouts-inline" aria-label="Home team timeouts"><span class="to-label">TO</span><span class="to-dots" id="nn-to-home-dots" aria-label="Home timeouts remaining: 3">●●●</span></div></div><div class="logo" id="nn-home-logobox"><img alt="Home team logo" id="nn-home-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/New%20England%20Patriots/new-england-patriots_small_square.png"/><span class="fallback" id="nn-home-fallback">NE</span></div></div><div class="postab away" id="nn-away-tab"><span>▶</span><span id="nn-away-down">3RD &amp; 6</span></div><div class="postab home" hidden="" id="nn-home-tab"><span id="nn-home-down">3RD &amp; 6</span><span>◀</span></div><div class="penalty-announcement away" id="nn-penalty-away" hidden aria-live="polite">⚑ PENALTY</div><div class="penalty-announcement home" id="nn-penalty-home" hidden aria-live="polite">⚑ PENALTY</div><div class="flag-banner" id="nn-flag-banner" hidden>⚑ FLAG</div><div class="timeout-callout" id="nn-timeout-callout" hidden aria-live="polite"><span class="timeout-header">TIMEOUT</span><span id="nn-timeout-team">TEAM</span><span class="timeout-remain" id="nn-timeout-left">2 REMAINING</span></div><div class="center"><span class="symbol">SPORTSCAST</span><span class="clock" id="nn-clock">13:04</span><div class="clockline"><span id="nn-quarter">1ST</span><span class="playclock" id="nn-playclock">06</span></div></div></div></div></div><script>
 (function(){
 'use strict';const $=id=>document.getElementById(id);let version=-1;
 function set(id,x){$(id).textContent=String(x??'')}
@@ -496,12 +515,18 @@ function draw(s){if(!s)return; document.getElementById('nfl-night').classList.re
  badge.style.color=flagged&&s.design==='tv'?'#1f1b14':'';
  document.getElementById('nfl-night').dataset.possession=hasBall?s.possession:'none';
  $('nn-flag-banner').hidden=true;document.getElementById('nfl-night').dataset.flagSide=flagged?s.flagTeam:'none';
+ const hasPenalty=flagged&&!!s.penaltyType&&!!s.penaltyYards;
+ for(const side of ['away','home']){
+  const target=$('nn-penalty-'+side),visible=hasPenalty&&s.flagTeam===side;
+  target.hidden=!visible;
+  if(visible){target.textContent='⚑ '+String(s[side]?.code||'')+' · '+String(s.penaltyDisplay||s.penaltyType).toUpperCase()+' · '+String(s.penaltyYards);target.title=String(s.penaltyType)+' — '+String(s.penaltyYards)}
+ }
  const box=$('nn-timeout-callout');box.hidden=!s.timeoutActive; if(s.timeoutActive){set('nn-timeout-team',s.timeoutTeamName||'TEAM');set('nn-timeout-left',s.timeoutRemaining||'0 REMAINING');box.style.setProperty('--timeout-bg',s.timeoutBg||'#153b5c');box.style.setProperty('--timeout-trim',s.timeoutTrim||'#f5f5f5')}
  const fg=(s.fgSide==='home'?'home':'away');
  const value=String(s.fgYards||'');
  for(const side of ['away','home']){
    const badge=$('nn-fg-'+side);
-   badge.hidden=!(s.fgActive&&fg===side);
+   badge.hidden=!(s.fgActive&&fg===side)||(hasPenalty&&s.flagTeam===side);
    set('nn-fg-'+side+'-text',(value||'—')+' YARD ATTEMPT');
    badge.style.setProperty('--fg-bg',s.fgBg||'#17345b');
    badge.style.setProperty('--fg-trim',s.fgTrim||'#f5f5f5');
