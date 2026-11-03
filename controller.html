@@ -185,14 +185,25 @@
 #nfl-night .fox-down{display:none}
 #nfl-night[data-design="fox"] .fox-down{
   box-sizing:border-box;z-index:12;position:absolute;display:flex;align-items:center;
-  justify-content:center;left:8%;top:2%;width:35%;height:27%;
+  justify-content:center;left:13%;right:auto;top:7%;width:22%;height:18%;
   clip-path:polygon(5% 0%,100% 0%,94% 100%,0% 100%);
   background:linear-gradient(180deg,var(--fox-accent,#4f2683),#321048 145%);
-  color:#fff;border:0;padding:0 6% 0 2%;
-  font:900 clamp(12px,3.1cqw,42px)/1 Arial,system-ui,sans-serif;
+  color:#fff;border:0;padding:0 2.6% 0 1.5%;
+  font:900 clamp(9px,2.05cqw,27px)/1 Arial,system-ui,sans-serif;
   letter-spacing:-.025em;white-space:nowrap;
   text-shadow:0 2px 2px #000a,0 0 2px #fff6;
   filter:drop-shadow(0 2px 2px #0008);
+}
+
+/* FOX: move the small down banner to whichever team owns the ball.
+   In a FLAG or TIMEOUT state, follow the team involved instead. */
+#nfl-night[data-design="fox"] .fox-down[data-side="home"]{
+  left:auto!important;right:13%!important;
+  clip-path:polygon(0 0,95% 0,100% 100%,5% 100%)!important;
+  padding:0 1.5% 0 2.6%!important;
+}
+#nfl-night[data-design="fox"] .fox-down[data-side="away"]{
+  left:13%!important;right:auto!important;
 }
 #nfl-night[data-design="fox"] .fox-down.is-flag{
   background:linear-gradient(180deg,#ffe86a,#dfa52b);color:#1e170a;text-shadow:none;
@@ -219,7 +230,7 @@
  #nfl-night[data-design="fox"] .center .clock{font-size:clamp(15px,4.35cqw,32px)!important}
  #nfl-night[data-design="fox"] .center .clockline{font-size:clamp(8px,2.35cqw,20px)!important}
  #nfl-night[data-design="fox"] .wing .record{font-size:clamp(7px,1.9cqw,14px)!important}
- #nfl-night[data-design="fox"] .fox-down{font-size:clamp(8px,2.9cqw,21px)!important}
+ #nfl-night[data-design="fox"] .fox-down{font-size:clamp(7px,1.95cqw,17px)!important}
 }
 </style></head><body><div id="nfl-night">
 <div class="broadcast-picker" aria-label="Choose scoreboard network">
@@ -779,6 +790,7 @@ function updateFoxDown(){
  const flagged=S.flag&&(S.flagTeam==='away'||S.flagTeam==='home');
  const called=S.timeoutSide==='away'||S.timeoutSide==='home';
  const side=flagged?S.flagTeam:called?S.timeoutSide:(S.possession==='home'?'home':'away');
+ badge.dataset.side=side; // Show FOX down/flag/timeout above the correct team.
  const color=theme(S.teams[side]);
  badge.textContent=flagged?'⚑ FLAG':called?'TIMEOUT':$('nn-down-input').value+' & '+yardsText();
  badge.hidden=!flagged&&!called&&(!S.settings.down||$('nn-quarter-input').value==='FINAL'||S.possession==='none');
