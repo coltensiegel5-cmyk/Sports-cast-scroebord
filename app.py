@@ -150,9 +150,15 @@ class Handler(BaseHTTPRequestHandler):
                 cleaned[side] = {k: (bool(d[k]) if isinstance(d.get(k), bool) else str(d.get(k, ''))[:500]) for k in fields}
             for k in ('clock','quarter','playclock','scale'):
                 cleaned[k] = str(data.get(k, ''))[:40]
-            cleaned['design'] = 'tv' if data.get('design') == 'tv' else 'classic'
+            cleaned['design'] = data.get('design') if data.get('design') in ('classic','tv','fox') else 'classic'
             cleaned['possession'] = data.get('possession') if data.get('possession') in ('away', 'home') else 'none'
             cleaned['flagTeam'] = data.get('flagTeam') if data.get('flagTeam') in ('away', 'home') else 'none'
+            cleaned['foxDown'] = str(data.get('foxDown', '1ST & 10'))[:50]
+            cleaned['foxDownHidden'] = bool(data.get('foxDownHidden', False))
+            import re
+            for color_name in ('foxAccent','foxTrim'):
+                c = str(data.get(color_name, ''))[:20]
+                cleaned[color_name] = c if re.fullmatch(r'#[0-9a-fA-F]{6}',c) else '#4f2683'
             selected_penalty = str(data.get('penaltyType', ''))[:90]
             cleaned['penaltyType'] = selected_penalty if selected_penalty in PENALTY_TYPES else ''
             penalty_meta = PENALTY_TYPES.get(cleaned['penaltyType'], ('', ''))
