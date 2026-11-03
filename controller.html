@@ -369,6 +369,84 @@
  #nfl-night[data-design="tv"] .wing.home .record{right:27%}
 }
 
+
+/* Reliable logo sizing for teams with different logo aspect ratios. */
+#nfl-night .wing{overflow:hidden!important;min-width:0}
+#nfl-night .logo{box-sizing:border-box;min-width:0;min-height:0;overflow:hidden!important}
+#nfl-night .logo img{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;object-position:center!important;transform:none!important}
+#nfl-night[data-design="tv"] .logo img{max-width:100%!important;max-height:100%!important}
+
+/* 2026-11-03 — MAXIMUM SAFE LOGO SIZE: NBC + ESPN + OBS.
+   Enlarge each real NFL logo as far as the existing wing lets it go.
+   No stretching, no spillover into abbreviations/records/scores. */
+#nfl-night .wing{box-sizing:border-box;min-width:0;overflow:hidden!important}
+#nfl-night .logo{
+  box-sizing:border-box!important;
+  flex:0 0 40%!important;
+  width:40%!important;
+  max-width:180px!important;
+  height:calc(100% - 4px)!important;
+  max-height:calc(100% - 4px)!important;
+  min-width:0!important;min-height:0!important;
+  padding:0!important;margin:0!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  overflow:hidden!important;
+}
+#nfl-night .logo img{
+  box-sizing:border-box!important;
+  width:100%!important;height:100%!important;
+  max-width:100%!important;max-height:100%!important;
+  min-width:0!important;min-height:0!important;
+  object-fit:contain!important;object-position:center!important;
+  transform:none!important;
+}
+#nfl-night .team{min-width:0;flex:1 1 0;overflow:visible}
+#nfl-night .abbr{white-space:nowrap}
+#nfl-night .record{white-space:nowrap}
+/* Keep the large logos out of the score column in the NBC layout. */
+#nfl-night:not([data-design="tv"]) .score{flex:0 0 22%!important;min-width:0}
+/* ESPN uses absolute positioning, so leave a dedicated text-and-score region. */
+#nfl-night[data-design="tv"] .logo{
+  position:absolute!important;
+  top:50%!important;left:0.75%!important;right:auto!important;
+  transform:translateY(-50%)!important;
+  flex:none!important;
+  width:35%!important;
+  max-width:220px!important;
+  height:calc(100% - 4px)!important;
+  max-height:calc(100% - 4px)!important;
+}
+#nfl-night[data-design="tv"] .wing.home .logo{
+  left:auto!important;right:0.75%!important;
+}
+#nfl-night[data-design="tv"] .abbr{
+  left:37%!important;right:auto!important;
+  top:7%!important;
+  font-size:clamp(11px,1.7cqw,21px);
+}
+#nfl-night[data-design="tv"] .record{
+  left:37%!important;right:auto!important;
+  top:32%!important;
+  font-size:clamp(10px,1.45cqw,18px);
+}
+#nfl-night[data-design="tv"] .wing.home .abbr,
+#nfl-night[data-design="tv"] .wing.home .record{
+  left:auto!important;right:37%!important;text-align:right;
+}
+@media(max-width:700px){
+  #nfl-night .logo{width:39%!important;flex-basis:39%!important;max-width:140px!important}
+  #nfl-night[data-design="tv"] .logo{width:34%!important;max-width:145px!important}
+  #nfl-night[data-design="tv"] .abbr,
+  #nfl-night[data-design="tv"] .record{left:36%!important}
+  #nfl-night[data-design="tv"] .wing.home .abbr,
+  #nfl-night[data-design="tv"] .wing.home .record{left:auto!important;right:36%!important}
+}
+/* Give the logos additional vertical room without moving the clock or scores. */
+#nfl-night:not([data-design="tv"]) .wing{height:81%!important}
+#nfl-night:not([data-design="tv"]) .postab{top:calc(50% + 40.5% - 1px)!important}
+#nfl-night[data-design="tv"] .wing,
+#nfl-night[data-design="tv"] .center{height:84%!important}
+
 </style>
 <div class="top"><div class="brand"><span>▤</span> SPORTSCAST STUDIO</div><div class="live">NFL DESIGN 01</div></div>
 <div class="sports"><span>🏈 NFL</span><span>⚾ MLB · Soon</span><span>🏀 NBA · Soon</span><span>⚽ Soccer · Soon</span></div>
@@ -418,6 +496,49 @@ const validHex=x=>typeof x==='string'&&/^#[0-9a-f]{6}$/i.test(x);
 try{const saved=JSON.parse(localStorage.getItem('scorestudio10-colors')||'{}');for(const code in saved){if(byCode.has(code)&&validHex(saved[code]?.bg)&&validHex(saved[code]?.trim))S.colors[code]=saved[code]}}catch(e){}
 try{const saved=JSON.parse(localStorage.getItem('scorestudio15-settings')||'{}');for(const k of Object.keys(defaults)){if(k==='size'&&Number.isFinite(Number(saved[k])))S.settings.size=Math.max(65,Math.min(100,Number(saved[k])));else if(k==='design'&&(saved[k]==='tv'||saved[k]==='classic'))S.settings.design=saved[k];else if(k!=='size'&&typeof saved[k]==='boolean')S.settings[k]=saved[k]}}catch(e){}
 function save(){try{localStorage.setItem('scorestudio10-colors',JSON.stringify(S.colors));localStorage.setItem('scorestudio15-settings',JSON.stringify(S.settings))}catch(e){}}
+/* Keep the currently selected game when the controller tab is closed or reopened.
+   Stored locally on this device; the public OBS page still uses server-side state. */
+const SPORT_SAVED_GAME_KEY='sportscast-studio-current-game-v1';
+let restoredGame=false;
+function boundedInt(v,min,max,otherwise){const n=Number(v);return Number.isInteger(n)&&n>=min&&n<=max?n:otherwise}
+try {
+ const raw=localStorage.getItem(SPORT_SAVED_GAME_KEY);
+ const saved=raw?JSON.parse(raw):null;
+ if(saved&&saved.version===1&&saved.teams&&saved.scores){
+  for(const side of ['away','home']){
+   if(byCode.has(saved.teams[side]))S.teams[side]=saved.teams[side];
+   S.scores[side]=boundedInt(saved.scores[side],0,999,S.scores[side]);
+   S.timeouts[side]=boundedInt(saved.timeouts?.[side],0,3,S.timeouts[side]);
+  }
+  if(['away','home','none'].includes(saved.possession))S.possession=saved.possession;
+  if(['away','home','none'].includes(saved.flagTeam))S.flagTeam=saved.flagTeam;
+  S.flag=Boolean(saved.flag)&&S.flagTeam!=='none';
+  if(['away','home','none'].includes(saved.timeoutSide))S.timeoutSide=saved.timeoutSide;
+  if(['yards','goal','inches'].includes(saved.mode))S.mode=saved.mode;
+  S.yards=boundedInt(saved.yards,1,99,S.yards);
+  if(['1ST','2ND','3RD','4TH'].includes(saved.down))$('nn-down-input').value=saved.down;
+  if(['1ST','2ND','3RD','4TH','OT','FINAL'].includes(saved.quarter))$('nn-quarter-input').value=saved.quarter;
+  if(/^\d{1,3}:[0-5]\d$/.test(saved.clock||''))$('nn-clock-input').value=saved.clock;
+  if(/^\d{1,2}$/.test(saved.playclock||''))$('nn-play-input').value=saved.playclock;
+  restoredGame=true;
+ }
+} catch(e){ /* Private-mode browsers may disable storage. */ }
+function persistGame(){
+ try {
+  localStorage.setItem(SPORT_SAVED_GAME_KEY,JSON.stringify({
+   version:1,teams:{...S.teams},scores:{...S.scores},timeouts:{...S.timeouts},
+   possession:S.possession,flag:S.flag,flagTeam:S.flagTeam,timeoutSide:S.timeoutSide,
+   mode:S.mode,yards:S.yards,
+   down:$('nn-down-input').value,quarter:$('nn-quarter-input').value,
+   clock:$('nn-clock-input').value,playclock:$('nn-play-input').value,
+   savedAt:Date.now()
+  }));
+ }catch(e){}
+}
+// Event handlers update state first; the timer writes it after the event finishes.
+for(const eventName of ['click','input','change'])R.addEventListener(eventName,()=>setTimeout(persistGame,0));
+window.addEventListener('pagehide',persistGame);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)persistGame()});
 function theme(code){const t=byCode.get(code);return S.colors[code]||{bg:t.bg,trim:t.trim}}
 function logos(t){const slug=t.name.toLowerCase().replace(/[^a-z0-9]+/g,'-'),path='/NFL/'+t.conf+'/'+encodeURIComponent(t.name)+'/'+slug+'_small_square.png';return ['https://a.espncdn.com/i/teamlogos/nfl/500/'+t.code.toLowerCase()+'.png','https://static.www.nfl.com/league/api/clubs/logos/'+(t.code==='WSH'?'WAS':t.code),'https://raw.githubusercontent.com/frertommy/team-logos/main'+path,'https://cdn.jsdelivr.net/gh/frertommy/team-logos@main'+path]}
 function loadLogo(side){const t=byCode.get(S.teams[side]),img=$('nn-'+side+'-logo'),box=$('nn-'+side+'-logobox'),urls=logos(t);const seq=++logoSeq[side];let idx=0;box.classList.remove('failed','loaded');put('nn-'+side+'-fallback',t.code);img.alt=t.name+' logo';function next(){if(seq!==logoSeq[side])return;if(idx>=urls.length){box.classList.add('failed');return}img.src=urls[idx++]}img.onload=()=>{if(seq===logoSeq[side]){box.classList.remove('failed');box.classList.add('loaded')}};img.onerror=next;next()}
@@ -508,7 +629,7 @@ for(const side of ['away','home']) $('nn-flag-'+side).addEventListener('click',(
  updateFlag();
 });
 $('nn-flag-toggle').addEventListener('click',()=>{S.flag=false;S.flagTeam='none';updateFlag()});
-function game(){put('nn-clock',$('nn-clock-input').value||'0:00');put('nn-quarter',$('nn-quarter-input').value);put('nn-playclock',$('nn-play-input').value||'00');updateDown()}
+function game(){put('nn-clock',$('nn-clock-input').value||'0:00');put('nn-quarter',$('nn-quarter-input').value);put('nn-playclock',$('nn-play-input').value||'00');updateDown();persistGame()}
 ['nn-clock-input','nn-quarter-input','nn-play-input'].forEach(id=>$(id).addEventListener('input',game));
 function parseClockValue(value){const m=String(value).trim().match(/^(\d{1,3}):([0-5]\d)$/);return m?Number(m[1])*60+Number(m[2]):null}
 function formatClockValue(seconds){const secs=Math.max(0,Math.min(5999,Math.floor(seconds)));return Math.floor(secs/60)+':'+String(secs%60).padStart(2,'0')}

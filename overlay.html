@@ -369,11 +369,91 @@ html,body{width:100%;height:100%;margin:0;padding:0;background:transparent!impor
  #nfl-night[data-design="tv"] .wing.home .record{right:27%}
 }
 
-</style></head><body><div id="nfl-night" data-design="tv" data-possession="none"><div class="stage" id="nn-stage"><div class="scorebug" id="nn-bug"><div class="wing away" id="nn-away-wing"><div class="logo" id="nn-away-logobox"><img alt="Away team logo" id="nn-away-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/Los%20Angeles%20Chargers/los-angeles-chargers_small_square.png"/><span class="fallback" id="nn-away-fallback">LAC</span></div><div class="team"><span class="abbr" id="nn-away-abbr">LAC</span><span class="record" id="nn-away-record">—</span><div class="timeouts-inline" aria-label="Away team timeouts"><span class="to-label">TO</span><span class="to-dots" id="nn-to-away-dots" aria-label="Away timeouts remaining: 3">●●●</span></div></div><div class="score" id="nn-away-score">0</div></div><div class="wing home" id="nn-home-wing"><div class="score" id="nn-home-score">0</div><div class="team"><span class="abbr" id="nn-home-abbr">NE</span><span class="record" id="nn-home-record">—</span><div class="timeouts-inline" aria-label="Home team timeouts"><span class="to-label">TO</span><span class="to-dots" id="nn-to-home-dots" aria-label="Home timeouts remaining: 3">●●●</span></div></div><div class="logo" id="nn-home-logobox"><img alt="Home team logo" id="nn-home-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/New%20England%20Patriots/new-england-patriots_small_square.png"/><span class="fallback" id="nn-home-fallback">NE</span></div></div><div class="postab away" id="nn-away-tab"><span>▶</span><span id="nn-away-down">3RD &amp; 6</span></div><div class="postab home" hidden="" id="nn-home-tab"><span id="nn-home-down">3RD &amp; 6</span><span>◀</span></div><div class="flag-banner" id="nn-flag-banner" hidden>⚑ FLAG</div><div class="timeout-callout" id="nn-timeout-callout" hidden aria-live="polite"><span class="timeout-header">TIMEOUT</span><span id="nn-timeout-team">TEAM</span><span class="timeout-remain" id="nn-timeout-left">2 REMAINING</span></div><div class="center"><span class="symbol">SPORTSCAST</span><span class="clock" id="nn-clock">13:04</span><div class="clockline"><span id="nn-quarter">1ST</span><span class="playclock" id="nn-playclock">06</span></div></div></div></div></div><script>
+
+/* Reliable logo sizing for teams with different logo aspect ratios. */
+#nfl-night .wing{overflow:hidden!important;min-width:0}
+#nfl-night .logo{box-sizing:border-box;min-width:0;min-height:0;overflow:hidden!important}
+#nfl-night .logo img{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;object-position:center!important;transform:none!important}
+#nfl-night[data-design="tv"] .logo img{max-width:100%!important;max-height:100%!important}
+
+#nfl-night.awaiting-saved-game .scorebug{visibility:hidden!important}
+
+/* 2026-11-03 — MAXIMUM SAFE LOGO SIZE: NBC + ESPN + OBS.
+   Enlarge each real NFL logo as far as the existing wing lets it go.
+   No stretching, no spillover into abbreviations/records/scores. */
+#nfl-night .wing{box-sizing:border-box;min-width:0;overflow:hidden!important}
+#nfl-night .logo{
+  box-sizing:border-box!important;
+  flex:0 0 40%!important;
+  width:40%!important;
+  max-width:180px!important;
+  height:calc(100% - 4px)!important;
+  max-height:calc(100% - 4px)!important;
+  min-width:0!important;min-height:0!important;
+  padding:0!important;margin:0!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  overflow:hidden!important;
+}
+#nfl-night .logo img{
+  box-sizing:border-box!important;
+  width:100%!important;height:100%!important;
+  max-width:100%!important;max-height:100%!important;
+  min-width:0!important;min-height:0!important;
+  object-fit:contain!important;object-position:center!important;
+  transform:none!important;
+}
+#nfl-night .team{min-width:0;flex:1 1 0;overflow:visible}
+#nfl-night .abbr{white-space:nowrap}
+#nfl-night .record{white-space:nowrap}
+/* Keep the large logos out of the score column in the NBC layout. */
+#nfl-night:not([data-design="tv"]) .score{flex:0 0 22%!important;min-width:0}
+/* ESPN uses absolute positioning, so leave a dedicated text-and-score region. */
+#nfl-night[data-design="tv"] .logo{
+  position:absolute!important;
+  top:50%!important;left:0.75%!important;right:auto!important;
+  transform:translateY(-50%)!important;
+  flex:none!important;
+  width:35%!important;
+  max-width:220px!important;
+  height:calc(100% - 4px)!important;
+  max-height:calc(100% - 4px)!important;
+}
+#nfl-night[data-design="tv"] .wing.home .logo{
+  left:auto!important;right:0.75%!important;
+}
+#nfl-night[data-design="tv"] .abbr{
+  left:37%!important;right:auto!important;
+  top:7%!important;
+  font-size:clamp(11px,1.7cqw,21px);
+}
+#nfl-night[data-design="tv"] .record{
+  left:37%!important;right:auto!important;
+  top:32%!important;
+  font-size:clamp(10px,1.45cqw,18px);
+}
+#nfl-night[data-design="tv"] .wing.home .abbr,
+#nfl-night[data-design="tv"] .wing.home .record{
+  left:auto!important;right:37%!important;text-align:right;
+}
+@media(max-width:700px){
+  #nfl-night .logo{width:39%!important;flex-basis:39%!important;max-width:140px!important}
+  #nfl-night[data-design="tv"] .logo{width:34%!important;max-width:145px!important}
+  #nfl-night[data-design="tv"] .abbr,
+  #nfl-night[data-design="tv"] .record{left:36%!important}
+  #nfl-night[data-design="tv"] .wing.home .abbr,
+  #nfl-night[data-design="tv"] .wing.home .record{left:auto!important;right:36%!important}
+}
+/* Give the logos additional vertical room without moving the clock or scores. */
+#nfl-night:not([data-design="tv"]) .wing{height:81%!important}
+#nfl-night:not([data-design="tv"]) .postab{top:calc(50% + 40.5% - 1px)!important}
+#nfl-night[data-design="tv"] .wing,
+#nfl-night[data-design="tv"] .center{height:84%!important}
+
+</style></head><body><div id="nfl-night" data-design="tv" data-possession="none" class="awaiting-saved-game"><div class="stage" id="nn-stage"><div class="scorebug" id="nn-bug"><div class="wing away" id="nn-away-wing"><div class="logo" id="nn-away-logobox"><img alt="Away team logo" id="nn-away-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/Los%20Angeles%20Chargers/los-angeles-chargers_small_square.png"/><span class="fallback" id="nn-away-fallback">LAC</span></div><div class="team"><span class="abbr" id="nn-away-abbr">LAC</span><span class="record" id="nn-away-record">—</span><div class="timeouts-inline" aria-label="Away team timeouts"><span class="to-label">TO</span><span class="to-dots" id="nn-to-away-dots" aria-label="Away timeouts remaining: 3">●●●</span></div></div><div class="score" id="nn-away-score">0</div></div><div class="wing home" id="nn-home-wing"><div class="score" id="nn-home-score">0</div><div class="team"><span class="abbr" id="nn-home-abbr">NE</span><span class="record" id="nn-home-record">—</span><div class="timeouts-inline" aria-label="Home team timeouts"><span class="to-label">TO</span><span class="to-dots" id="nn-to-home-dots" aria-label="Home timeouts remaining: 3">●●●</span></div></div><div class="logo" id="nn-home-logobox"><img alt="Home team logo" id="nn-home-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/New%20England%20Patriots/new-england-patriots_small_square.png"/><span class="fallback" id="nn-home-fallback">NE</span></div></div><div class="postab away" id="nn-away-tab"><span>▶</span><span id="nn-away-down">3RD &amp; 6</span></div><div class="postab home" hidden="" id="nn-home-tab"><span id="nn-home-down">3RD &amp; 6</span><span>◀</span></div><div class="flag-banner" id="nn-flag-banner" hidden>⚑ FLAG</div><div class="timeout-callout" id="nn-timeout-callout" hidden aria-live="polite"><span class="timeout-header">TIMEOUT</span><span id="nn-timeout-team">TEAM</span><span class="timeout-remain" id="nn-timeout-left">2 REMAINING</span></div><div class="center"><span class="symbol">SPORTSCAST</span><span class="clock" id="nn-clock">13:04</span><div class="clockline"><span id="nn-quarter">1ST</span><span class="playclock" id="nn-playclock">06</span></div></div></div></div></div><script>
 (function(){
 'use strict';const $=id=>document.getElementById(id);let version=-1;
 function set(id,x){$(id).textContent=String(x??'')}
-function draw(s){if(!s)return;
+function draw(s){if(!s)return; document.getElementById('nfl-night').classList.remove('awaiting-saved-game');
  ['away','home'].forEach(side=>{const p='nn-'+side+'-',v=s[side];if(!v)return;
   
   const available=Number(v.timeoutCount);const n=Number.isFinite(available)?Math.max(0,Math.min(3,Math.floor(available))):3;
