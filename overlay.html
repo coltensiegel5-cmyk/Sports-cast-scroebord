@@ -610,7 +610,7 @@ html,body{width:100%;height:100%;margin:0;padding:0;background:transparent!impor
   box-sizing:border-box;z-index:12;position:absolute;display:flex;align-items:center;
   justify-content:center;left:13%;right:auto;top:7%;width:22%;height:18%;
   clip-path:polygon(5% 0%,100% 0%,94% 100%,0% 100%);
-  background:linear-gradient(180deg,var(--fox-accent,#4f2683),#321048 145%);
+  background:linear-gradient(180deg,color-mix(in srgb,var(--fox-accent,#4f2683) 92%,white),var(--fox-accent,#4f2683) 58%,color-mix(in srgb,var(--fox-accent,#4f2683) 72%,black));
   color:#fff;border:0;padding:0 2.6% 0 1.5%;
   font:900 clamp(9px,2.05cqw,27px)/1 Arial,system-ui,sans-serif;
   letter-spacing:-.025em;white-space:nowrap;
@@ -655,6 +655,34 @@ html,body{width:100%;height:100%;margin:0;padding:0;background:transparent!impor
  #nfl-night[data-design="fox"] .wing .record{font-size:clamp(7px,1.9cqw,14px)!important}
  #nfl-night[data-design="fox"] .fox-down{font-size:clamp(7px,1.95cqw,17px)!important}
 }
+
+/* FOX TEAM COLOR FIX · Team-specific down ribbon, no purple tint on non-purple teams.
+   Chicago Bears official palette: navy #0B162A / orange #C83803. */
+#nfl-night[data-design="fox"] .fox-down:not(.is-flag):not(.is-timeout){
+ background:linear-gradient(180deg,
+  color-mix(in srgb, var(--fox-accent,#4f2683) 94%, white) 0%,
+  var(--fox-accent,#4f2683) 55%,
+  color-mix(in srgb, var(--fox-accent,#4f2683) 76%, black) 100%)!important;
+}
+#nfl-night[data-design="fox"] .fox-down[data-team="CHI"]:not(.is-flag):not(.is-timeout){
+ background:linear-gradient(to top,#C83803 0px,#C83803 3px,transparent 3px),
+            linear-gradient(180deg,#1C2A42 0%,#0B162A 62%,#070E1C 100%)!important;
+ color:#fff!important;
+ text-shadow:0 1px 2px rgba(0,0,0,.75)!important;
+}
+
+/* HALFTIME: replace clock and quarter readout with a centered broadcast label. */
+#nfl-night[data-halftime="true"] .center .clockline{display:none!important}
+#nfl-night[data-halftime="true"] .center .clock{
+  font-size:clamp(12px,2.65cqw,28px)!important;
+  letter-spacing:-.025em!important;line-height:1.05!important;
+  max-width:94%;white-space:nowrap!important;overflow:visible;
+}
+#nfl-night[data-design="fox"][data-halftime="true"] .center .clock{
+  font:900 clamp(11px,2.7cqw,29px)/1 'Arial Black',Arial,system-ui,sans-serif!important;
+  letter-spacing:-.035em!important;
+}
+#nfl-night[data-halftime="true"] .fox-down{display:none!important}
 </style></head><body><div id="nfl-night" data-design="tv" data-possession="none" class="awaiting-saved-game"><div class="stage" id="nn-stage"><div class="scorebug" id="nn-bug"><div class="fox-down" id="nn-fox-down" hidden>4TH &amp; 4</div><div class="field-goal-indicator away" id="nn-fg-away" hidden aria-live="polite"><span id="nn-fg-away-text">— YARD ATTEMPT</span></div><div class="field-goal-indicator home" id="nn-fg-home" hidden aria-live="polite"><span id="nn-fg-home-text">— YARD ATTEMPT</span></div><div class="wing away" id="nn-away-wing"><div class="logo" id="nn-away-logobox"><img alt="Away team logo" id="nn-away-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/Los%20Angeles%20Chargers/los-angeles-chargers_small_square.png"/><span class="fallback" id="nn-away-fallback">LAC</span></div><div class="team"><span class="abbr" id="nn-away-abbr">LAC</span><span class="record" id="nn-away-record">—</span><div class="timeouts-inline" aria-label="Away team timeouts"><span class="to-label">TO</span><span class="to-dots" id="nn-to-away-dots" aria-label="Away timeouts remaining: 3">●●●</span></div></div><div class="score" id="nn-away-score">0</div></div><div class="wing home" id="nn-home-wing"><div class="score" id="nn-home-score">0</div><div class="team"><span class="abbr" id="nn-home-abbr">NE</span><span class="record" id="nn-home-record">—</span><div class="timeouts-inline" aria-label="Home team timeouts"><span class="to-label">TO</span><span class="to-dots" id="nn-to-home-dots" aria-label="Home timeouts remaining: 3">●●●</span></div></div><div class="logo" id="nn-home-logobox"><img alt="Home team logo" id="nn-home-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/New%20England%20Patriots/new-england-patriots_small_square.png"/><span class="fallback" id="nn-home-fallback">NE</span></div></div><div class="postab away" id="nn-away-tab"><span>▶</span><span id="nn-away-down">3RD &amp; 6</span></div><div class="postab home" hidden="" id="nn-home-tab"><span id="nn-home-down">3RD &amp; 6</span><span>◀</span></div><div class="penalty-announcement away" id="nn-penalty-away" hidden aria-live="polite">⚑ PENALTY</div><div class="penalty-announcement home" id="nn-penalty-home" hidden aria-live="polite">⚑ PENALTY</div><div class="flag-banner" id="nn-flag-banner" hidden>⚑ FLAG</div><div class="timeout-callout" id="nn-timeout-callout" hidden aria-live="polite"><span class="timeout-header">TIMEOUT</span><span id="nn-timeout-team">TEAM</span><span class="timeout-remain" id="nn-timeout-left">2 REMAINING</span></div><div class="center"><span class="symbol">SPORTSCAST</span><span class="clock" id="nn-clock">13:04</span><div class="clockline"><span id="nn-quarter">1ST</span><span class="playclock" id="nn-playclock">06</span></div></div></div></div></div><script>
 (function(){
 'use strict';const $=id=>document.getElementById(id);let version=-1;
@@ -670,8 +698,9 @@ function draw(s){if(!s)return; document.getElementById('nfl-night').classList.re
   const box=$(p+'logobox');box.style.visibility=v.logoHidden?'hidden':'visible';$(p+'record').style.visibility=v.recordHidden?'hidden':'visible';
   const img=$(p+'logo');if(v.logoUrl&&img.src!==v.logoUrl){box.classList.remove('failed','loaded');img.src=v.logoUrl;}
  });
- set('nn-clock',s.clock);set('nn-quarter',s.quarter);set('nn-playclock',s.playclock);
- $('nn-clock').style.visibility=s.clockHidden?'hidden':'visible';$('nn-playclock').hidden=!!s.playclockHidden;
+ document.getElementById('nfl-night').dataset.halftime=s.clock==='HALFTIME'||s.quarter==='HALFTIME'?'true':'false';
+ set('nn-clock',s.clock);set('nn-quarter',s.quarter==='HALFTIME'?'':s.quarter);set('nn-playclock',s.playclock);
+ $('nn-clock').style.visibility=s.clockHidden?'hidden':'visible';$('nn-playclock').hidden=!!s.playclockHidden||document.getElementById('nfl-night').dataset.halftime==='true';
  $('nn-bug').style.maxWidth=s.scale||'100%';document.getElementById('nfl-night').dataset.design=(['tv','classic','fox'].includes(s.design)?s.design:'classic');const badge=$('nn-bug').querySelector('.center .symbol');
  const hasBall=s.design==='tv' && (s.possession==='away'||s.possession==='home');
  const flagged=!!s.flag&&(s.flagTeam==='away'||s.flagTeam==='home');
@@ -692,7 +721,8 @@ function draw(s){if(!s)return; document.getElementById('nfl-night').classList.re
  const foxDown=$('nn-fox-down');
   if(foxDown){
    foxDown.dataset.side=flagged&&(s.flagTeam==='away'||s.flagTeam==='home')?s.flagTeam:!!s.timeoutActive&&(s.timeoutSide==='away'||s.timeoutSide==='home')?s.timeoutSide:(s.possession==='home'?'home':'away');
-   foxDown.textContent=s.foxDown||'1ST & 10';foxDown.hidden=!!s.foxDownHidden;
+    foxDown.dataset.team=String(s[foxDown.dataset.side]?.code||'');
+   foxDown.textContent=s.foxDown||'1ST & 10';foxDown.hidden=!!s.foxDownHidden||document.getElementById('nfl-night').dataset.halftime==='true';
    foxDown.style.setProperty('--fox-accent',s.foxAccent||'#4f2683');
    foxDown.style.setProperty('--fox-trim',s.foxTrim||'#e9e5ef');
    foxDown.classList.toggle('is-flag',flagged);
