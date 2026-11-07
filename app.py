@@ -15,6 +15,139 @@ from pathlib import Path
 from html import escape
 
 HERE = Path(__file__).resolve().parent
+
+# ESPN currently exposes Division I college-football team catalogs and game records.
+# Cache to prevent slow repeated requests and gracefully retain the list if ESPN is unavailable.
+COLLEGE_CACHE = {'teams': [], 'time': 0}
+COLLEGE_LOCK = threading.RLock()
+# FBS fallback names (records intentionally unavailable rather than invented).
+CFB_FALLBACK_NAMES = """Air Force|Akron|Alabama|Appalachian State|Arizona|Arizona State|Arkansas|Arkansas State|Army|Auburn|Ball State|Baylor|Boise State|Boston College|Bowling Green|Buffalo|BYU|California|Central Michigan|Charlotte|Cincinnati|Clemson|Coastal Carolina|Colorado|Colorado State|Connecticut|Duke|East Carolina|Eastern Michigan|FIU|Florida|Florida Atlantic|Florida State|Fresno State|Georgia|Georgia Southern|Georgia State|Georgia Tech|Hawaii|Houston|Illinois|Indiana|Iowa|Iowa State|Jacksonville State|James Madison|Kansas|Kansas State|Kennesaw State|Kent State|Kentucky|Liberty|Louisiana|Louisiana Tech|Louisville|LSU|Marshall|Maryland|Memphis|Miami (FL)|Miami (OH)|Michigan|Michigan State|Middle Tennessee|Minnesota|Mississippi State|Missouri|Missouri State|Navy|NC State|Nebraska|Nevada|New Mexico|New Mexico State|North Carolina|North Texas|Northern Illinois|Northwestern|Notre Dame|Ohio|Ohio State|Oklahoma|Oklahoma State|Old Dominion|Ole Miss|Oregon|Oregon State|Penn State|Pittsburgh|Purdue|Rice|Rutgers|Sam Houston|San Diego State|San Jose State|SMU|South Alabama|South Carolina|South Florida|Southern Miss|Stanford|Syracuse|TCU|Temple|Tennessee|Texas|Texas A&M|Texas State|Texas Tech|Toledo|Troy|Tulane|Tulsa|UAB|UCF|UCLA|UMass|UNLV|USC|Utah|Utah State|UTEP|UTSA|Vanderbilt|Virginia|Virginia Tech|Wake Forest|Washington|Washington State|West Virginia|Western Kentucky|Western Michigan|Wisconsin|Wyoming|Delaware""".split('|')
+CFB_SEED_IDS = {'Boise State':('BSU','68','0033A0','D64309'),'Oregon':('ORE','2483','007030','FEE123'),'Indiana':('IND','84','990000','EEEDDD'),'Tennessee':('TENN','2633','FF8200','FFFFFF'),'Alabama':('BAMA','333','9E1B32','FFFFFF'),'Georgia':('UGA','61','BA0C2F','000000'),'Ohio State':('OSU','194','BB0000','666666'),'Michigan':('MICH','130','00274C','FFCB05'),'Penn State':('PSU','213','041E42','FFFFFF'),'Texas':('TEX','251','BF5700','FFFFFF'),'Notre Dame':('ND','87','0C2340','C99700'),'Clemson':('CLEM','228','F56600','522D80'),'Oklahoma':('OU','201','841617','FFFFFF'),'LSU':('LSU','99','461D7C','FDD023'),'Miami (FL)':('MIAMI','2390','F47321','005030'),'USC':('USC','30','990000','FFC72C'),'UCLA':('UCLA','26','2D68C4','F2A900'),'Washington':('WASH','264','4B2E83','B7A57A'),'BYU':('BYU','252','002E5D','FFFFFF'),'Florida':('FLA','57','0021A5','FA4616'),'Florida State':('FSU','52','782F40','CEB888'),'Auburn':('AUB','2','0C2340','E87722'),'Nebraska':('NEB','158','E41C38','FFFFFF'),'Iowa':('IOWA','2294','000000','FFCD00'),'Wisconsin':('WIS','275','C5050C','FFFFFF'),'Northwestern':('NW','77','4E2A84','FFFFFF')}
+
+def _college_fallback():
+    import re
+    used = set(); out = []
+    for name in CFB_FALLBACK_NAMES:
+        code, tid, color, trim = CFB_SEED_IDS.get(name, ('', '', '21496F', 'E5EBF5'))
+        if not code:
+            code = ''.join(p[0] for p in re.findall(r'[A-Za-z]+', name)).upper()[:6]
+            if len(code) < 2: code = re.sub('[^A-Z0-9]', '', name.upper())[:6]
+        orig = code
+        n = 2
+        while code in used: code = orig + str(n); n += 1
+        used.add(code)
+        out.append({'code':code,'abbr':code,'name':name,'id':tid,'bg':'#'+color,'trim':'#'+trim,'record':'','logo':f'https://a.espncdn.com/i/teamlogos/ncaa/500/{tid}.png' if tid else ''})
+    return out
+
+def _espn_get(path):
+    import urllib.request
+    url = 'https://site.api.espn.com' + path
+    req = urllib.request.Request(url, headers={'User-Agent':'SportscastStudio/2.0 (college football scoreboard)', 'Accept':'application/json'})
+    with urllib.request.urlopen(req, timeout=5) as response:
+        return json.load(response)
+
+def _college_catalog(force=False):
+    with COLLEGE_LOCK:
+        if COLLEGE_CACHE['teams'] and time.time()-COLLEGE_CACHE['time'] < (90 if force else 1200):
+            return {'teams':COLLEGE_CACHE['teams'], 'source':COLLEGE_CACHE.get('source','fallback'), 'cached':True}
+        import concurrent.futures
+        import re
+        # Fetch Division I FBS/FCS catalogs, current-week records and conference standings in parallel.
+        year = time.gmtime().tm_year if time.gmtime().tm_mon >= 2 else time.gmtime().tm_year-1
+        paths = {
+            f'teams{g}': f'/apis/site/v2/sports/football/college-football/teams?groups={g}&limit=500'
+            for g in (80,81)
+        }
+        paths.update({f'games{g}':f'/apis/site/v2/sports/football/college-football/scoreboard?groups={g}&limit=500' for g in (80,81)})
+        paths.update({f'standings{g}':f'/apis/v2/sports/football/college-football/standings?season={year}&group={g}' for g in (80,81)})
+        payloads = {}
+        with concurrent.futures.ThreadPoolExecutor(max_workers=6) as ex:
+            future_map={ex.submit(_espn_get,path):name for name,path in paths.items()}
+            for future in concurrent.futures.as_completed(future_map):
+                try:payloads[future_map[future]]=future.result()
+                except Exception:pass
+        entries={}
+        for group in (80,81):
+            payload=payloads.get(f'teams{group}') or {}
+            sports=payload.get('sports') or []
+            leagues=[lg for sp in sports for lg in sp.get('leagues',[])]
+            lists=[lg.get('teams') or [] for lg in leagues]
+            if not lists and isinstance(payload.get('teams'),list): lists=[payload['teams']]
+            for arr in lists:
+                for wrapper in arr:
+                    t=wrapper.get('team',wrapper) if isinstance(wrapper,dict) else {}
+                    if not isinstance(t,dict):continue
+                    tid=str(t.get('id') or '')
+                    if not tid.isdigit():continue
+                    name=str(t.get('location') or t.get('shortDisplayName') or t.get('displayName') or '').strip()
+                    if not name:continue
+                    color=str(t.get('color') or '21496F').lstrip('#')
+                    trim=str(t.get('alternateColor') or 'E5EBF5').lstrip('#')
+                    if not re.fullmatch('[0-9A-Fa-f]{6}',color):color='21496F'
+                    if not re.fullmatch('[0-9A-Fa-f]{6}',trim):trim='E5EBF5'
+                    abbr=re.sub('[^A-Z0-9]','',str(t.get('abbreviation') or name[:4]).upper())[:8] or str(tid)
+                    logo=next((x.get('href') for x in (t.get('logos') or []) if isinstance(x,dict) and str(x.get('href','')).startswith('https://') and 'espn' in str(x.get('href'))),None)
+                    if not logo:logo=f'https://a.espncdn.com/i/teamlogos/ncaa/500/{tid}.png'
+                    entries[tid]={'code':abbr,'abbr':abbr,'name':name,'id':tid,'bg':'#'+color,'trim':'#'+trim,'record':'','logo':logo}
+        records={}
+        for group in (80,81):
+            payload=payloads.get(f'games{group}') or {}
+            for event in payload.get('events') or []:
+                for competition in event.get('competitions') or []:
+                    for competitor in competition.get('competitors') or []:
+                        tid=str((competitor.get('team') or {}).get('id',''))
+                        arr=competitor.get('records') or []
+                        overall=next((str(r.get('summary','')) for r in arr if r.get('type')=='total' or r.get('name')=='overall'), '')
+                        if not overall and arr:overall=str(arr[0].get('summary',''))
+                        if tid and re.fullmatch(r'\d+-\d+(?:-\d+)?',overall):records[tid]=overall
+        # On bye weeks, overall standings can provide W-L even if a team has no game.
+        def from_standings(payload):
+            found={};seen=set()
+            def visit(node,depth=0):
+                if depth>15 or not isinstance(node,(dict,list)) or id(node) in seen:return
+                seen.add(id(node))
+                if isinstance(node,list):
+                    for x in node:visit(x,depth+1)
+                    return
+                team=node.get('team') or {}
+                tid=str(team.get('id','')) if isinstance(team,dict) else ''
+                stats=node.get('stats') or []
+                if tid and isinstance(stats,list):
+                    by_name={str(x.get('name','')).lower():x for x in stats if isinstance(x,dict)}
+                    overall=str(by_name.get('overall',{}).get('displayValue',''))
+                    if not re.fullmatch(r'\d+-\d+(?:-\d+)?',overall):
+                        try:
+                            wins=int(float(by_name['wins'].get('value',by_name['wins'].get('displayValue',0))))
+                            losses=int(float(by_name['losses'].get('value',by_name['losses'].get('displayValue',0))))
+                            overall=f'{wins}-{losses}'
+                        except (ValueError,TypeError,KeyError):overall=''
+                    if re.fullmatch(r'\d+-\d+(?:-\d+)?',overall):found[tid]=overall
+                for k,v in node.items():
+                    if k in ('children','standings','entries','groups','teams','conferences','items'):
+                        visit(v,depth+1)
+            visit(payload)
+            return found
+        for group in (80,81):
+            records.update({k:v for k,v in from_standings(payloads.get(f'standings{group}') or {}).items() if k not in records})
+        fallback=_college_fallback()
+        if entries:
+            # The ESPN catalogs may omit a team due to API outages or pagination.
+            known={x['name'].casefold() for x in entries.values()}
+            rows=list(entries.values())+[x for x in fallback if x['name'].casefold() not in known]
+        else:rows=fallback
+        used=set()
+        for row in rows:
+            code=row['code'];index=2
+            while code in used:code=row['code']+'_'+str(index);index+=1
+            row['code']=code;used.add(code)
+            row['record']=records.get(row['id'],'')
+        rows.sort(key=lambda t:t['name'].casefold())
+        if entries or not COLLEGE_CACHE['teams']:
+            COLLEGE_CACHE['teams']=rows
+            COLLEGE_CACHE['time']=time.time()
+            COLLEGE_CACHE['source']='ESPN+fallback' if entries else 'fallback'
+        return {'teams':COLLEGE_CACHE['teams'],'source':COLLEGE_CACHE.get('source','fallback'),'cached':False}
+
 PORT = int(os.environ.get('PORT', '8765'))
 HOST = os.environ.get('HOST', '127.0.0.1')
 EDIT_KEY = os.environ.get('SPORTSCAST_CONTROL_KEY') or secrets.token_urlsafe(20)
@@ -25,6 +158,7 @@ VERSION = 0
 LOCK = threading.Lock()
 COOKIE_NAME = "sportscast_session"
 COOKIE_DAYS = 30
+
 
 # Do not embed a privileged key into an overlay URL. Only the controller can POST.
 class Handler(BaseHTTPRequestHandler):
@@ -88,6 +222,9 @@ class Handler(BaseHTTPRequestHandler):
         path, _, query = self.path.partition('?')
         if path == '/health':
             return self.respond('ok', ctype='text/plain; charset=utf-8')
+        if path == '/api/college-teams':
+            result = _college_catalog(force='refresh=1' in query)
+            return self.respond(json.dumps(result), ctype='application/json; charset=utf-8')
         if path == '/api/state':
             with LOCK: payload = {'version': VERSION, 'state': STATE}
             return self.respond(json.dumps(payload), ctype='application/json; charset=utf-8')
@@ -143,14 +280,24 @@ class Handler(BaseHTTPRequestHandler):
             if not isinstance(data, dict) or not isinstance(data.get('away'), dict) or not isinstance(data.get('home'), dict):
                 raise ValueError('invalid scoreboard state')
             # Allow only data fields needed by our overlay.
-            fields = ('code', 'record', 'score', 'logoUrl', 'logoHidden', 'recordHidden', 'wingBg', 'wingBorder', 'tabHidden', 'tabBg', 'tabBorder', 'tabText', 'tabTextColor', 'timeoutCount')
+            fields = ('code', 'name', 'rank', 'bgColor', 'trimColor', 'record', 'score', 'logoUrl', 'logoHidden', 'recordHidden', 'wingBg', 'wingBorder', 'tabHidden', 'tabBg', 'tabBorder', 'tabText', 'tabTextColor', 'timeoutCount')
             cleaned = {}
             for side in ('away', 'home'):
                 d = data[side]
                 cleaned[side] = {k: (bool(d[k]) if isinstance(d.get(k), bool) else str(d.get(k, ''))[:500]) for k in fields}
+                rank = str(d.get('rank', ''))
+                cleaned[side]['rank'] = rank if rank.isdecimal() and 1 <= int(rank) <= 25 else ''
+                import re
+                for colorfield in ('bgColor','trimColor'):
+                    raw = str(d.get(colorfield, ''))[:20]
+                    cleaned[side][colorfield] = raw if re.fullmatch(r'#[0-9a-fA-F]{6}', raw) else '#254a73'
             for k in ('clock','quarter','playclock','scale'):
                 cleaned[k] = str(data.get(k, ''))[:40]
             cleaned['design'] = data.get('design') if data.get('design') in ('classic','tv','fox') else 'classic'
+            cleaned['sport'] = 'cfb' if data.get('sport') == 'cfb' else 'nfl'
+            cleaned['reviewActive'] = bool(data.get('reviewActive', False))
+            cleaned['cfbDown'] = str(data.get('cfbDown', '1ST & 10'))[:44]
+            cleaned['cfbDownHidden'] = bool(data.get('cfbDownHidden', False))
             cleaned['possession'] = data.get('possession') if data.get('possession') in ('away', 'home') else 'none'
             cleaned['flagTeam'] = data.get('flagTeam') if data.get('flagTeam') in ('away', 'home') else 'none'
             cleaned['foxDown'] = str(data.get('foxDown', '1ST & 10'))[:50]
