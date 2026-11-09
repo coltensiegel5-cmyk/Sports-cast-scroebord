@@ -741,9 +741,47 @@ html,body{width:100%;height:100%;margin:0;padding:0;background:transparent!impor
 #nfl-night[data-design="tv"] .center .symbol.review-center{background:#c2172c!important;border-color:#fa8091!important;color:#fff!important;text-shadow:0 1px 2px #0008!important}
 #nfl-night[data-design="fox"] .fox-down.is-review,#nfl-night[data-design="fox"] .fox-down.is-review:not(.is-flag):not(.is-timeout){background:#c2172c!important;border-color:#fa8091!important;color:#fff!important;text-shadow:0 1px 2px #0008!important}
 @media(max-width:720px){#nfl-night[data-sport="cfb"] .college-bug{grid-template-columns:minmax(0,1fr) minmax(124px,.8fr) minmax(0,1fr);height:76px}#nfl-night .cfb-team-panel{padding:4px;gap:2px}#nfl-night .cfb-identity img{width:clamp(25px,6cqw,43px);height:clamp(25px,6cqw,43px)}#nfl-night .cfb-teamname{font-size:clamp(8px,1.6cqw,12px)}#nfl-night .cfb-record{font-size:clamp(8px,1.2cqw,10px)}#nfl-night .cfb-scorebox strong{font-size:clamp(20px,4.6cqw,35px)}#nfl-night .cfb-network{gap:2px}#nfl-night .cfb-network strong{font-size:clamp(8px,1.7cqw,13px)}#nfl-night .cfb-network span{font-size:clamp(7px,1.1cqw,9px)}#nfl-night .cfb-timebar{font-size:12px;gap:3px}#nfl-night .cfb-down{bottom:-22px;min-width:66px;padding:3px 5px;font-size:9px}#nfl-night .cfb-event{bottom:-42px}}
+/* College Football: down/distance occupies the former SPORTScast | BIG TIME row. */
+#nfl-night[data-sport="cfb"] .cfb-network{
+ height:44%;min-height:0;box-sizing:border-box;
+ padding:3px 6px;gap:0;
+}
+#nfl-night[data-sport="cfb"] .cfb-network #nn-cfb-down{
+ position:static!important;left:auto!important;bottom:auto!important;
+ transform:none!important;box-sizing:border-box;
+ width:100%;max-width:100%;min-width:0;height:100%;
+ display:flex!important;align-items:center;justify-content:center;
+ padding:2px 5px;margin:0;
+ font:900 clamp(10px,1.75cqw,18px)/1 Arial,system-ui,sans-serif!important;
+ letter-spacing:.035em!important;text-overflow:ellipsis;
+ border-radius:3px;box-shadow:none;
+}
+#nfl-night[data-sport="cfb"] .cfb-network #nn-cfb-down.neutral{
+ background:transparent!important;border-color:transparent!important;
+ color:#edf4ff!important;box-shadow:none!important;letter-spacing:.09em!important;
+}
+#nfl-night[data-sport="cfb"] .cfb-network #nn-cfb-down.review{
+ background:#c2172c!important;border-color:#ff8796!important;color:#fff!important;
+}
+@media(max-width:720px){
+ #nfl-night[data-sport="cfb"] .cfb-network{padding:2px 3px}
+ #nfl-night[data-sport="cfb"] .cfb-network #nn-cfb-down{font-size:clamp(8px,1.6cqw,12px)!important;padding:1px 3px}
+}
+
+/* Sportscast: 1st–4th down stepper, separate from distance. */
+#nfl-night .down-stepper{display:flex;align-items:stretch;gap:4px;min-width:0}
+#nfl-night .down-stepper select{flex:1 1 auto;min-width:0;width:100%;font-size:12px;text-align:center;font-weight:850;padding:7px 0}
+#nfl-night .down-stepper button{flex:0 0 31px;min-width:31px;min-height:33px;padding:3px;background:#2a4566;border:1px solid #52749a;border-radius:6px;color:#fff;font:900 20px/1 system-ui,Arial,sans-serif;cursor:pointer}
+#nfl-night .down-stepper button:hover{background:#37618e}
+#nfl-night .down-stepper button:disabled{opacity:.42;cursor:not-allowed}
+/* With no active possession, the college center shows white SPORTSCAST on pure black. */
+#nfl-night[data-sport="cfb"] .cfb-network #nn-cfb-down.neutral{
+ background:#050505!important;color:#fff!important;border:1px solid #303239!important;
+ box-shadow:none!important;letter-spacing:.055em!important;text-shadow:none!important;
+}
 </style></head><body><div id="nfl-night" data-sport="nfl" data-design="tv" data-possession="none" class="awaiting-saved-game"><div class="stage" id="nn-stage"><div class="college-bug" id="nn-cfb-bug" aria-label="College Football Scoreboard">
  <div class="cfb-team-panel cfb-away" id="nn-cfb-away-panel"><div class="cfb-identity"><img id="nn-cfb-away-logo" alt="Away college team logo"/><div class="cfb-namebox"><div class="cfb-teamname"><span class="cfb-rank" id="nn-cfb-away-rank" hidden></span><span id="nn-cfb-away-name">BOISE ST</span></div><span class="cfb-record" id="nn-cfb-away-record">—</span></div></div><div class="cfb-scorebox"><strong id="nn-cfb-away-score">0</strong><div id="nn-cfb-away-tos" class="cfb-timeout-marks">▰▰▰</div></div></div>
- <div class="cfb-center"><div class="cfb-network"><strong>SPORTSCAST</strong><span>BIG TIME</span></div><div class="cfb-timebar"><span id="nn-cfb-quarter">1ST</span><span class="cfb-sep"></span><strong id="nn-cfb-clock">15:00</strong><span id="nn-cfb-playclock" class="cfb-playclock">40</span></div><div id="nn-cfb-down" class="cfb-down">1ST &amp; 10</div></div>
+ <div class="cfb-center"><div class="cfb-network"><strong id="nn-cfb-down" class="cfb-down neutral" aria-live="polite">SPORTSCAST</strong></div><div class="cfb-timebar"><span id="nn-cfb-quarter">1ST</span><span class="cfb-sep"></span><strong id="nn-cfb-clock">15:00</strong><span id="nn-cfb-playclock" class="cfb-playclock">40</span></div></div>
  <div class="cfb-team-panel cfb-home" id="nn-cfb-home-panel"><div class="cfb-identity"><img id="nn-cfb-home-logo" alt="Home college team logo"/><div class="cfb-namebox"><div class="cfb-teamname"><span class="cfb-rank" id="nn-cfb-home-rank" hidden></span><span id="nn-cfb-home-name">OREGON</span></div><span class="cfb-record" id="nn-cfb-home-record">—</span></div></div><div class="cfb-scorebox"><strong id="nn-cfb-home-score">0</strong><div id="nn-cfb-home-tos" class="cfb-timeout-marks">▰▰▰</div></div></div>
  <div class="cfb-event" id="nn-cfb-event" hidden></div>
 </div><div class="scorebug" id="nn-bug"><div class="fox-down" id="nn-fox-down" hidden>4TH &amp; 4</div><div class="field-goal-indicator away" id="nn-fg-away" hidden aria-live="polite"><span id="nn-fg-away-text">— YARD ATTEMPT</span></div><div class="field-goal-indicator home" id="nn-fg-home" hidden aria-live="polite"><span id="nn-fg-home-text">— YARD ATTEMPT</span></div><div class="wing away" id="nn-away-wing"><div class="logo" id="nn-away-logobox"><img alt="Away team logo" id="nn-away-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/Los%20Angeles%20Chargers/los-angeles-chargers_small_square.png"/><span class="fallback" id="nn-away-fallback">LAC</span></div><div class="team"><span class="abbr" id="nn-away-abbr">LAC</span><span class="record" id="nn-away-record">—</span><div class="timeouts-inline" aria-label="Away team timeouts"><span class="to-label">TO</span><span class="to-dots" id="nn-to-away-dots" aria-label="Away timeouts remaining: 3">●●●</span></div></div><div class="score" id="nn-away-score">0</div></div><div class="wing home" id="nn-home-wing"><div class="score" id="nn-home-score">0</div><div class="team"><span class="abbr" id="nn-home-abbr">NE</span><span class="record" id="nn-home-record">—</span><div class="timeouts-inline" aria-label="Home team timeouts"><span class="to-label">TO</span><span class="to-dots" id="nn-to-home-dots" aria-label="Home timeouts remaining: 3">●●●</span></div></div><div class="logo" id="nn-home-logobox"><img alt="Home team logo" id="nn-home-logo" src="https://raw.githubusercontent.com/frertommy/team-logos/main/NFL/AFC/New%20England%20Patriots/new-england-patriots_small_square.png"/><span class="fallback" id="nn-home-fallback">NE</span></div></div><div class="postab away" id="nn-away-tab"><span>▶</span><span id="nn-away-down">3RD &amp; 6</span></div><div class="postab home" hidden="" id="nn-home-tab"><span id="nn-home-down">3RD &amp; 6</span><span>◀</span></div><div class="penalty-announcement away" id="nn-penalty-away" hidden aria-live="polite">⚑ PENALTY</div><div class="penalty-announcement home" id="nn-penalty-home" hidden aria-live="polite">⚑ PENALTY</div><div class="flag-banner" id="nn-flag-banner" hidden>⚑ FLAG</div><div class="timeout-callout" id="nn-timeout-callout" hidden aria-live="polite"><span class="timeout-header">TIMEOUT</span><span id="nn-timeout-team">TEAM</span><span class="timeout-remain" id="nn-timeout-left">2 REMAINING</span></div><div class="center"><span class="symbol">SPORTSCAST</span><span class="clock" id="nn-clock">13:04</span><div class="clockline"><span id="nn-quarter">1ST</span><span class="playclock" id="nn-playclock">06</span></div></div></div></div></div><script>
@@ -819,12 +857,15 @@ function draw(s){if(!s)return; document.getElementById('nfl-night').classList.re
   set('nn-cfb-clock',q==='HALFTIME'?'HALFTIME':s.clock||'15:00');$('nn-cfb-clock').style.visibility=s.clockHidden?'hidden':'visible';
   set('nn-cfb-playclock',s.playclock||'40');$('nn-cfb-playclock').hidden=!!s.playclockHidden||q==='HALFTIME';
   const down=$('nn-cfb-down'),review=!!s.reviewActive;
-  down.hidden=q==='HALFTIME'||(!review&&!flagged&&!s.timeoutActive&&(s.possession==='none'||!!s.cfbDownHidden));
-  down.classList.toggle('review',review);down.classList.toggle('flagged',!review&&flagged);down.classList.toggle('timeout',!review&&!flagged&&!!s.timeoutActive);
-  set('nn-cfb-down',review?'REVIEW':flagged?'⚑ FLAG':s.timeoutActive?'TIMEOUT':s.cfbDown||'1ST & 10');
+  const hasBall=s.possession==='away'||s.possession==='home';
+  const showDown=!review&&!flagged&&!s.timeoutActive&&hasBall&&!s.cfbDownHidden&&q!=='HALFTIME'&&q!=='FINAL';
+  const neutral=!review&&!flagged&&!s.timeoutActive&&!showDown;
+  down.hidden=false; // Remain visible with SPORTSCAST whenever possession is not set.
+  down.classList.toggle('neutral',neutral);down.classList.toggle('review',review);down.classList.toggle('flagged',!review&&flagged);down.classList.toggle('timeout',!review&&!flagged&&!!s.timeoutActive);
+  set('nn-cfb-down',review?'REVIEW':flagged?'⚑ FLAG':s.timeoutActive?'TIMEOUT':showDown?(s.cfbDown||'1ST & 10'):'SPORTSCAST');
   const colorSide=s.possession==='home'?'home':'away',v=s[colorSide]||{};
-  down.style.background=review?'#c2172c':flagged?'#efc332':(v.bgColor||'#22354c');
-  down.style.borderColor=review?'#ff8796':flagged?'#fff0a7':(v.trimColor||'#7fa1c2');
+  down.style.background=review?'#c2172c':flagged?'#efc332':s.timeoutActive?'#233a5b':showDown?(v.bgColor||'#22354c'):'#050505';
+  down.style.borderColor=review?'#ff8796':flagged?'#fff0a7':s.timeoutActive?'#6d89ae':showDown?(v.trimColor||'#7fa1c2'):'#303239';
   const event=$('nn-cfb-event');let message='';
   if(flagged&&s.penaltyDisplay&&s.penaltyYards)message='⚑ '+String(s[s.flagTeam]?.name||s[s.flagTeam]?.code||'')+' · '+String(s.penaltyDisplay)+' · '+String(s.penaltyYards);
   else if(!review&&s.timeoutActive)message='TIMEOUT · '+String(s.timeoutTeamName||'TEAM')+' · '+String(s.timeoutRemaining||'');
