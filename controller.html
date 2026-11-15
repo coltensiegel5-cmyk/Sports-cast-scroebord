@@ -800,6 +800,53 @@
  background:#050505!important;color:#fff!important;border:1px solid #303239!important;
  box-shadow:none!important;letter-spacing:.055em!important;text-shadow:none!important;
 }
+
+/* Nov 2026: Three fixed timeout slots per team. Used timeouts become black,
+   while available slots retain their existing league/design colors. */
+#nfl-night .timeouts-inline .to-dots{
+  display:inline-flex;align-items:center;justify-content:center;
+  gap:clamp(2px,.34cqw,5px);font-size:0!important;letter-spacing:0!important;
+  white-space:nowrap;min-width:0;line-height:1;
+}
+#nfl-night .timeout-mark{
+  display:inline-block;box-sizing:border-box;flex:none;
+  width:clamp(7px,1.12cqw,14px);height:clamp(7px,1.12cqw,14px);
+  border:1px solid #fff4ab;border-radius:50%;
+  background:#ffd558;box-shadow:0 1px 2px #0009;
+}
+#nfl-night[data-design="tv"] .timeout-mark{
+  width:clamp(7px,1.7cqw,21px);height:clamp(4px,.78cqw,10px);
+  border-radius:2px;border-color:#f2f3f6;
+  background:linear-gradient(180deg,#fff,#d5dae3);
+}
+#nfl-night .timeout-mark.is-used,
+#nfl-night[data-design="tv"] .timeout-mark.is-used{
+  background:#050505!important;border-color:#9da5b1!important;
+  box-shadow:inset 0 0 0 1px #181818,0 1px 2px #0009!important;
+}
+/* FOX's original rectangular timeout slots remain the same size and shape. */
+#nfl-night[data-design="fox"] .fox-to-mark.is-used{
+  display:inline-block!important;background:#050505!important;
+  border-color:#9da5b1!important;
+  box-shadow:inset 0 0 0 1px #151515,0 1px 2px #0009!important;
+}
+/* College Football: white available bars, black used bars; never remove slots. */
+#nfl-night .cfb-timeout-marks{
+  display:flex;align-items:center;justify-content:center;
+  gap:clamp(2px,.4cqw,5px);letter-spacing:0!important;
+}
+#nfl-night .cfb-to-mark{
+  display:inline-block;box-sizing:border-box;flex:none;
+  width:clamp(8px,1.55cqw,18px);height:clamp(5px,.72cqw,9px);
+  border:1px solid #edf0f5;border-radius:2px;
+  background:linear-gradient(#fff,#d9dee8);
+  box-shadow:0 1px 2px #0008;
+}
+#nfl-night .cfb-to-mark.is-used{
+  background:#050505!important;border-color:#9ca4b1!important;
+  box-shadow:inset 0 0 0 1px #191919,0 1px 2px #0008!important;
+}
+
 </style>
 <div class="top"><div class="brand"><span>▤</span> SPORTSCAST STUDIO</div><div class="live">NFL DESIGN 01</div></div>
 <div class="sports"><button id="nn-sport-nfl" type="button" class="active" aria-pressed="true">🏈 NFL</button><button id="nn-sport-cfb" type="button" aria-pressed="false">🏟 College Football</button><span>⚾ MLB · Soon</span><span>🏀 Basketball · Soon</span><span>⚽ Soccer · Soon</span></div>
@@ -993,7 +1040,14 @@ function updateCenterPossession(){
  else if(on){const c=theme(S.teams[S.possession]);badge.style.background='linear-gradient(180deg,'+c.bg+' 0%,'+c.bg+' 68%,#141820 100%)';badge.style.borderColor=c.trim;badge.style.removeProperty('color')}
  else {badge.style.removeProperty('background');badge.style.removeProperty('border-color');badge.style.removeProperty('color')}
 }
-function showTimeouts(side){const code=S.teams[side],n=S.timeouts[side];put('nn-'+side+'-timeouts-output',n);if(S.settings.design==='fox')$('nn-to-'+side+'-dots').innerHTML=Array.from({length:n},()=>'<span class="fox-to-mark"></span>').join('');else put('nn-to-'+side+'-dots',S.settings.design==='tv'?'━'.repeat(n):'●'.repeat(n));$('nn-to-'+side+'-dots').setAttribute('aria-label',code+' timeouts remaining: '+n);const b=$('nn-call-timeout-'+side);b.disabled=n===0;b.textContent='📣 TIMEOUT · '+code; b.classList.toggle('active',S.timeoutSide===side)}
+
+function timeoutSlotMarkup(rawCount,style){
+ const count=Math.max(0,Math.min(3,Number(rawCount)||0));
+ const type=style==='cfb'?'cfb-to-mark':style==='fox'?'fox-to-mark':'timeout-mark';
+ return Array.from({length:3},(_,i)=>'<span aria-hidden="true" class="'+type+(i>=count?' is-used':'')+'"></span>').join('');
+}
+
+function showTimeouts(side){const code=S.teams[side],n=S.timeouts[side];put('nn-'+side+'-timeouts-output',n);$('nn-to-'+side+'-dots').innerHTML=timeoutSlotMarkup(n,S.settings.design);$('nn-to-'+side+'-dots').setAttribute('aria-label',code+' timeouts remaining: '+n);$('nn-cfb-'+side+'-tos').innerHTML=timeoutSlotMarkup(n,'cfb');$('nn-cfb-'+side+'-tos').setAttribute('aria-label',code+' timeouts remaining: '+n);const b=$('nn-call-timeout-'+side);b.disabled=n===0;b.textContent='📣 TIMEOUT · '+code; b.classList.toggle('active',S.timeoutSide===side)}
 function updateTimeoutCallout(){
  const side=S.timeoutSide,visible=side==='away'||side==='home',box=$('nn-timeout-callout');
  box.hidden=!visible;
@@ -1149,7 +1203,7 @@ function updateCollegeVisual(){
   put('nn-cfb-'+side+'-name',t.name.length>15?(t.abbr||code):t.name.toUpperCase());
   put('nn-cfb-'+side+'-score',S.scores[side]);put('nn-cfb-'+side+'-record',S.records.get(code)||t.snapshot||'—');
   $('nn-cfb-'+side+'-record').style.visibility=S.settings.records?'visible':'hidden';
-  put('nn-cfb-'+side+'-tos','▰'.repeat(S.timeouts[side]));
+  $('nn-cfb-'+side+'-tos').innerHTML=timeoutSlotMarkup(S.timeouts[side],'cfb');$('nn-cfb-'+side+'-tos').setAttribute('aria-label',code+' timeouts remaining: '+S.timeouts[side]);
   const rank=S.ranks[code]||'';$('nn-'+side+'-wing').dataset.rank=rank;put('nn-cfb-'+side+'-rank',rank?'#'+rank:'');$('nn-cfb-'+side+'-rank').hidden=!rank;
   const logo=$('nn-cfb-'+side+'-logo'),main=$('nn-'+side+'-logo'),url=main.getAttribute('src')||'';
   logo.hidden=!S.settings.logos||!url;
