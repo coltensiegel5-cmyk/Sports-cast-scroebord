@@ -826,7 +826,82 @@ html,body{width:100%;height:100%;margin:0;padding:0;background:transparent!impor
   box-shadow:inset 0 0 0 1px #191919,0 1px 2px #0008!important;
 }
 
-</style></head><body><div id="nfl-night" data-sport="nfl" data-design="tv" data-possession="none" class="awaiting-saved-game"><div class="stage" id="nn-stage"><div class="college-bug" id="nn-cfb-bug" aria-label="College Football Scoreboard">
+
+/* SPORTScast Touchdown Animation — controller and transparent OBS source. */
+#nfl-night #nn-stage{position:relative!important;isolation:isolate}
+#nfl-night .touchdown-overlay{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  z-index:150;width:min(92%,1060px);height:min(81%,184px);min-height:80px;
+  display:flex;align-items:center;justify-content:center;gap:clamp(7px,1.6vw,23px);
+  padding:clamp(6px,1vw,15px) clamp(12px,2vw,31px);overflow:hidden;
+  color:#fff;border:2px solid var(--td-trim,#f4cc52);border-radius:13px;
+  background:linear-gradient(106deg,#0e1320 0%,var(--td-bg,#0b162a) 24%,var(--td-bg,#0b162a) 69%,#0e1320 100%);
+  box-shadow:0 0 0 2px #000c,0 0 20px var(--td-trim,#f4cc52),0 12px 24px #000b;
+  pointer-events:none;isolation:isolate;font-family:Arial,system-ui,sans-serif
+}
+#nfl-night .touchdown-overlay[hidden]{display:none!important}
+#nfl-night .touchdown-overlay.running{animation:td-entrance 5.2s ease-in-out both}
+#nfl-night .touchdown-overlay::before{
+  content:"";position:absolute;inset:-55%;z-index:-1;pointer-events:none;opacity:.42;
+  background:repeating-linear-gradient(122deg,transparent 0 22px,#ffffff21 23px 27px,transparent 29px 55px);
+  transform:translateX(-10%);animation:td-beams 1.7s linear infinite
+}
+#nfl-night .touchdown-overlay::after{
+  content:"";position:absolute;inset:auto 0 0;height:6px;
+  background:linear-gradient(90deg,transparent,var(--td-trim,#f4cc52),#fff,var(--td-trim,#f4cc52),transparent);
+  box-shadow:0 0 13px var(--td-trim,#f4cc52)
+}
+#nfl-night .td-logo{
+  display:block;width:clamp(49px,10.5vw,130px);height:92%;max-height:139px;
+  flex:none;object-fit:contain;filter:drop-shadow(0 3px 8px #000e);z-index:1
+}
+#nfl-night .td-copy{display:flex;flex:1;flex-direction:column;align-items:flex-start;justify-content:center;min-width:0;z-index:1;gap:2px}
+#nfl-night .td-team-name{
+  max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-size:clamp(10px,1.65vw,19px);line-height:1.14;font-weight:900;
+  letter-spacing:.09em;text-shadow:0 2px 4px #000b
+}
+#nfl-night .td-title{
+  max-width:100%;display:block;font-size:clamp(23px,5.1vw,69px);
+  font-weight:1000;line-height:1;letter-spacing:-.055em;white-space:nowrap;
+  text-shadow:0 3px 5px #000c,0 0 15px #ffffff4a
+}
+#nfl-night .td-subtitle{display:flex;align-items:center;gap:7px;letter-spacing:.19em;font-size:clamp(9px,1.5vw,16px);font-weight:900;color:#fff5d9}
+#nfl-night .td-six{background:var(--td-trim,#f4cc52);color:#111723;padding:2px 8px;border-radius:3px;text-shadow:none}
+#nfl-night .touchdown-actions{margin-top:10px;display:flex;gap:8px;align-items:center}
+#nfl-night .touchdown-actions button{border:1px solid #ffdc65;border-radius:7px;background:linear-gradient(180deg,#164d38,#0c372d);color:#fff;padding:10px 13px;font-weight:950;letter-spacing:.05em;cursor:pointer;width:100%;box-shadow:inset 0 1px #ffffff27}
+#nfl-night .touchdown-actions button:hover{background:#19724b}
+#nfl-night .touchdown-options{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:0 0 12px;background:#102b28;border:1px solid #466f5e;padding:10px 12px;border-radius:9px}
+#nfl-night .touchdown-options label{font-size:12px;font-weight:800;color:#e5fff0;display:flex;align-items:center;gap:7px;cursor:pointer}
+#nfl-night .touchdown-options input{width:18px;height:18px;accent-color:#30c775}
+#nfl-night .touchdown-options button{padding:7px 10px;border-radius:6px;color:#e8fbf0;background:#1f463a;border:1px solid #7eac9b;font-weight:900;cursor:pointer}
+#nfl-night .touchdown-options small{flex-basis:100%;color:#b2d5c5;font-size:11px}
+@keyframes td-entrance{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.83)}
+  8%{opacity:1;transform:translate(-50%,-50%) scale(1.035)}
+  15%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  85%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(.97)}
+}
+@keyframes td-beams{from{transform:translateX(-8%)}to{transform:translateX(8%)}}
+@media(max-width:700px){
+ #nfl-night .touchdown-overlay{width:95%;border-radius:8px;gap:6px;padding:5px 10px}
+ #nfl-night .td-logo{width:clamp(42px,11vw,79px);max-height:89%}
+ #nfl-night .td-title{font-size:clamp(22px,5vw,43px)}
+ #nfl-night .td-team-name{font-size:clamp(9px,1.7vw,12px)}
+}
+@media(prefers-reduced-motion:reduce){
+ #nfl-night .touchdown-overlay.running{animation:none}
+ #nfl-night .touchdown-overlay::before{animation:none}
+}
+
+</style></head><body><div id="nfl-night" data-sport="nfl" data-design="tv" data-possession="none" class="awaiting-saved-game"><div class="stage" id="nn-stage"><div class="touchdown-overlay" id="nn-touchdown-overlay" hidden aria-live="polite" aria-label="Touchdown animation">
+  <img class="td-logo" id="nn-touchdown-logo" alt=""/>
+  <div class="td-copy"><span class="td-team-name" id="nn-touchdown-team">TEAM</span>
+    <strong class="td-title">TOUCHDOWN!</strong>
+    <span class="td-subtitle"><span class="td-six">6 POINTS</span><span>SPORTSCAST</span></span>
+  </div>
+</div><div class="college-bug" id="nn-cfb-bug" aria-label="College Football Scoreboard">
  <div class="cfb-team-panel cfb-away" id="nn-cfb-away-panel"><div class="cfb-identity"><img id="nn-cfb-away-logo" alt="Away college team logo"/><div class="cfb-namebox"><div class="cfb-teamname"><span class="cfb-rank" id="nn-cfb-away-rank" hidden></span><span id="nn-cfb-away-name">BOISE ST</span></div><span class="cfb-record" id="nn-cfb-away-record">—</span></div></div><div class="cfb-scorebox"><strong id="nn-cfb-away-score">0</strong><div id="nn-cfb-away-tos" class="cfb-timeout-marks">▰▰▰</div></div></div>
  <div class="cfb-center"><div class="cfb-network"><strong id="nn-cfb-down" class="cfb-down neutral" aria-live="polite">SPORTSCAST</strong></div><div class="cfb-timebar"><span id="nn-cfb-quarter">1ST</span><span class="cfb-sep"></span><strong id="nn-cfb-clock">15:00</strong><span id="nn-cfb-playclock" class="cfb-playclock">40</span></div></div>
  <div class="cfb-team-panel cfb-home" id="nn-cfb-home-panel"><div class="cfb-identity"><img id="nn-cfb-home-logo" alt="Home college team logo"/><div class="cfb-namebox"><div class="cfb-teamname"><span class="cfb-rank" id="nn-cfb-home-rank" hidden></span><span id="nn-cfb-home-name">OREGON</span></div><span class="cfb-record" id="nn-cfb-home-record">—</span></div></div><div class="cfb-scorebox"><strong id="nn-cfb-home-score">0</strong><div id="nn-cfb-home-tos" class="cfb-timeout-marks">▰▰▰</div></div></div>
@@ -840,6 +915,31 @@ function timeoutSlotMarkup(rawCount,style){
  const count=Math.max(0,Math.min(3,Number(rawCount)||0));
  const type=style==='cfb'?'cfb-to-mark':style==='fox'?'fox-to-mark':'timeout-mark';
  return Array.from({length:3},(_,i)=>'<span aria-hidden="true" class="'+type+(i>=count?' is-used':'')+'"></span>').join('');
+}
+
+
+let lastTouchdownId='',touchdownDisplayTimer=null;
+function drawTouchdown(s){
+ const banner=$('nn-touchdown-overlay'),id=String(s.touchdownId||'');
+ const expires=Number(s.touchdownUntil)||0;
+ const side=s.touchdownSide;
+ const enabled=!!s.touchdownActive&&(side==='home'||side==='away')&&expires>Date.now()&&!!id;
+ if(!enabled){
+   clearTimeout(touchdownDisplayTimer);banner.hidden=true;banner.classList.remove('running');return;
+ }
+ if(id!==lastTouchdownId||banner.hidden){
+   lastTouchdownId=id;
+   set('nn-touchdown-team',String(s.touchdownName||s.touchdownCode||'TEAM').toUpperCase());
+   const bg=/^#[0-9a-f]{6}$/i.test(s.touchdownBg||'')?s.touchdownBg:'#0b162a';
+   const trim=/^#[0-9a-f]{6}$/i.test(s.touchdownTrim||'')?s.touchdownTrim:'#f3d15c';
+   banner.style.setProperty('--td-bg',bg);banner.style.setProperty('--td-trim',trim);
+   const logo=$('nn-touchdown-logo');logo.hidden=!s.touchdownLogo;
+   if(!logo.hidden)logo.src=s.touchdownLogo;
+   banner.classList.remove('running');banner.hidden=false;
+   void banner.offsetWidth;banner.classList.add('running');
+ }
+ clearTimeout(touchdownDisplayTimer);
+ touchdownDisplayTimer=setTimeout(()=>{banner.hidden=true;banner.classList.remove('running')},Math.max(15,expires-Date.now()));
 }
 
 function draw(s){if(!s)return; document.getElementById('nfl-night').classList.remove('awaiting-saved-game');document.getElementById('nfl-night').dataset.sport=s.sport==='cfb'?'cfb':'nfl';
@@ -926,7 +1026,7 @@ function draw(s){if(!s)return; document.getElementById('nfl-night').classList.re
   else if(!review&&s.fgActive)message=(s.fgYards||'—')+' YARD ATTEMPT · '+String(s[s.fgSide]?.name||'TEAM');
   event.hidden=!message;event.textContent=message.toUpperCase();
  }
-
+ drawTouchdown(s);
 }
 ['away','home'].forEach(side=>{const wrap=$('nn-'+side+'-logobox'),img=$('nn-'+side+'-logo');img.onerror=()=>{wrap.classList.add('failed');wrap.classList.remove('loaded')};img.onload=()=>{wrap.classList.remove('failed');wrap.classList.add('loaded')}});
 async function poll(){try{const r=await fetch('/api/state',{cache:'no-store'});if(!r.ok)return;const x=await r.json();if(x.version!==version){version=x.version;draw(x.state)}}catch(e){}}

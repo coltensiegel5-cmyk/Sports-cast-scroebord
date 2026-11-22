@@ -322,6 +322,22 @@ class Handler(BaseHTTPRequestHandler):
             for name in ('timeoutBg','timeoutTrim','fgBg','fgTrim'):
                 value = str(data.get(name, ''))[:32].strip()
                 cleaned[name] = value if re.fullmatch(r'#[0-9A-Fa-f]{6}', value) else '#284560'
+
+            # TOUCHDOWN overlay: validate the transient event without affecting regular game state.
+            td_side = data.get('touchdownSide') if data.get('touchdownSide') in ('away', 'home') else 'none'
+            cleaned['touchdownSide'] = td_side
+            td_id = str(data.get('touchdownId', ''))[:48]
+            cleaned['touchdownId'] = td_id if re.fullmatch(r'[A-Za-z0-9-]{1,48}', td_id) else ''
+            try: td_until = int(data.get('touchdownUntil', 0))
+            except (ValueError, TypeError, OverflowError): td_until = 0
+            cleaned['touchdownUntil'] = td_until if 1700000000000 <= td_until <= 4200000000000 else 0
+            cleaned['touchdownActive'] = bool(data.get('touchdownActive')) and td_side != 'none' and bool(cleaned['touchdownId']) and cleaned['touchdownUntil'] != 0
+            cleaned['touchdownName'] = str(data.get('touchdownName', ''))[:55]
+            cleaned['touchdownCode'] = str(data.get('touchdownCode', ''))[:12]
+            cleaned['touchdownLogo'] = str(data.get('touchdownLogo', ''))[:500] if str(data.get('touchdownLogo', '')).startswith(('https://','http://')) else ''
+            for color_name in ('touchdownBg','touchdownTrim'):
+                color=str(data.get(color_name, ''))[:16]
+                cleaned[color_name]=color if re.fullmatch(r'#[0-9a-fA-F]{6}',color) else '#0b162a'
             cleaned['centerText'] = str(data.get('centerText', 'SPORTSCAST'))[:40]
             bg = str(data.get('centerBg', ''))[:250]
             cleaned['centerBg'] = bg if ('linear-gradient(' in bg and not any(x in bg for x in '<>\\')) else ''
