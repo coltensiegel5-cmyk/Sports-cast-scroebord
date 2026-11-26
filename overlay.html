@@ -1085,12 +1085,42 @@ function draw(s){if(!s)return; document.getElementById('nfl-night').classList.re
   if(flagged&&s.penaltyDisplay&&s.penaltyYards)message='⚑ '+String(s[s.flagTeam]?.name||s[s.flagTeam]?.code||'')+' · '+String(s.penaltyDisplay)+' · '+String(s.penaltyYards);
   else if(!review&&s.timeoutActive)message='TIMEOUT · '+String(s.timeoutTeamName||'TEAM')+' · '+String(s.timeoutRemaining||'');
   else if(!review&&s.fgActive)message=(s.fgYards||'—')+' YARD ATTEMPT · '+String(s[s.fgSide]?.name||'TEAM');
+  if(s.demo)message='OPEN CONTROLLER TO SYNC A GAME';
   event.hidden=!message;event.textContent=message.toUpperCase();
  }
  drawTouchdown(s);
 }
 ['away','home'].forEach(side=>{const wrap=$('nn-'+side+'-logobox'),img=$('nn-'+side+'-logo');img.onerror=()=>{wrap.classList.add('failed');wrap.classList.remove('loaded')};img.onload=()=>{wrap.classList.remove('failed');wrap.classList.add('loaded')}});
-async function poll(){try{const r=await fetch('/api/state',{cache:'no-store'});if(!r.ok)return;const x=await r.json();if(x.version!==version){version=x.version;draw(x.state)}}catch(e){}}
-poll();setInterval(poll,300);
+/* RESILIENCE: OBS browsers keep their last valid scoreboard across refreshes,
+   even if the Render free service restarted and its in-memory state is empty. */
+const OBS_CACHE_KEY='sportscast-obs-last-valid-state-v1';
+function usableState(v){return !!v&&typeof v==='object'&&v.away&&v.home&&typeof v.away==='object'&&typeof v.home==='object'}
+function initialState(){
+  const team=(code,bg,trim)=>({code,name:code,score:'0',record:'',rank:'',bgColor:bg,trimColor:trim,timeoutCount:'3',
+    logoUrl:'',logoHidden:true,recordHidden:true,wingBg:bg,wingBorder:trim,tabHidden:true,tabText:'',tabBg:bg,tabBorder:trim});
+  return {sport:'nfl',design:'cbs',away:team('AWAY','#253955','#667e9f'),home:team('HOME','#253955','#667e9f'),
+    possession:'none',scale:'100%',clock:'15:00',quarter:'1ST',playclock:'40',cfbDown:'',cfbDownHidden:true,
+    centerText:'SPORTSCAST',foxDown:'',foxDownHidden:true,clockHidden:false,playclockHidden:true,flag:false,
+    timeoutActive:false,reviewActive:false,fgActive:false,touchdownActive:false,demo:true};
+}
+let hasReceivedLiveState=false;
+try{
+  const prior=JSON.parse(localStorage.getItem(OBS_CACHE_KEY)||'null');
+  if(usableState(prior)){draw(prior);hasReceivedLiveState=true}
+  else draw(initialState());
+}catch(e){draw(initialState())}
+async function poll(){
+  try{
+    const r=await fetch('/api/state',{cache:'no-store'});
+    if(!r.ok)return;
+    const x=await r.json();
+    if(!usableState(x.state))return; // retain previous scene when server restarts
+    if(x.version!==version||!hasReceivedLiveState){
+      version=x.version;draw(x.state);hasReceivedLiveState=true;
+      try{localStorage.setItem(OBS_CACHE_KEY,JSON.stringify(x.state))}catch(e){}
+    }
+  }catch(e){ /* Keep the last successfully rendered scoreboard visible. */ }
+}
+poll();setInterval(poll,750);
 })();
 </script></body></html>

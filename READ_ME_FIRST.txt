@@ -1,20 +1,35 @@
-SPORTSCAST STUDIO - Screenshot-Style Full-Width Control Panel
+SPORTSCAST STUDIO — OBS BLANK SCREEN FIX
+=========================================
+Release: OBS scoreboard recovery after refresh or Render restart.
 
-This release changes ONLY controller.html. Do NOT replace overlay.html or app.py.
+CHANGED FILES:
+  overlay.html  — restore last valid scoreboard from OBS browser storage;
+                  display a neutral SPORTSCAST preview if no game has synced.
+  app.py        — save sanitized current game state on server local disk and
+                  recover it after an app process restart (while disk persists).
 
-What's new:
-- Five equal-width controller columns on desktops: Away, Home, Downs & Distance, Timer & Quarter, Game Status.
-- Team-colored panels, dark score and timeout boxes, larger buttons and inputs.
-- Scoreboard preview and the Edit, Settings and Connect to OBS tabs remain.
-- Existing touchdown, score, timeout, flag, review, field goal, college-team and OBS functions preserved.
-- Optional +2 score button and one-minute clock +/- controls.
-- Responsive three-column/two-column/single-column layout on smaller screens.
+UNCHANGED FILE:
+  controller.html — already includes the current CBS, NFL, College Football,
+                    five-column controls, touchdown and all prior fixes.
+                    DO NOT replace this file for this update.
 
-UPLOAD:
-1. Unzip this file.
-2. Open: https://github.com/coltensiegel5-cmyk/Sports-cast-scroebord/upload/main
-3. Upload ONLY controller.html into the repository's root, replacing controller.html.
-4. Click Commit changes.
-5. Render auto-deploys the new version. Refresh your controller (Command+Shift+R).
+UPLOAD INSTRUCTIONS:
+1. Open your GitHub repo's main branch upload page:
+   https://github.com/coltensiegel5-cmyk/Sports-cast-scroebord/upload/main
+2. Upload ONLY overlay.html and app.py from this ZIP.
+3. Click Commit changes. Render automatically deploys the new code.
+4. Open https://sportscast-studio-colten.onrender.com/control
+   in your trusted browser and leave the controller open while using OBS.
+5. Open/refresh https://sportscast-studio-colten.onrender.com/obs
+   in OBS Browser Source. Use Ctrl+F5 in browser if an old page is cached.
 
-The OBS-only webpage and backend stay untouched. Do not upload the readme unless desired.
+WHAT TO EXPECT:
+- If OBS previously saw a game in the same browser profile, refreshing
+  restores that last scoreboard even if Render currently has no state.
+- If OBS has never seen a game, a clearly labeled neutral preview shows
+  until the controller sends a real game. It never pretends to show a live game.
+- Server local state survives Python process restarts while its filesystem
+  remains available. Free Render instances may replace the filesystem on
+  deploys, so server-side persistence is NOT guaranteed across deployments.
+- Keep your controller open during a live broadcast for continuous live sync.
+- No changes to CBS/NBC/FOX/ESPN/College scoreboard designs or OBS dimensions.

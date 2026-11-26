@@ -153,8 +153,27 @@ HOST = os.environ.get('HOST', '127.0.0.1')
 EDIT_KEY = os.environ.get('SPORTSCAST_CONTROL_KEY') or secrets.token_urlsafe(20)
 PENALTY_TYPES = {'False Start': ('5 YARDS', 'False Start'), 'Offside': ('5 YARDS', 'Offside'), 'Encroachment': ('5 YARDS', 'Encroachment'), 'Neutral Zone Infraction': ('5 YARDS', 'Neutral Zone Infraction'), 'Delay of Game': ('5 YARDS', 'Delay of Game'), 'Illegal Formation': ('5 YARDS', 'Illegal Formation'), 'Illegal Shift / Motion': ('5 YARDS', 'Illegal Shift / Motion'), 'Illegal Substitution / Too Many Men on the Field': ('5 YARDS', 'Too Many Men on Field'), 'Ineligible Receiver Downfield': ('5 YARDS', 'Ineligible Downfield'), 'Running into the Kicker': ('5 YARDS', 'Running into the Kicker'), 'Defensive Holding': ('5 YARDS', 'Defensive Holding'), 'Illegal Use of Hands': ('5 YARDS', 'Illegal Use of Hands'), 'Offensive Holding': ('10 YARDS', 'Offensive Holding'), 'Offensive Pass Interference (OPI)': ('10 YARDS', 'Offensive Pass Interference'), 'Illegal Block in the Back': ('10 YARDS', 'Illegal Block in the Back'), 'Intentional Grounding': ('10 YARDS', 'Intentional Grounding'), 'Illegal Forward Pass': ('10 YARDS', 'Illegal Forward Pass'), 'Roughing the Passer': ('15 YARDS', 'Roughing the Passer'), 'Roughing the Kicker': ('15 YARDS', 'Roughing the Kicker'), 'Face Mask': ('15 YARDS', 'Face Mask'), 'Horse Collar Tackle': ('15 YARDS', 'Horse Collar Tackle'), 'Unnecessary Roughness': ('15 YARDS', 'Unnecessary Roughness'), 'Unsportsmanlike Conduct': ('15 YARDS', 'Unsportsmanlike Conduct'), 'Chop Block / Clipping': ('15 YARDS', 'Chop Block / Clipping'), 'Tripping': ('15 YARDS', 'Tripping'), 'Defensive Pass Interference (DPI)': ('SPOT FOUL', 'Defensive Pass Interference')}
 
-STATE = None
-VERSION = 0
+# Cache the latest validated scoreboard on the local service filesystem.
+# Free Render deploys can replace this filesystem; OBS also has browser-side fallback.
+STATE_PATH = Path(os.environ.get('SPORTSCAST_STATE_PATH', str(HERE / '.sportscast-active-game.json')))
+def _load_saved_state():
+    try:
+        value=json.loads(STATE_PATH.read_text(encoding='utf-8'))
+        return value if isinstance(value,dict) and isinstance(value.get('away'),dict) and isinstance(value.get('home'),dict) else None
+    except (OSError,ValueError,TypeError):
+        return None
+
+def _save_state(value):
+    try:
+        STATE_PATH.parent.mkdir(parents=True,exist_ok=True)
+        temp=STATE_PATH.with_name(STATE_PATH.name+'.tmp')
+        temp.write_text(json.dumps(value,separators=(',',':')),encoding='utf-8')
+        temp.replace(STATE_PATH)
+    except OSError:
+        pass  # A read-only deployment must still serve live scores normally.
+
+STATE = _load_saved_state()
+VERSION = 1 if STATE else 0
 LOCK = threading.Lock()
 COOKIE_NAME = "sportscast_session"
 COOKIE_DAYS = 30
@@ -346,8 +365,10 @@ class Handler(BaseHTTPRequestHandler):
             for k in ('clockHidden','playclockHidden','flag'):
                 cleaned[k] = bool(data.get(k, False))
             with LOCK:
-                STATE = cleaned
-                VERSION += 1
+                if cleaned != STATE:
+                    STATE = cleaned
+                    VERSION += 1
+                    _save_state(STATE)
                 version = VERSION
             self.respond(json.dumps({'ok': True, 'version': version}), ctype='application/json; charset=utf-8')
         except (ValueError, UnicodeError, KeyError, TypeError) as exc:
