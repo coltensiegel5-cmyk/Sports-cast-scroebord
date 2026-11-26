@@ -329,6 +329,135 @@
  #nfl-night .touchdown-overlay::before{animation:none}
 }
 
+
+/* =============================================================
+   Sportscast Studio: TV-style, edge-to-edge control panel.
+   Based on the user's 5-column reference; OBS source stays intact.
+   ============================================================= */
+#nfl-night{background:#11161e}
+#nfl-night .content{padding:12px 9px 24px!important}
+#nfl-night .titleline{margin-bottom:9px}
+#nfl-night .stage{min-height:clamp(162px,13vw,205px)!important;padding:10px 5px!important;border-radius:9px}
+#nfl-night .status{margin-bottom:10px}
+#nfl-night #nn-page-game{width:100%;min-width:0}
+#nfl-night #nn-page-game .broadcast-control-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;background:linear-gradient(#30353d,#282d36);border:1px solid #444c58;border-radius:9px 9px 0 0;color:#fff;padding:12px 12px;margin:0 0 7px;font-weight:800;font-size:13px}
+#nfl-night #nn-page-game .broadcast-control-bar strong{font-size:15px}
+#nfl-night #nn-page-game .broadcast-control-legend{font-size:10px;font-weight:600;color:#a6b1c2;letter-spacing:.03em;text-align:right}
+#nfl-night #nn-page-game .broadcast-control-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;align-items:stretch;width:100%}
+#nfl-night #nn-page-game .broadcast-control-grid > .panel{margin:0;padding:8px;min-width:0;min-height:525px;border-radius:8px 8px 3px 3px;background:linear-gradient(165deg,#2b313d,#1d242f);border:1px solid #454e5d;box-shadow:inset 0 1px 0 #ffffff10}
+#nfl-night #nn-page-game .broadcast-card-header{margin:-2px -2px 12px;padding:6px 7px 8px;min-height:21px;font-size:10px!important;letter-spacing:.08em;font-weight:950!important;color:#aeb7c9;text-transform:uppercase;line-height:1.5}
+#nfl-night #nn-page-game .broadcast-team-panel{background:linear-gradient(180deg,color-mix(in srgb,var(--team-bg) 62%,#161c27) 0%,color-mix(in srgb,var(--team-bg) 36%,#151e2d) 100%)!important;border-color:color-mix(in srgb,var(--team-bg) 55%,#758196)!important}
+#nfl-night #nn-page-game .broadcast-team-header{display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;margin:-8px -8px 8px!important;padding:9px 8px!important;height:38px;background:var(--team-bg);color:var(--team-ink);border-radius:7px 7px 3px 3px;font-size:11px!important;font-weight:950;letter-spacing:.065em;text-transform:uppercase;text-align:center}
+#nfl-night #nn-page-game .broadcast-control-team-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#nfl-night #nn-page-game .broadcast-team-picker{display:flex;align-items:center;gap:6px;min-width:0;margin-bottom:9px}
+#nfl-night #nn-page-game .broadcast-team-picker .field{flex:1;min-width:0;margin:0}
+#nfl-night #nn-page-game .broadcast-team-picker .field label{font-size:9px;margin:0 0 3px;color:#e5edf9;opacity:.85;font-weight:900;letter-spacing:.06em}
+#nfl-night #nn-page-game .broadcast-team-picker select{padding:8px 6px;min-width:0;background:#101820;border:1px solid #6b7584;color:#fff;font-size:11px;height:32px}
+#nfl-night #nn-page-game .broadcast-team-picker .recordline{margin:0;flex:0 0 auto;font-size:0;gap:0;max-width:34%}
+#nfl-night #nn-page-game .broadcast-team-picker .recordpill{font-size:9px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;background:#0c1420;border-color:#657285;color:#eff4ff;padding:6px 5px}
+#nfl-night #nn-page-game .broadcast-metric{border-radius:6px;margin-bottom:12px;min-width:0}
+#nfl-night #nn-page-game .broadcast-small-label{display:block;text-align:center;font-size:9px;letter-spacing:.09em;font-weight:950;color:#9aa9bd;line-height:1.2}
+#nfl-night #nn-page-game .broadcast-score-metric .broadcast-small-label{position:relative;top:18px;z-index:1;pointer-events:none}
+#nfl-night #nn-page-game .scores{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;width:100%;align-items:stretch}
+#nfl-night #nn-page-game .scores output{grid-column:1/-1;width:100%;min-width:0;height:61px;display:grid;place-items:center;background:linear-gradient(180deg,#080b0e,#10141a);border:1px solid #030507;border-radius:6px;color:#f8faff;font-size:34px;font-weight:950;font-variant-numeric:tabular-nums;padding:9px 4px 0;box-shadow:inset 0 2px 8px #0009}
+#nfl-night #nn-page-game .scores .btn{background:linear-gradient(#566273,#354052);border:1px solid #697586;border-radius:6px;padding:8px 0;color:#f5f7fc;font-size:12px;min-width:0;font-weight:900;box-shadow:0 2px 4px #0005}
+#nfl-night #nn-page-game .scores .btn[data-add="-1"],#nfl-night #nn-page-game .scores .btn[data-add="7"]{grid-column:span 2;background:linear-gradient(#2b3a4f,#111f30)}
+#nfl-night #nn-page-game .broadcast-team-panel .timeout-editors{display:flex;flex-direction:column;gap:5px;margin-top:0}
+#nfl-night #nn-page-game .broadcast-timeout-metric .broadcast-small-label{position:relative;top:18px;z-index:1}
+#nfl-night #nn-page-game .timeout-stepper{display:grid;grid-template-columns:1fr 1fr;gap:4px!important;align-items:stretch}
+#nfl-night #nn-page-game .timeout-stepper output{grid-column:1/-1;grid-row:1;display:grid;place-items:center;min-width:0;width:100%;height:54px;border:1px solid #030507;border-radius:6px;background:linear-gradient(#05080c,#111720);color:#fff!important;font-size:28px!important;font-weight:950;padding-top:10px}
+#nfl-night #nn-page-game .timeout-stepper button{height:34px;width:100%;border-radius:6px;font-size:17px;font-weight:900;background:linear-gradient(#576277,#323d50);border:1px solid #77869b;box-shadow:0 2px 3px #0005}
+#nfl-night #nn-page-game .timeout-stepper button:first-child{grid-column:1;grid-row:2}
+#nfl-night #nn-page-game .timeout-stepper button:last-child{grid-column:2;grid-row:2}
+#nfl-night #nn-page-game .timeout-call-control{display:flex;flex-direction:column;gap:3px;margin-top:3px}
+#nfl-night #nn-page-game .timeout-call-control button{width:100%;min-height:36px;font-size:11px;font-weight:850;border-radius:6px}
+#nfl-night #nn-page-game .timeout-call-control small{font-size:10px;line-height:1.25;opacity:.7}
+#nfl-night #nn-page-game .touchdown-actions{margin-top:8px}
+#nfl-night #nn-page-game .touchdown-actions button{width:100%;min-height:42px;font-size:12px}
+/* Down and distance */
+#nfl-night #nn-page-game .deck-down .field{margin:0 0 15px}
+#nfl-night #nn-page-game .deck-down .field>label{margin:0 0 6px;font-size:11px;font-weight:700;color:#e2e5ee}
+#nfl-night #nn-page-game .down-stepper{display:grid!important;grid-template-columns:1fr 1fr;gap:5px!important}
+#nfl-night #nn-page-game .down-stepper select{grid-column:1/-1;grid-row:1;min-height:57px;text-align:center;text-align-last:center;font-weight:950;font-size:30px;color:#fff;background:#090d12;border:1px solid #070a0d;border-radius:6px}
+#nfl-night #nn-page-game .down-stepper button{width:100%;height:34px;font-size:17px;border-radius:6px;background:linear-gradient(#505b6e,#323d50)}
+#nfl-night #nn-page-game #nn-down-minus{grid-column:1;grid-row:2}
+#nfl-night #nn-page-game #nn-down-plus{grid-column:2;grid-row:2}
+#nfl-night #nn-page-game .distance .stepper{display:grid;grid-template-columns:1fr 2.2fr 1fr;gap:5px!important}
+#nfl-night #nn-page-game .distance .stepper output{min-width:0;background:#0b1017;border:1px solid #727a8b;min-height:36px;font-size:18px;font-weight:950}
+#nfl-night #nn-page-game .distance .stepper button{font-size:13px;width:100%;background:linear-gradient(#546176,#303b4d);border-color:#697a92}
+#nfl-night #nn-page-game .distance .quick{margin-top:8px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+#nfl-night #nn-page-game .distance .quick button{min-width:0;font-size:10px;min-height:32px;background:linear-gradient(#495567,#2c3749);border:1px solid #6b7889;border-radius:5px}
+/* Timer */
+#nfl-night #nn-page-game .deck-timer .clockfield{grid-column:auto!important;margin:0 0 12px;padding:0;background:none;border:0}
+#nfl-night #nn-page-game .deck-timer .clockfield>label{font-size:9px;font-weight:900;letter-spacing:.06em;color:#aab8c9;margin:0 0 5px}
+#nfl-night #nn-page-game .clockedit{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+#nfl-night #nn-page-game .clockedit input{grid-column:1/-1;grid-row:1;height:57px;padding:3px 8px;color:#fff;background:linear-gradient(#070a0e,#10151e);font-size:34px;font-weight:950;border-color:#07090c;text-align:center}
+#nfl-night #nn-page-game .clockedit #nn-clock-minus{grid-row:2;grid-column:1}
+#nfl-night #nn-page-game .clockedit #nn-clock-plus{grid-row:2;grid-column:2}
+#nfl-night #nn-page-game .clockedit .clockstep{width:100%;height:34px;font-size:13px;background:linear-gradient(#536075,#313c4d)}
+#nfl-night #nn-page-game .clockactions{grid-template-columns:1fr;gap:5px;margin:10px 0 3px}
+#nfl-night #nn-page-game #nn-run{background:linear-gradient(#40d97b,#1fbc57);color:#051409;border:1px solid #2bee78;font-size:15px;font-weight:950;min-height:39px}
+#nfl-night #nn-page-game #nn-resetclock{background:linear-gradient(#252e3b,#171e28);border:1px solid #b7525d;color:#ffc7cd;font-weight:900;min-height:35px}
+#nfl-night #nn-page-game .broadcast-minute-controls{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:13px}
+#nfl-night #nn-page-game .broadcast-minute-controls button{background:linear-gradient(#505d70,#303b4e);min-height:31px;font-size:11px}
+#nfl-night #nn-page-game .deck-timer>.field{margin-top:9px}
+#nfl-night #nn-page-game .deck-timer>.field>label{color:#aebac9;font-size:10px;text-transform:uppercase;letter-spacing:.06em;font-weight:900}
+#nfl-night #nn-page-game .deck-timer #nn-quarter-input{background:#0b1017;text-align:center;text-align-last:center;min-height:47px;font-weight:950;font-size:23px}
+#nfl-night #nn-page-game .deck-timer #nn-play-input{background:#0b1017;text-align:center;min-height:38px;font-weight:950;font-size:20px}
+/* Game status */
+#nfl-night #nn-page-game .deck-status .posbox{background:none;border:0;padding:0;margin:0 0 10px}
+#nfl-night #nn-page-game .deck-status .posbox strong{color:#b6c3d4;text-align:center;text-transform:uppercase;font-size:10px;margin-bottom:8px}
+#nfl-night #nn-page-game .deck-status .posbuttons{grid-template-columns:1fr 1fr;gap:5px}
+#nfl-night #nn-page-game .deck-status #nn-pos-none{grid-column:1/-1}
+#nfl-night #nn-page-game .deck-status .posbuttons button{min-height:34px;background:linear-gradient(#4a5669,#303c4e);font-size:11px;border-color:#64738b}
+#nfl-night #nn-page-game .deck-status .posbuttons button.active{background:#244e89;border-color:#76a8fd;color:#fff}
+#nfl-night #nn-page-game .deck-status .flag-team-buttons{display:grid!important;grid-template-columns:1fr 1fr;gap:5px;margin:9px 0}
+#nfl-night #nn-page-game .deck-status .flag-team-buttons button{min-height:36px;padding:7px 5px;font-size:11px}
+#nfl-night #nn-page-game .deck-status #nn-flag-toggle{grid-column:1/-1}
+#nfl-night #nn-page-game .deck-status .review-control{display:flex;flex-wrap:wrap;gap:5px;margin:9px 0}
+#nfl-night #nn-page-game .deck-status .review-control #nn-review-toggle{width:100%;min-height:36px;padding:8px;font-size:12px}
+#nfl-night #nn-page-game .deck-status .review-hint{display:none}
+#nfl-night #nn-page-game .deck-status .actions{display:grid;grid-template-columns:1fr;gap:6px;margin-top:12px}
+#nfl-night #nn-page-game .deck-status #nn-hide-timeout,#nfl-night #nn-page-game .deck-status #nn-resetgame{width:100%;min-height:36px;font-size:12px}
+#nfl-night #nn-page-game .deck-status #nn-resetgame{color:#ff9caa;background:linear-gradient(#2d2530,#161b25);border-color:#a34254}
+/* Secondary controls are the same dark widescreen card style. */
+#nfl-night #nn-page-game .broadcast-extra-bar{margin-top:14px;background:linear-gradient(#252d39,#1d2734)}
+#nfl-night #nn-page-game .broadcast-extra-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;width:100%}
+#nfl-night #nn-page-game .broadcast-extra-card{background:linear-gradient(#252c37,#1b2431);border:1px solid #455168;min-height:155px;padding:14px;border-radius:7px}
+#nfl-night #nn-page-game .broadcast-extra-card .broadcast-card-header{margin:0 0 13px;color:#d8e0ec}
+#nfl-night #nn-page-game .broadcast-extra-card .fg-editor{margin:0;padding:0;border:0;background:transparent;display:block}
+#nfl-night #nn-page-game .broadcast-extra-card .fg-editor-heading{margin-bottom:12px}
+#nfl-night #nn-page-game .broadcast-extra-card .fg-edit-fields{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#nfl-night #nn-page-game .broadcast-extra-card .fg-live-preview{grid-column:1/-1}
+#nfl-night #nn-page-game .broadcast-extra-card .flag-control{margin:0;padding:0;background:none;border:0;display:block}
+#nfl-night #nn-page-game .broadcast-extra-card .flag-control .penalty-picker{width:100%;max-width:none;flex:none}
+#nfl-night #nn-page-game .broadcast-extra-card button{max-width:100%}
+#nfl-night #nn-page-game .broadcast-extra-card .touchdown-options{display:flex;flex-direction:column;gap:9px;margin:0;padding:0;border:0;background:transparent}
+/* Uniform widths on all the remaining pages, not just Game. */
+#nfl-night #nn-page-edit .panel,#nfl-night #nn-page-settings .panel,#nfl-night #nn-page-obs .obs-panel{background:linear-gradient(#2a323f,#192232);border-color:#46566d;border-radius:7px;padding:18px}
+#nfl-night #nn-page-edit .grid,#nfl-night #nn-page-settings .grid,#nfl-night #nn-page-obs .obs-layout{gap:8px}
+#nfl-night #nn-page-edit .panel h4,#nfl-night #nn-page-settings .panel h4{font-size:15px;font-weight:950}
+@media(max-width:1240px){
+ #nfl-night #nn-page-game .broadcast-control-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+ #nfl-night #nn-page-game .broadcast-control-grid > .panel{min-height:0}
+ #nfl-night #nn-page-game .deck-status{grid-column:2 / -1}
+}
+@media(max-width:860px){
+ #nfl-night #nn-page-game .broadcast-control-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #nfl-night #nn-page-game .deck-status{grid-column:auto}
+ #nfl-night #nn-page-game .broadcast-extra-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #nfl-night #nn-page-game .deck-extra-penalty{grid-column:1/-1}
+}
+@media(max-width:590px){
+ #nfl-night .content{padding:8px!important}
+ #nfl-night #nn-page-game .broadcast-control-grid{grid-template-columns:1fr;gap:6px}
+ #nfl-night #nn-page-game .broadcast-extra-grid{grid-template-columns:1fr}
+ #nfl-night #nn-page-game .deck-extra-penalty{grid-column:auto}
+ #nfl-night #nn-page-game .broadcast-control-grid>.panel{min-height:0}
+ #nfl-night #nn-page-game .broadcast-control-bar{align-items:flex-start;flex-direction:column;gap:4px;padding:10px}
+ #nfl-night #nn-page-game .broadcast-control-legend{text-align:left}
+ #nfl-night #nn-page-game .broadcast-card-header{font-size:11px!important}
+}
 </style></head><body><div id="nfl-night">
 <div class="broadcast-picker" aria-label="Choose scoreboard network">
   <div class="broadcast-picker-label"><strong>CHOOSE SCOREBOARD</strong><small>Instantly switches the controller preview and OBS overlay</small></div>
@@ -989,12 +1118,7 @@ body{width:100%;max-width:none!important;min-height:100vh;min-height:100dvh;marg
   </div>
 </div>
 
-<div id="nn-page-game"><div class="grid">
-<div class="panel"><h4>Away · Left</h4><div class="field"><label>Choose team</label><select id="nn-away-team"></select></div><div class="recordline">Record <span class="recordpill" id="nn-away-pill">—</span></div><label>Score</label><div class="scores"><output id="nn-away-value">0</output><button class="btn" data-score="away" data-add="-1">−1</button><button class="btn" data-score="away" data-add="1">+1</button><button class="btn" data-score="away" data-add="3">+3</button><button class="btn" data-score="away" data-add="6">+6</button><button class="btn" data-score="away" data-add="7">+7</button></div><div class="touchdown-actions"><button type="button" data-touchdown-side="away">🏈 TOUCHDOWN · AWAY</button></div><div class="timeout-editors"><label for="nn-away-timeouts-output">Timeouts remaining (0–3)</label><div class="timeout-stepper"><button type="button" data-timeout="away" data-delta="-1" aria-label="Remove one away timeout">−</button><output id="nn-away-timeouts-output" aria-live="polite">3</output><button type="button" data-timeout="away" data-delta="1" aria-label="Add one away timeout">+</button></div><div class="timeout-call-control"><button type="button" id="nn-call-timeout-away" data-call-timeout="away">📣 TIMEOUT · Away</button><small>Uses one timeout and announces it on the scoreboard.</small></div></div></div>
-<div class="panel"><h4>Home · Right</h4><div class="field"><label>Choose team</label><select id="nn-home-team"></select></div><div class="recordline">Record <span class="recordpill" id="nn-home-pill">—</span></div><label>Score</label><div class="scores"><output id="nn-home-value">0</output><button class="btn" data-score="home" data-add="-1">−1</button><button class="btn" data-score="home" data-add="1">+1</button><button class="btn" data-score="home" data-add="3">+3</button><button class="btn" data-score="home" data-add="6">+6</button><button class="btn" data-score="home" data-add="7">+7</button></div><div class="touchdown-actions"><button type="button" data-touchdown-side="home">🏈 TOUCHDOWN · HOME</button></div><div class="timeout-editors"><label for="nn-home-timeouts-output">Timeouts remaining (0–3)</label><div class="timeout-stepper"><button type="button" data-timeout="home" data-delta="-1" aria-label="Remove one home timeout">−</button><output id="nn-home-timeouts-output" aria-live="polite">3</output><button type="button" data-timeout="home" data-delta="1" aria-label="Add one home timeout">+</button></div><div class="timeout-call-control"><button type="button" id="nn-call-timeout-home" data-call-timeout="home">📣 TIMEOUT · Home</button><small>Uses one timeout and announces it on the scoreboard.</small></div></div></div>
-<div class="panel wide"><h4>🏈 Game Information</h4>
-<div class="touchdown-options"><label><input type="checkbox" id="nn-td-add6"/> Add 6 points when I press TOUCHDOWN</label><button type="button" id="nn-td-hide">✕ Hide Touchdown</button><small>Touchdown graphics play for about 5 seconds on the controller and OBS. The +6 option is OFF by default to avoid counting scores twice.</small></div>
-<div class="gamefields"><div class="field"><label>Quarter</label><select id="nn-quarter-input"><option>1ST</option><option>2ND</option><option>HALFTIME</option><option>3RD</option><option>4TH</option><option>OT</option><option>FINAL</option></select></div><div class="field clockfield"><label for="nn-clock-input">Game Clock</label><div class="clockedit"><button class="clockstep" type="button" id="nn-clock-minus" aria-label="Subtract one second">−1</button><input type="text" id="nn-clock-input" value="13:04" maxlength="6" inputmode="numeric" placeholder="M:SS" aria-label="Type game clock in minutes and seconds"/><button class="clockstep" type="button" id="nn-clock-plus" aria-label="Add one second">+1</button></div><div class="clockactions"><button class="btn primary" type="button" id="nn-run">▶ Start Clock</button><button class="btn" type="button" id="nn-resetclock">↺ Reset 15:00</button></div><div class="clocknote">±1 second · Type exact time (M:SS)</div></div><div class="field"><label>Play clock</label><input type="text" id="nn-play-input" value="06" maxlength="2"/></div><div class="field"><label for="nn-down-input">Down</label><div class="down-stepper"><button type="button" id="nn-down-minus" aria-label="Previous down">−</button><select id="nn-down-input"><option>1ST</option><option>2ND</option><option selected>3RD</option><option>4TH</option></select><button type="button" id="nn-down-plus" aria-label="Next down">+</button></div></div><div class="field distance"><label>Distance</label><div class="stepper"><button id="nn-distance-minus" type="button" aria-label="Decrease yards">−</button><output id="nn-distance-output" aria-live="polite">6</output><button id="nn-distance-plus" type="button" aria-label="Increase yards">+</button></div><div class="quick"><button type="button" id="nn-first-ten">1ST &amp; 10</button><button type="button" id="nn-goal">GOAL</button><button type="button" id="nn-inches">INCHES</button></div></div><div class="fg-editor" aria-label="Field goal attempt controls"><div class="fg-editor-heading"><strong>🏈 Field Goal Attempt</strong><span>Displays above the selected team on the scoreboard and in OBS</span></div><div class="fg-edit-fields"><div class="fg-cell"><label for="nn-fg-team">Attempting team</label><select id="nn-fg-team"><option value="away">Away team</option><option value="home">Home team</option></select></div><div class="fg-cell"><label for="nn-fg-yards">Field goal distance (yards)</label><input id="nn-fg-yards" type="text" maxlength="9" inputmode="numeric" placeholder="e.g. 33" autocomplete="off" aria-label="Field goal attempt yardage"/></div><div class="fg-cell fg-toggle-cell"><label>Show attempt</label><button type="button" id="nn-fg-toggle" aria-pressed="false">OFF</button></div><div class="fg-live-preview" id="nn-fg-preview">OFF · — YARD ATTEMPT</div></div></div></div><div class="posbox"><strong>Possession — who has the ball?</strong><div class="posbuttons"><button class="active" id="nn-pos-away">▶ Away · LAC</button><button id="nn-pos-home">Home · NE ◀</button><button id="nn-pos-none">No Possession</button></div></div><div class="flag-control"><div><strong>Penalty Flag</strong><small>Choose the penalized team to turn its scoreboard side yellow. FLAG replaces the down display.</small></div><div class="flag-team-buttons"><button type="button" id="nn-flag-away" class="flag-toggle" aria-pressed="false">⚑ Away · LAC</button><button type="button" id="nn-flag-home" class="flag-toggle" aria-pressed="false">⚑ Home · NE</button><button type="button" id="nn-flag-toggle" class="flag-toggle" aria-pressed="false">Clear FLAG</button></div><div class="review-control"><button type="button" id="nn-review-toggle" aria-pressed="false">🔴 REVIEW</button><span class="review-hint">Replaces down/distance with a red REVIEW indicator in the controller and OBS.</span></div><div class="penalty-picker"><label for="nn-penalty-select">Penalty type</label><select id="nn-penalty-select" aria-label="Choose the penalty for the flagged team"><option value="">Generic FLAG — no specific penalty</option></select><div class="penalty-selection" id="nn-penalty-preview" role="status" aria-live="polite">Choose a penalty, then flag Away or Home.</div></div></div><div class="actions"><button type="button" class="btn" id="nn-hide-timeout">✕ Hide Timeout Strip</button><button class="btn" id="nn-resetgame">Reset Game</button></div></div></div></div>
+<div id="nn-page-game"><div class="broadcast-control-bar"><strong>Control panel</strong><span class="broadcast-control-legend">SPORTSCAST STUDIO  ·  LIVE GAME CONTROLS</span></div><div class="broadcast-control-grid"><div class="panel broadcast-team-panel deck-away" id="nn-control-card-away" style="--team-bg:#294e7d;--team-ink:#fff"><h4 class="broadcast-team-header"><span>AWAY · </span><span class="broadcast-control-team-name" id="nn-control-name-away">TEAM</span></h4><div class="broadcast-team-picker"><div class="field"><label>TEAM</label><select id="nn-away-team"></select></div><div class="recordline">Record <span class="recordpill" id="nn-away-pill">—</span></div></div><div class="broadcast-metric broadcast-score-metric"><span class="broadcast-small-label">SCORE</span><div class="scores"><output id="nn-away-value">0</output><button class="btn" data-add="1" data-score="away">+1</button><button class="btn" data-add="2" data-score="away" type="button">+2</button><button class="btn" data-add="3" data-score="away">+3</button><button class="btn" data-add="6" data-score="away">+6</button><button class="btn" data-add="-1" data-score="away">−1</button><button class="btn" data-add="7" data-score="away">+7</button></div></div><div class="broadcast-metric broadcast-timeout-metric"><span class="broadcast-small-label">TIMEOUTS</span><div class="timeout-editors"><div class="timeout-stepper"><button aria-label="Remove one away timeout" data-delta="-1" data-timeout="away" type="button">−</button><output aria-live="polite" id="nn-away-timeouts-output">3</output><button aria-label="Add one away timeout" data-delta="1" data-timeout="away" type="button">+</button></div><div class="timeout-call-control"><button data-call-timeout="away" id="nn-call-timeout-away" type="button">📣 TIMEOUT · Away</button><small>Uses one timeout and announces it on the scoreboard.</small></div></div></div><div class="touchdown-actions"><button data-touchdown-side="away" type="button">🏈 TOUCHDOWN · AWAY</button></div></div><div class="panel broadcast-team-panel deck-home" id="nn-control-card-home" style="--team-bg:#294e7d;--team-ink:#fff"><h4 class="broadcast-team-header"><span>HOME · </span><span class="broadcast-control-team-name" id="nn-control-name-home">TEAM</span></h4><div class="broadcast-team-picker"><div class="field"><label>TEAM</label><select id="nn-home-team"></select></div><div class="recordline">Record <span class="recordpill" id="nn-home-pill">—</span></div></div><div class="broadcast-metric broadcast-score-metric"><span class="broadcast-small-label">SCORE</span><div class="scores"><output id="nn-home-value">0</output><button class="btn" data-add="1" data-score="home">+1</button><button class="btn" data-add="2" data-score="home" type="button">+2</button><button class="btn" data-add="3" data-score="home">+3</button><button class="btn" data-add="6" data-score="home">+6</button><button class="btn" data-add="-1" data-score="home">−1</button><button class="btn" data-add="7" data-score="home">+7</button></div></div><div class="broadcast-metric broadcast-timeout-metric"><span class="broadcast-small-label">TIMEOUTS</span><div class="timeout-editors"><div class="timeout-stepper"><button aria-label="Remove one home timeout" data-delta="-1" data-timeout="home" type="button">−</button><output aria-live="polite" id="nn-home-timeouts-output">3</output><button aria-label="Add one home timeout" data-delta="1" data-timeout="home" type="button">+</button></div><div class="timeout-call-control"><button data-call-timeout="home" id="nn-call-timeout-home" type="button">📣 TIMEOUT · Home</button><small>Uses one timeout and announces it on the scoreboard.</small></div></div></div><div class="touchdown-actions"><button data-touchdown-side="home" type="button">🏈 TOUCHDOWN · HOME</button></div></div><section class="panel broadcast-control-card deck-down"><h4 class="broadcast-card-header">DOWNS &amp; DISTANCE</h4><div class="field"><label for="nn-down-input">Down</label><div class="down-stepper"><button aria-label="Previous down" id="nn-down-minus" type="button">−</button><select id="nn-down-input"><option>1ST</option><option>2ND</option><option selected="">3RD</option><option>4TH</option></select><button aria-label="Next down" id="nn-down-plus" type="button">+</button></div></div><div class="field distance"><label>Distance</label><div class="stepper"><button aria-label="Decrease yards" id="nn-distance-minus" type="button">−</button><output aria-live="polite" id="nn-distance-output">6</output><button aria-label="Increase yards" id="nn-distance-plus" type="button">+</button></div><div class="quick"><button id="nn-first-ten" type="button">1ST &amp; 10</button><button id="nn-goal" type="button">GOAL</button><button id="nn-inches" type="button">INCHES</button></div></div></section><section class="panel broadcast-control-card deck-timer"><h4 class="broadcast-card-header">TIMER &amp; QUARTER</h4><div class="field clockfield"><label for="nn-clock-input">Game Clock</label><div class="clockedit"><button aria-label="Subtract one second" class="clockstep" id="nn-clock-minus" type="button">−1</button><input aria-label="Type game clock in minutes and seconds" id="nn-clock-input" inputmode="numeric" maxlength="6" placeholder="M:SS" type="text" value="13:04"/><button aria-label="Add one second" class="clockstep" id="nn-clock-plus" type="button">+1</button></div><div class="clockactions"><button class="btn primary" id="nn-run" type="button">▶ Start Clock</button><button class="btn" id="nn-resetclock" type="button">↺ Reset 15:00</button></div><div class="clocknote">±1 second · Type exact time (M:SS)</div></div><div class="broadcast-minute-controls"><button class="btn" data-clock-seconds="-60" type="button">−60</button><button class="btn" data-clock-seconds="60" type="button">+60</button></div><div class="field"><label>Quarter</label><select id="nn-quarter-input"><option>1ST</option><option>2ND</option><option>HALFTIME</option><option>3RD</option><option>4TH</option><option>OT</option><option>FINAL</option></select></div><div class="field"><label>Play clock</label><input id="nn-play-input" maxlength="2" type="text" value="06"/></div></section><section class="panel broadcast-control-card deck-status"><h4 class="broadcast-card-header">GAME STATUS</h4><div class="posbox"><strong>Possession — who has the ball?</strong><div class="posbuttons"><button class="active" id="nn-pos-away">▶ Away · LAC</button><button id="nn-pos-home">Home · NE ◀</button><button id="nn-pos-none">No Possession</button></div></div><div class="flag-team-buttons"><button aria-pressed="false" class="flag-toggle" id="nn-flag-away" type="button">⚑ Away · LAC</button><button aria-pressed="false" class="flag-toggle" id="nn-flag-home" type="button">⚑ Home · NE</button><button aria-pressed="false" class="flag-toggle" id="nn-flag-toggle" type="button">Clear FLAG</button></div><div class="review-control"><button aria-pressed="false" id="nn-review-toggle" type="button">🔴 REVIEW</button><span class="review-hint">Replaces down/distance with a red REVIEW indicator in the controller and OBS.</span></div><div class="actions"><button class="btn" id="nn-hide-timeout" type="button">✕ Hide Timeout Strip</button><button class="btn" id="nn-resetgame">↻ New Game / Reset</button></div></section></div><div class="broadcast-control-bar broadcast-extra-bar"><strong>Additional broadcast controls</strong><span class="broadcast-control-legend">All existing NFL, College Football, and OBS functions preserved</span></div><div class="broadcast-extra-grid"><section class="panel broadcast-extra-card deck-extra-td"><h4 class="broadcast-card-header">TOUCHDOWN ANIMATION</h4><div class="touchdown-options"><label><input id="nn-td-add6" type="checkbox"/> Add 6 points when I press TOUCHDOWN</label><button id="nn-td-hide" type="button">✕ Hide Touchdown</button><small>Touchdown graphics play for about 5 seconds on the controller and OBS. The +6 option is OFF by default to avoid counting scores twice.</small></div></section><section class="panel broadcast-extra-card deck-extra-fg"><h4 class="broadcast-card-header">FIELD GOAL ATTEMPT</h4><div aria-label="Field goal attempt controls" class="fg-editor"><div class="fg-editor-heading"><strong>🏈 Field Goal Attempt</strong><span>Displays above the selected team on the scoreboard and in OBS</span></div><div class="fg-edit-fields"><div class="fg-cell"><label for="nn-fg-team">Attempting team</label><select id="nn-fg-team"><option value="away">Away team</option><option value="home">Home team</option></select></div><div class="fg-cell"><label for="nn-fg-yards">Field goal distance (yards)</label><input aria-label="Field goal attempt yardage" autocomplete="off" id="nn-fg-yards" inputmode="numeric" maxlength="9" placeholder="e.g. 33" type="text"/></div><div class="fg-cell fg-toggle-cell"><label>Show attempt</label><button aria-pressed="false" id="nn-fg-toggle" type="button">OFF</button></div><div class="fg-live-preview" id="nn-fg-preview">OFF · — YARD ATTEMPT</div></div></div></section><section class="panel broadcast-extra-card deck-extra-penalty"><h4 class="broadcast-card-header">PENALTIES &amp; DETAILS</h4><div class="flag-control"><div><strong>Penalty Flag</strong><small>Choose the penalized team to turn its scoreboard side yellow. FLAG replaces the down display.</small></div><div class="penalty-picker"><label for="nn-penalty-select">Penalty type</label><select aria-label="Choose the penalty for the flagged team" id="nn-penalty-select"><option value="">Generic FLAG — no specific penalty</option></select><div aria-live="polite" class="penalty-selection" id="nn-penalty-preview" role="status">Choose a penalty, then flag Away or Home.</div></div></div></section></div></div>
 <div id="nn-page-edit" hidden><div class="grid"><div class="panel"><h4>Edit Away / Left</h4><div class="field"><label>Team</label><select id="nn-away-editteam"></select></div><div class="college-rank-editor"><label for="nn-away-rank">College ranking (1–25, blank if unranked)</label><input type="number" id="nn-away-rank" min="1" max="25" step="1" placeholder="Unranked" inputmode="numeric"/></div><div class="colorfields"><div class="colorbox"><label>Background</label><input type="color" id="nn-away-bg"/><small id="nn-away-bg-label"></small></div><div class="colorbox"><label>Trim</label><input type="color" id="nn-away-trim"/><small id="nn-away-trim-label"></small></div></div><div class="palette" id="nn-away-palette"></div><button class="btn" id="nn-away-resetcolors">Reset Team Colors</button></div><div class="panel"><h4>Edit Home / Right</h4><div class="field"><label>Team</label><select id="nn-home-editteam"></select></div><div class="college-rank-editor"><label for="nn-home-rank">College ranking (1–25, blank if unranked)</label><input type="number" id="nn-home-rank" min="1" max="25" step="1" placeholder="Unranked" inputmode="numeric"/></div><div class="colorfields"><div class="colorbox"><label>Background</label><input type="color" id="nn-home-bg"/><small id="nn-home-bg-label"></small></div><div class="colorbox"><label>Trim</label><input type="color" id="nn-home-trim"/><small id="nn-home-trim-label"></small></div></div><div class="palette" id="nn-home-palette"></div><button class="btn" id="nn-home-resetcolors">Reset Team Colors</button></div></div><div class="actions"><button class="btn" id="nn-swap">⇄ Swap Teams</button></div></div>
 <div id="nn-page-settings" hidden><div class="grid"><div class="panel"><h4>Scoreboard Display</h4><label class="setting"><span><b>Show Team Logos</b><small>Display real team logos</small></span><input type="checkbox" id="nn-setting-logos" checked/></label><label class="setting"><span><b>Show Team Records</b><small>Display win-loss records</small></span><input type="checkbox" id="nn-setting-records" checked/></label><label class="setting"><span><b>Show Possession Tab</b><small>Colored down and distance beneath the team</small></span><input type="checkbox" id="nn-setting-down" checked/></label><label class="setting"><span><b>Show Game Clock</b><small>Show main center clock</small></span><input type="checkbox" id="nn-setting-clock" checked/></label><label class="setting"><span><b>Show Play Clock</b><small>Hide or show the red play clock</small></span><input type="checkbox" id="nn-setting-playclock" checked/></label></div><div class="panel"><h4>Preview &amp; Updates</h4><label class="setting"><span><b>Checkerboard Preview</b><small>Preview transparency pattern</small></span><input type="checkbox" id="nn-setting-checker"/></label><label class="setting"><span><b>Automatic Record Updates</b><small>Try ESPN every two minutes</small></span><input type="checkbox" id="nn-setting-updates" checked/></label><div class="field" style="margin-top:15px"><label for="nn-setting-design">Scoreboard Design</label><select id="nn-setting-design"><option value="classic">NBC — Classic Rounded Wings</option><option value="tv">ESPN — TV Compact</option><option value="fox">FOX — Floating Broadcast</option></select><small style="color:#b0c3dc;display:block;margin-top:6px">Use the NBC / ESPN / FOX buttons above the controls to switch instantly. OBS mirrors the selection.</small></div><div class="field" style="margin-top:15px"><label>Scoreboard Size <output id="nn-size-text">100%</output></label><input type="range" min="65" max="100" step="5" value="100" id="nn-setting-size"/></div><button class="btn" id="nn-resetsettings">Reset Settings</button></div></div></div>
 </div><div class="foot"><span>NFL Design 01</span><span>Clock ±1 second · Direct time entry · Quick distance controls</span></div>
@@ -1581,6 +1705,47 @@ if(active){
   });
   document.addEventListener('fullscreenchange',sync);
   sync();
+})();
+</script>
+
+<script>
+/* TV-style controller chrome. Uses existing game state via the normal controls. */
+(function(){
+ const root=document.getElementById('nfl-night');
+ if(!root)return;
+ const $=id=>document.getElementById(id);
+ const syncCard=side=>{
+   const wing=$('nn-'+side+'-wing'),card=$('nn-control-card-'+side),name=$('nn-control-name-'+side);
+   if(!wing||!card||!name)return;
+   const val=wing.style.getPropertyValue('--cfb-bg').trim();
+   const color=/^#[0-9a-f]{6}$/i.test(val)?val:'#294e7d';
+   const rgb=[1,3,5].map(i=>parseInt(color.slice(i,i+2),16));
+   const light=(rgb[0]*.2126+rgb[1]*.7152+rgb[2]*.0722);
+   if(card.style.getPropertyValue('--team-bg')!==color){
+      card.style.setProperty('--team-bg',color);
+      card.style.setProperty('--team-ink',light>148?'#0b1320':'#fff');
+   }
+   const text=wing.dataset.teamName||$('nn-'+side+'-abbr')?.textContent||'TEAM';
+   if(name.textContent!==text.toUpperCase())name.textContent=text.toUpperCase();
+ };
+ const sync=()=>{syncCard('away');syncCard('home')};
+ for(const side of ['away','home']){
+   const wing=$('nn-'+side+'-wing');
+   if(wing)new MutationObserver(sync).observe(wing,{attributes:true,attributeFilter:['style','data-team-name']});
+ }
+ ['nn-away-team','nn-home-team','nn-sport-nfl','nn-sport-cfb','nn-swap'].forEach(id=>$(id)?.addEventListener('change',()=>setTimeout(sync,0)));
+ root.addEventListener('click',e=>{
+    if(e.target.closest('#nn-sport-nfl,#nn-sport-cfb,#nn-swap,#nn-away-resetcolors,#nn-home-resetcolors'))setTimeout(sync,0);
+    const deltaBtn=e.target.closest('[data-clock-seconds]');
+    if(!deltaBtn)return;
+    const field=$('nn-clock-input'),m=field?.value.match(/^(\d{1,3}):([0-5]\d)$/);
+    if(!m)return;
+    const seconds=Math.max(0,Math.min(5999,Number(m[1])*60+Number(m[2])+Number(deltaBtn.dataset.clockSeconds)));
+    field.value=Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0');
+    field.dispatchEvent(new Event('input',{bubbles:true}));
+ });
+ sync();
+ window.addEventListener('load',sync);
 })();
 </script>
 </body></html>
