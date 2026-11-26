@@ -1,0 +1,1 @@
+Upload ONLY controller.html to your existing GitHub repository, replacing the current controller.html; commit changes. Keep OBS overlay.html and app.py unchanged. Once Render is live, open /control and /obs, and OBS will show your chosen teams and games.
