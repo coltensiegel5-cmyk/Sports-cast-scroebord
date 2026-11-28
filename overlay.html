@@ -956,6 +956,210 @@ html,body{width:100%;height:100%;margin:0;padding:0;background:transparent!impor
   #nfl-night[data-sport="nfl"][data-design="cbs"] .cfb-timebar{font-size:clamp(10px,1.9cqw,15px)}
 }
 
+
+/* PRIME VIDEO / TNF-inspired angled ribbon. A distinct fifth NFL design.
+   Uses the same native team/score/clock/possession widgets as NBC, ESPN and FOX. */
+#nfl-night[data-sport="nfl"][data-design="prime"] .college-bug{display:none!important}
+#nfl-night[data-sport="nfl"][data-design="prime"] .stage #nn-bug.scorebug{
+  display:block!important;position:relative;max-width:960px;
+  width:100%;height:116px!important;filter:drop-shadow(0 4px 6px #000b);overflow:visible;
+  container-type:inline-size;
+}
+#nfl-night[data-design="prime"] .scorebug > .wing{
+  position:absolute!important;top:11%!important;height:78%!important;
+  width:43%!important;flex:none!important;min-width:0!important;
+  display:block!important;overflow:hidden!important;border-radius:0!important;
+  border:2px solid #9db2c9!important;
+  box-shadow:inset 0 2px 2px #ffffff52,inset 0 -7px 7px #0008!important;
+}
+#nfl-night[data-design="prime"] .wing.away{
+  left:0!important;right:auto!important;padding:0!important;
+  clip-path:polygon(0 12%,90% 1%,100% 50%,90% 99%,0 88%,6% 50%);
+}
+#nfl-night[data-design="prime"] .wing.home{
+  right:0!important;left:auto!important;padding:0!important;
+  clip-path:polygon(10% 1%,100% 12%,94% 50%,100% 88%,10% 99%,0 50%);
+}
+#nfl-night[data-design="prime"] .wing::after{display:none!important}
+#nfl-night[data-design="prime"] .wing .logo,
+#nfl-night[data-design="prime"] .wing.away .logo,
+#nfl-night[data-design="prime"] .wing.home .logo{
+  position:absolute!important;top:50%!important;transform:translateY(-50%)!important;
+  width:22%!important;max-width:none!important;height:83%!important;
+  min-width:0!important;padding:0!important;margin:0!important;
+  display:grid!important;place-items:center!important;overflow:hidden!important;
+}
+#nfl-night[data-design="prime"] .wing.away .logo{left:9%!important;right:auto!important}
+#nfl-night[data-design="prime"] .wing.home .logo{right:9%!important;left:auto!important}
+#nfl-night[data-design="prime"] .logo img{
+ width:100%!important;height:100%!important;max-height:100%!important;max-width:100%!important;object-fit:contain!important;
+}
+#nfl-night[data-design="prime"] .wing .score{
+  position:absolute!important;top:47%!important;transform:translateY(-50%)!important;
+  padding:0!important;margin:0!important;display:block!important;
+  width:24%!important;flex:none!important;line-height:1!important;
+  text-align:center!important;font:950 clamp(23px,5.3cqw,54px)/1 Arial,system-ui,sans-serif!important;
+  letter-spacing:-.045em!important;color:#fff!important;text-shadow:0 2px 3px #000b!important;
+}
+#nfl-night[data-design="prime"] .wing.away .score{right:19%!important;left:auto!important}
+#nfl-night[data-design="prime"] .wing.home .score{left:19%!important;right:auto!important}
+#nfl-night[data-design="prime"] .wing .team{position:absolute!important;inset:0!important;padding:0!important;display:block!important;pointer-events:none}
+#nfl-night[data-design="prime"] .wing .abbr{
+ position:absolute!important;top:13%!important;font:900 clamp(8px,1.3cqw,14px)/1 Arial,system-ui,sans-serif!important;
+ color:#fff!important;white-space:nowrap!important;opacity:.93!important;
+}
+#nfl-night[data-design="prime"] .wing.away .abbr{left:35%!important;right:auto!important}
+#nfl-night[data-design="prime"] .wing.home .abbr{right:35%!important;left:auto!important;text-align:right!important}
+#nfl-night[data-design="prime"] .wing .record{
+ position:absolute!important;top:72%!important;bottom:auto!important;margin:0!important;
+ font:850 clamp(7px,.96cqw,11px)/1 Arial,system-ui,sans-serif!important;opacity:.92!important;color:#fff!important;
+}
+#nfl-night[data-design="prime"] .wing.away .record{left:35%!important;right:auto!important}
+#nfl-night[data-design="prime"] .wing.home .record{right:35%!important;left:auto!important;text-align:right!important}
+#nfl-night[data-design="prime"] .wing .timeouts-inline{
+ position:absolute!important;top:79%!important;transform:none!important;
+ margin:0!important;width:auto!important;height:10px!important;min-height:0!important;
+ display:flex!important;align-items:center!important;gap:2px!important;
+}
+#nfl-night[data-design="prime"] .wing.away .timeouts-inline{left:54%!important;right:auto!important}
+#nfl-night[data-design="prime"] .wing.home .timeouts-inline{right:54%!important;left:auto!important}
+#nfl-night[data-design="prime"] .timeouts-inline .to-label{display:none!important}
+#nfl-night[data-design="prime"] .timeout-mark{
+  height:clamp(3px,.55cqw,7px)!important;width:clamp(9px,1.25cqw,15px)!important;
+  border-radius:1px!important;background:#f6f8fb!important;border:1px solid #f9fafb!important;
+}
+#nfl-night[data-design="prime"] .timeout-mark.is-used{background:#090e17!important;border-color:#8490a0!important}
+#nfl-night[data-design="prime"] .postab,
+#nfl-night[data-design="prime"] .fox-down{display:none!important}
+#nfl-night[data-design="prime"] .center{
+ position:absolute!important;z-index:8!important;left:50%!important;top:50%!important;
+ transform:translate(-50%,-50%)!important;display:block!important;
+ width:24%!important;height:84%!important;min-width:0!important;
+ border:2px solid #8091a7!important;border-radius:0!important;
+ background:linear-gradient(180deg,#192b44 0%,#0a1425 57%,#0e1621 100%)!important;
+ box-shadow:inset 0 2px 2px #ffffff25,0 2px 4px #0009!important;
+ overflow:hidden!important;
+}
+#nfl-night[data-design="prime"] .center::before{
+ content:'TNF';position:absolute;left:4%;top:9%;width:24%;height:33%;
+ display:grid;place-items:center;font:950 clamp(9px,1.65cqw,19px)/1 Arial,system-ui,sans-serif;
+ font-style:italic;color:#e7edf5;letter-spacing:-.045em;text-shadow:0 1px 2px #000;
+}
+#nfl-night[data-design="prime"] .center .symbol{
+ position:absolute!important;display:flex!important;align-items:center!important;justify-content:center!important;
+ left:28%!important;right:2%!important;top:6%!important;
+ width:70%!important;height:37%!important;max-width:none!important;box-sizing:border-box!important;
+ padding:0 3px!important;border:1px solid #6da2dc!important;border-radius:0!important;
+ font:950 clamp(8px,1.7cqw,19px)/1 Arial,system-ui,sans-serif!important;
+ letter-spacing:-.03em!important;font-style:normal!important;text-shadow:0 1px 2px #0008!important;
+ color:#fff!important;background:linear-gradient(180deg,#386ba9,#244b7b)!important;
+ white-space:nowrap!important;overflow:hidden!important;
+}
+#nfl-night[data-design="prime"][data-possession="none"] .center::before{display:none!important}
+/* The down toggle can be off even when a team still possesses the ball. */
+#nfl-night[data-design="prime"] .center:has(.symbol.prime-neutral)::before{display:none!important}
+#nfl-night[data-design="prime"] .center .symbol.prime-neutral{
+  left:3%!important;right:3%!important;width:94%!important;
+  font-size:clamp(8px,1.6cqw,18px)!important;letter-spacing:.025em!important;
+  background:linear-gradient(180deg,#243e62,#152b49)!important;border-color:#627c9d!important;
+}
+#nfl-night[data-design="prime"][data-possession="none"] .center .symbol{
+ left:3%!important;right:3%!important;width:94%!important;
+ font-size:clamp(8px,1.6cqw,18px)!important;letter-spacing:.025em!important;
+ background:linear-gradient(180deg,#243e62,#152b49)!important;border-color:#627c9d!important;
+}
+#nfl-night[data-design="prime"] .center .symbol.review-center{background:#b6192a!important;border-color:#ff8c98!important}
+#nfl-night[data-design="prime"] .center .symbol.flagged-center{background:#efc32e!important;border-color:#ffe990!important;color:#20232d!important}
+#nfl-night[data-design="prime"] .center .symbol.timeout-center{background:#345a90!important;border-color:#a0c6ed!important}
+#nfl-night[data-design="prime"] .center .clockline{
+ position:absolute!important;left:4%!important;bottom:6%!important;top:auto!important;
+ transform:none!important;width:92%!important;height:36%!important;
+ border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;
+ padding:0!important;display:flex!important;align-items:flex-end!important;justify-content:space-between!important;
+ font:900 clamp(9px,1.65cqw,17px)/1 Arial,system-ui,sans-serif!important;
+ color:#f5f7fc!important;
+}
+#nfl-night[data-design="prime"] .center .clock{
+ position:absolute!important;left:50%!important;bottom:6%!important;top:auto!important;
+ transform:translateX(-50%)!important;z-index:3!important;
+ width:50%!important;max-width:50%!important;text-align:center!important;
+ font:900 clamp(12px,2.45cqw,26px)/1 Arial,system-ui,sans-serif!important;
+ color:#fff!important;letter-spacing:-.03em!important;white-space:nowrap!important;
+}
+#nfl-night[data-design="prime"] .center .playclock{
+ display:inline-block;position:static!important;border:1px solid #7790b4!important;border-radius:2px!important;
+ padding:1px 3px!important;font:900 clamp(8px,1.2cqw,13px)/1 Arial,sans-serif!important;
+ background:#1a2943!important;color:#fff!important;
+}
+#nfl-night[data-design="prime"] .center .playclock[hidden]{display:none!important}
+#nfl-night[data-design="prime"] .wing.penalized .score{color:#fff!important}
+@media(max-width:600px){
+ #nfl-night[data-sport="nfl"][data-design="prime"] .stage #nn-bug.scorebug{height:82px!important}
+ #nfl-night[data-design="prime"] .wing .record{font-size:7px!important}
+ #nfl-night[data-design="prime"] .center .symbol{font-size:clamp(7px,1.7cqw,11px)!important}
+}
+
+
+#nfl-night[data-sport="nfl"][data-design="prime"] .stage #nn-bug.scorebug{height:min(142px,78vh)!important;max-width:1280px}
+@media(max-width:700px){#nfl-night[data-sport="nfl"][data-design="prime"] .stage #nn-bug.scorebug{height:min(92px,80vh)!important}}
+
+
+/* ABC / ESPN college football — glossy classic broadcast finish */
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .stage #nn-cfb-bug.college-bug{
+ grid-template-columns:minmax(0,42fr) minmax(0,21fr) minmax(0,40fr);
+ height:auto;aspect-ratio:8.35/1;width:100%;gap:0;isolation:isolate;
+ filter:drop-shadow(0 2px 2px #0002);font-family:Arial,Helvetica,sans-serif;
+}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-team-panel{
+ display:block;padding:0;overflow:hidden;border:1px solid color-mix(in srgb,var(--cfb-bg) 76%,white);border-radius:0;
+ background:
+ radial-gradient(ellipse at 15% 5%,#ffffff62 0%,#ffffff1c 23%,transparent 58%),
+ radial-gradient(ellipse at 49% 67%,#ffffff36,transparent 58%),
+ linear-gradient(100deg,#ffffff24,transparent 20%,transparent 78%,#ffffff14 93%,transparent),
+ linear-gradient(180deg,color-mix(in srgb,color-mix(in srgb,var(--cfb-bg) 78%,white) 76%,transparent) 0%,color-mix(in srgb,color-mix(in srgb,var(--cfb-bg) 92%,black) 76%,transparent) 26%,color-mix(in srgb,color-mix(in srgb,var(--cfb-bg) 70%,white) 76%,transparent) 31%,color-mix(in srgb,var(--cfb-bg) 76%,transparent) 37%,color-mix(in srgb,color-mix(in srgb,var(--cfb-bg) 85%,black) 76%,transparent) 83%,color-mix(in srgb,color-mix(in srgb,var(--cfb-bg) 58%,black) 76%,transparent) 94%,color-mix(in srgb,var(--cfb-bg) 76%,transparent) 100%);
+ box-shadow:inset 0 1px 1px #ffffff48,inset 0 -2px 0 #ffffff30,inset 0 -5px 6px #0003;
+}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-team-panel.cfb-away{border-radius:1.1cqw 0 0 .2cqw;border-left:1px solid #ffffff44;--sweep: to right}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-team-panel.cfb-home{border-radius:0 1.1cqw .2cqw 0;border-right:1px solid #ffffff44;--sweep: to left;background:
+ radial-gradient(ellipse at 87% 5%,#ffffff4a,transparent 56%),
+ radial-gradient(ellipse at 54% 67%,#ffffff28,transparent 60%),
+ linear-gradient(260deg,#ffffff16,transparent 24%,transparent 77%,#ffffff22 94%,transparent),
+ linear-gradient(180deg,color-mix(in srgb,color-mix(in srgb,var(--cfb-bg) 79%,white) 76%,transparent),color-mix(in srgb,color-mix(in srgb,var(--cfb-bg) 85%,black) 76%,transparent) 27%,color-mix(in srgb,color-mix(in srgb,var(--cfb-bg) 69%,white) 76%,transparent) 30%,color-mix(in srgb,var(--cfb-bg) 76%,transparent) 38%,color-mix(in srgb,color-mix(in srgb,var(--cfb-bg) 80%,black) 76%,transparent) 84%,color-mix(in srgb,color-mix(in srgb,var(--cfb-bg) 53%,black) 76%,transparent) 95%,color-mix(in srgb,var(--cfb-bg) 76%,transparent))}
+/* Dim score wells and curved metallic shoulder, inspired by the reference. */
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-team-panel::before{content:"";position:absolute;z-index:0;top:29%;bottom:0;right:-2%;width:32%;pointer-events:none;background:linear-gradient(to right,transparent,#0005 45%,#0007);border-radius:0 0 0 55% / 0 0 0 28%;box-shadow:inset -1px 0 0 #fff5}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-team-panel.cfb-home::before{right:auto;left:-2%;background:linear-gradient(to left,transparent,#0005 45%,#0007);border-radius:0 0 55% 0 / 0 0 28% 0;box-shadow:inset 1px 0 0 #fff5}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-team-panel::after{content:"";position:absolute;z-index:1;top:29%;bottom:5%;right:-.7%;width:9%;pointer-events:none;border-right:.62cqw solid #ffffffa8;border-radius:0 0 55% 0;box-shadow:inset -2px 0 4px #fff3;transform:skewX(-6deg);opacity:.8}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-team-panel.cfb-home::after{right:auto;left:-.7%;border-right:0;border-left:.62cqw solid #ffffffa8;border-radius:0 0 0 55%;box-shadow:inset 2px 0 4px #fff3;transform:skewX(6deg)}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-identity,#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-namebox,#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-scorebox{display:contents}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-teamname{position:absolute;z-index:2;top:0;height:30%;left:0;right:0;padding:0 28% 0 8%;gap:.55cqw;display:flex;align-items:center;
+ font:600 clamp(7px,2.18cqw,29px)/1 'Eurostile','Microgramma','Arial',sans-serif;letter-spacing:.035em;text-shadow:0 1px 2px #0009;
+ background:linear-gradient(var(--sweep),#ffffff0c,transparent 52%,#0003);border-bottom:1px solid #ffffff4b;box-shadow:0 1px 2px #0003}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-home .cfb-teamname{justify-content:flex-end;padding:0 8% 0 28%}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-rank{background:none;color:inherit;padding:0;font:inherit;flex:none;letter-spacing:0}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-identity img{position:absolute;z-index:2;left:4%;top:31%;width:32%;height:65%;object-fit:contain;filter:drop-shadow(0 1px 1px #0009) drop-shadow(0 0 1px #fff8)}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-home .cfb-identity img{left:auto;right:4%}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-identity img[hidden]{display:none!important}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-record{position:absolute;z-index:2;left:38%;top:61%;transform:translateY(-50%);margin:0;font:700 clamp(6px,1.65cqw,21px)/1 Arial,sans-serif;text-shadow:0 1px 2px #0009;white-space:nowrap}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-home .cfb-record{left:auto;right:38%}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-scorebox strong{position:absolute;z-index:3;right:3%;top:12%;height:76%;width:27%;display:flex;justify-content:center;align-items:center;
+ font:900 clamp(19px,8.5cqw,112px)/.95 'Arial Black',Arial,Helvetica,sans-serif;letter-spacing:-.045em;font-variant-numeric:tabular-nums;color:#fff;transform:scaleX(.9);text-shadow:0 1px 0 #ddd,0 2px 3px #0009,0 0 7px #ffffff22;-webkit-text-stroke:.045em #ffffff55}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-home .cfb-scorebox strong{right:auto;left:3%}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-timeout-marks{position:absolute;z-index:3;left:60%;top:60%;transform:translate(-50%,-50%);flex-direction:column;gap:.56cqw}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-home .cfb-timeout-marks{left:auto;right:60%;transform:translate(50%,-50%)}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-to-mark{width:2.1cqw;height:.72cqw;min-width:4px;min-height:2px;max-width:26px;max-height:9px;border:0;border-radius:1px;background:linear-gradient(#fff,#d9d9d9);box-shadow:0 1px 2px #0007,0 0 4px #ffffff35}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-to-mark.is-used{background:#070707!important;border:1px solid #ffffff30!important;box-shadow:inset 0 1px 1px #0008!important}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-center{z-index:4;border:0;border-top:1px solid #ffffff46;border-bottom:2px solid #555a60;border-radius:0;background:linear-gradient(180deg,#555a5b 0%,#1a1c1e 28%,#37393a 31%,#1b1c1e 65%,#07090a 93%,#34393b);box-shadow:inset 1px 0 2px #0008,inset -1px 0 2px #0008;overflow:hidden}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-network{height:30%;padding:0;gap:0;border:0;flex:none;background:linear-gradient(#ffffff18,#0004)}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-network #nn-cfb-down{border:0;border-radius:0;letter-spacing:.02em!important;font:700 clamp(7px,2.05cqw,26px)/1 Arial,sans-serif!important;text-shadow:0 1px 2px #0009;padding:0 1px;box-shadow:inset 0 1px 1px #ffffff35,inset 0 -1px 0 #0004;background-image:linear-gradient(#ffffff32,transparent 45%,#0004)!important}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-network #nn-cfb-down.neutral{background-color:#191b1d!important;background-image:linear-gradient(#ffffff1a,transparent 50%,#0004)!important;border:0!important;letter-spacing:.04em!important}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-network #nn-cfb-down.flagged{color:#151515;text-shadow:none}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-timebar{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:57% 43%;gap:0;padding:0 7% 2%;font:700 clamp(7px,2.05cqw,26px)/1 'Eurostile',Arial,sans-serif;text-align:center;align-items:center;justify-items:center;min-height:0;text-shadow:0 1px 2px #000b}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-timebar strong{grid-row:1;grid-column:1/3;font:800 clamp(12px,3.3cqw,44px)/1 'Eurostile','Arial Black',Arial,sans-serif;letter-spacing:.045em;align-self:end;transform:scaleX(1.08)}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-timebar #nn-cfb-quarter{grid-row:2;grid-column:1;align-self:center}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-sep{display:none}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-playclock{grid-row:2;grid-column:2;border:0;background:none;padding:0;font:inherit;letter-spacing:.05em}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-event{bottom:-30px}
+
 </style></head><body><div id="nfl-night" data-sport="nfl" data-design="tv" data-possession="none" class="awaiting-saved-game"><div class="stage" id="nn-stage"><div class="touchdown-overlay" id="nn-touchdown-overlay" hidden aria-live="polite" aria-label="Touchdown animation">
   <img class="td-logo" id="nn-touchdown-logo" alt=""/>
   <div class="td-copy"><span class="td-team-name" id="nn-touchdown-team">TEAM</span>
@@ -1003,7 +1207,7 @@ function drawTouchdown(s){
  touchdownDisplayTimer=setTimeout(()=>{banner.hidden=true;banner.classList.remove('running')},Math.max(15,expires-Date.now()));
 }
 
-function draw(s){if(!s)return; document.getElementById('nfl-night').classList.remove('awaiting-saved-game');document.getElementById('nfl-night').dataset.sport=s.sport==='cfb'?'cfb':'nfl';
+function draw(s){if(!s)return; document.getElementById('nfl-night').classList.remove('awaiting-saved-game');document.getElementById('nfl-night').dataset.sport=s.sport==='cfb'?'cfb':'nfl';document.getElementById('nfl-night').dataset.cfbDesign=s.cfbDesign==='abc'?'abc':'original';
  ['away','home'].forEach(side=>{const p='nn-'+side+'-',v=s[side];if(!v)return;
   
   const available=Number(v.timeoutCount);const n=Number.isFinite(available)?Math.max(0,Math.min(3,Math.floor(available))):3;
@@ -1017,16 +1221,16 @@ function draw(s){if(!s)return; document.getElementById('nfl-night').classList.re
  document.getElementById('nfl-night').dataset.halftime=s.clock==='HALFTIME'||s.quarter==='HALFTIME'?'true':'false';
  set('nn-clock',s.clock);set('nn-quarter',s.quarter==='HALFTIME'?'':s.quarter);set('nn-playclock',s.playclock);
  $('nn-clock').style.visibility=s.clockHidden?'hidden':'visible';$('nn-playclock').hidden=!!s.playclockHidden||document.getElementById('nfl-night').dataset.halftime==='true';
- $('nn-bug').style.maxWidth=s.scale||'100%';document.getElementById('nfl-night').style.setProperty('--cbs-scale',String(Math.max(.65,Math.min(1,(parseFloat(s.scale)||100)/100))));document.getElementById('nfl-night').dataset.design=(['tv','classic','fox','cbs'].includes(s.design)?s.design:'classic');const badge=$('nn-bug').querySelector('.center .symbol');
- const hasBall=s.design==='tv' && (s.possession==='away'||s.possession==='home');
+ $('nn-bug').style.maxWidth=s.scale||'100%';document.getElementById('nfl-night').style.setProperty('--cbs-scale',String(Math.max(.65,Math.min(1,(parseFloat(s.scale)||100)/100))));document.getElementById('nfl-night').dataset.design=(['tv','classic','fox','cbs','prime'].includes(s.design)?s.design:'classic');const badge=$('nn-bug').querySelector('.center .symbol');
+ const hasBall=(s.design==='tv'||s.design==='prime') && (s.possession==='away'||s.possession==='home');
  const flagged=!!s.flag&&(s.flagTeam==='away'||s.flagTeam==='home');
- badge.textContent=s.design==='tv'?(s.reviewActive?'REVIEW':flagged?'⚑ FLAG':s.timeoutActive?'TIMEOUT':hasBall?String(s.centerText||'1ST & 10'):'SPORTSCAST'):'✦ ◉ ✦';badge.classList.toggle('review-center',s.design==='tv'&&!!s.reviewActive);
- badge.classList.toggle('flagged-center',s.design==='tv'&&flagged);badge.classList.toggle('timeout-center',s.design==='tv'&&!!s.timeoutActive&&!flagged);
- badge.classList.toggle('has-possession',hasBall);
+ badge.textContent=(s.design==='tv'||s.design==='prime')?(s.reviewActive?'REVIEW':flagged?'⚑ FLAG':s.timeoutActive?'TIMEOUT':hasBall?String(s.centerText||'1ST & 10'):(s.design==='prime'?'SPORTS CAST':'SPORTSCAST')):'✦ ◉ ✦';badge.classList.toggle('review-center',(s.design==='tv'||s.design==='prime')&&!!s.reviewActive);
+ badge.classList.toggle('flagged-center',(s.design==='tv'||s.design==='prime')&&flagged);badge.classList.toggle('timeout-center',(s.design==='tv'||s.design==='prime')&&!!s.timeoutActive&&!flagged);
+ badge.classList.toggle('has-possession',hasBall);badge.classList.toggle('prime-neutral',s.design==='prime'&&!s.reviewActive&&!flagged&&!s.timeoutActive&&(!hasBall||String(s.centerText||'')==='SPORTS CAST'));
  badge.style.background=flagged&&s.design==='tv'?'linear-gradient(180deg,#ffe76b,#e8b820)':s.timeoutActive&&s.design==='tv'?'linear-gradient(180deg,'+(s.timeoutBg||'#1d3856')+',#141820)':hasBall?(s.centerBg||'linear-gradient(180deg,#343a45,#141820)'):'';
  badge.style.borderColor=flagged&&s.design==='tv'?'#fff7bb':s.timeoutActive&&s.design==='tv'?(s.timeoutTrim||'#d7dce1'):hasBall?(s.centerTrim||'#d7dce1'):'';
  badge.style.color=s.reviewActive&&s.design==='tv'?'#fff':flagged&&s.design==='tv'?'#1f1b14':'';
- document.getElementById('nfl-night').dataset.possession=(s.design==='fox'||s.design==='tv'||s.design==='cbs')&&(s.possession==='away'||s.possession==='home')?s.possession:'none';
+ document.getElementById('nfl-night').dataset.possession=(s.sport==='cfb'||s.design==='fox'||s.design==='tv'||s.design==='cbs'||s.design==='prime')&&(s.possession==='away'||s.possession==='home')?s.possession:'none';
  $('nn-flag-banner').hidden=true;document.getElementById('nfl-night').dataset.flagSide=flagged?s.flagTeam:'none';
  const hasPenalty=flagged&&!!s.penaltyType&&!!s.penaltyYards;
  for(const side of ['away','home']){
@@ -1056,6 +1260,7 @@ function draw(s){if(!s)return; document.getElementById('nfl-night').classList.re
  }
 
  if(s.sport==='cfb'||(s.sport==='nfl'&&s.design==='cbs')){
+  if(s.sport==='cfb'){const size=Math.max(65,Math.min(100,parseFloat(s.scale)||100));$('nn-cfb-bug').style.maxWidth='min('+Math.round(1000*size/100)+'px,'+size+'%)'}else $('nn-cfb-bug').style.removeProperty('max-width');
   for(const side of ['away','home']){
    const v=s[side]||{},panel=$('nn-cfb-'+side+'-panel');
    panel.style.setProperty('--cfb-bg',/^#[0-9a-f]{6}$/i.test(v.bgColor||'')?v.bgColor:'#1e4b7b');
@@ -1123,4 +1328,49 @@ async function poll(){
 }
 poll();setInterval(poll,750);
 })();
-</script></body></html>
+</script><style>
+/* ABC / ESPN classic typography: original vector numerals, no external font dependency. */
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-teamname{font-family:'Eurostile','Microgramma','Bank Gothic',Arial,sans-serif;font-weight:500;letter-spacing:.075em;text-shadow:0 1px 2px #0008}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-teamname>span:not(.cfb-rank){transform:scaleX(1.035);transform-origin:left center}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-home .cfb-teamname>span:not(.cfb-rank){transform-origin:right center}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] #nn-cfb-down{font-family:'Eurostile','Microgramma',Arial,sans-serif!important;letter-spacing:.045em!important;font-weight:700!important}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-scorebox strong.abc-vector{color:transparent!important;text-shadow:none!important;-webkit-text-stroke:0!important;transform:none;background-image:var(--abc-numerals);background-repeat:no-repeat;background-position:center;background-size:94% 84%;filter:drop-shadow(0 2px 2px #0008)}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-timebar .abc-vector{color:transparent!important;text-shadow:none!important;background-image:var(--abc-numerals);background-repeat:no-repeat;background-position:center;background-size:contain;filter:drop-shadow(0 1px 1px #0009);transform:none!important}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] #nn-cfb-clock.abc-vector{width:100%;height:90%;background-size:82% 91%;align-self:center;line-height:1}
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] #nn-cfb-playclock.abc-vector{width:100%;height:80%;background-size:55% 83%}
+</style><script>
+(()=>{'use strict';
+// Designed as independent vector shapes rather than a licensed broadcast font.
+const score={
+'0':'M9 1H23Q31 1 31 10V38Q31 47 23 47H9Q1 47 1 38V10Q1 1 9 1ZM12 11Q10 11 10 14V34Q10 37 12 37H20Q22 37 22 34V14Q22 11 20 11Z',
+'1':'M3 9L13 1H23V47H13V12L3 18Z',
+'2':'M1 10Q1 1 10 1H23Q31 1 31 10V19Q31 23 25 27L10 37H31V47H1V36Q1 32 7 28L21 18V11H11V16H1Z',
+'3':'M1 1H23Q31 1 31 10V17Q31 22 26 24Q31 26 31 31V38Q31 47 23 47H1V37H21V29H9V19H21V11H1Z',
+'4':'M15 1H25L10 28H21V19H30V28H32V37H30V47H21V37H1V27Z',
+'5':'M2 1H31V11H12V19H23Q31 19 31 28V38Q31 47 23 47H1V37H21V29H2Z',
+'6':'M9 1H30V11H12Q10 11 10 14V19H23Q31 19 31 28V38Q31 47 23 47H9Q1 47 1 38V10Q1 1 9 1ZM10 29V34Q10 37 13 37H20Q22 37 22 34V29Z',
+'7':'M1 1H31V11L16 47H5L20 11H1Z',
+'8':'M9 1H23Q31 1 31 10V17Q31 22 26 24Q31 26 31 31V38Q31 47 23 47H9Q1 47 1 38V31Q1 26 6 24Q1 22 1 17V10Q1 1 9 1ZM10 11V19H22V11ZM10 29V37H22V29Z',
+'9':'M9 1H23Q31 1 31 10V38Q31 47 23 47H2V37H20Q22 37 22 34V29H9Q1 29 1 20V10Q1 1 9 1ZM10 11V19H22V11Z'};
+const clock={
+'0':'M7 3H23Q28 3 28 8V20Q28 25 23 25H7Q2 25 2 20V8Q2 3 7 3Z',
+'1':'M8 7L15 3V25M8 25H23',
+'2':'M2 8Q2 3 7 3H23Q28 3 28 8V10Q28 13 24 15L2 25H28',
+'3':'M2 3H23Q28 3 28 8V10Q28 14 23 14H12M23 14Q28 14 28 18V20Q28 25 23 25H2',
+'4':'M20 3L2 18H28M22 3V25',
+'5':'M28 3H2V14H23Q28 14 28 19V20Q28 25 23 25H2',
+'6':'M28 3H7Q2 3 2 8V20Q2 25 7 25H23Q28 25 28 20V19Q28 14 23 14H2',
+'7':'M2 3H28L12 25',
+'8':'M7 3H23Q28 3 28 8V9Q28 14 23 14H7Q2 14 2 9V8Q2 3 7 3ZM7 14H23Q28 14 28 19V20Q28 25 23 25H7Q2 25 2 20V19Q2 14 7 14Z',
+'9':'M28 14H7Q2 14 2 9V8Q2 3 7 3H23Q28 3 28 8V20Q28 25 23 25H2'};
+function render(el,isScore){const t=el.textContent.trim();if(!(isScore?/^\d{1,3}$/:/^\d{1,3}(?::\d{2})?$/).test(t)){el.classList.remove('abc-vector');return;}
+let x=0,shapes='';for(const c of t){if(c===':'){shapes+=`<g transform="translate(${x} 0)" fill="#fff"><rect x="2" y="7" width="4" height="4" rx=".8"/><rect x="2" y="19" width="4" height="4" rx=".8"/></g>`;x+=12;continue;}const path=(isScore?score:clock)[c];shapes+=`<path transform="translate(${x} 0)" d="${path}" ${isScore?'fill="url(#shine)" fill-rule="evenodd"':'fill="none" stroke="#fff" stroke-width="4.4" stroke-linejoin="round" stroke-linecap="square"'}/>`;x+=isScore?35:35;}
+const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -1 ${x+1} ${isScore?50:31}"><defs><linearGradient id="shine" x2="0" y2="1"><stop stop-color="#fff"/><stop offset=".65" stop-color="#fff"/><stop offset="1" stop-color="#e9e9e9"/></linearGradient></defs>${shapes}</svg>`;
+el.style.setProperty('--abc-numerals',`url("data:image/svg+xml,${encodeURIComponent(svg)}")`);el.classList.add('abc-vector');}
+for(const id of ['nn-cfb-away-score','nn-cfb-home-score','nn-cfb-clock','nn-cfb-playclock']){const el=document.getElementById(id);if(!el)continue;const isScore=id.endsWith('-score');const refresh=()=>render(el,isScore);new MutationObserver(refresh).observe(el,{childList:true,characterData:true,subtree:true});refresh();}
+})();
+</script><style>
+/* ABC neutral label: fit the entire unbroken brand inside the down strip. */
+#nfl-night[data-sport="cfb"][data-cfb-design="abc"] .cfb-network #nn-cfb-down.neutral{font-size:clamp(7px,1.65cqw,21px)!important;letter-spacing:.035em!important;white-space:nowrap!important;color:#fff!important}
+</style>
+</body></html>

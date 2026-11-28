@@ -312,8 +312,9 @@ class Handler(BaseHTTPRequestHandler):
                     cleaned[side][colorfield] = raw if re.fullmatch(r'#[0-9a-fA-F]{6}', raw) else '#254a73'
             for k in ('clock','quarter','playclock','scale'):
                 cleaned[k] = str(data.get(k, ''))[:40]
-            cleaned['design'] = data.get('design') if data.get('design') in ('classic','tv','fox','cbs') else 'classic'
+            cleaned['design'] = data.get('design') if data.get('design') in ('classic','tv','fox','cbs','prime') else 'classic'
             cleaned['sport'] = 'cfb' if data.get('sport') == 'cfb' else 'nfl'
+            cleaned['cfbDesign'] = 'abc' if data.get('cfbDesign') == 'abc' else 'original'
             cleaned['reviewActive'] = bool(data.get('reviewActive', False))
             cleaned['cfbDown'] = str(data.get('cfbDown', '1ST & 10'))[:44]
             cleaned['cfbDownHidden'] = bool(data.get('cfbDownHidden', False))

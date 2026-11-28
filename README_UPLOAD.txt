@@ -1,27 +1,23 @@
-SPORTSCAST STUDIO — CBS NFL + SMALLER CONTROLLER SCOREBOARD PREVIEW
+SPORTSCAST STUDIO — ABC / ESPN COLLEGE FOOTBALL — CLASSIC GLOSSY UPDATE
 
-CHANGES IN THIS ONE UPDATE
-1. New CBS design option for NFL, matching the College Football-style layout.
-2. CBS center shows SPORTSCAST in a black box with No Possession. When Home or Away has the ball, it shows down & distance. REVIEW and FLAG status still take priority.
-3. Website/controller-only scoreboard preview is smaller and centered again, like before the full-screen update:
-   NBC and FOX: up to 960 pixels wide; ESPN: up to 1120 pixels;
-   CBS and College Football: up to 1000 pixels.
-4. The five-column full-width control panel remains full-width.
-5. The Scoreboard Size slider remains functional at desktop and mobile sizes.
-6. OBS source dimensions are NOT changed by this adjustment. The existing OBS sizing, styles, scoreboard controls, and synchronization remain intact.
+Based on the November 27 Prime Video and Settings Fix ZIP.
+Refined the existing ABC / ESPN college-only design with classic glossy broadcast gradients, curved metallic shoulders, compact proportions and revised typography. Other designs unchanged.
+Rank next to the school name. Center down & distance uses possession team's custom color.
+No possession shows SPORTS CAST. Existing controls are reused. College design is saved locally and sent to OBS in the server state.
 
-TO PUBLISH
-1. Unzip this file.
-2. Open https://github.com/coltensiegel5-cmyk/Sports-cast-scroebord/upload/main
-3. Upload ALL THREE files into the GitHub repo root, replacing the originals:
-     controller.html
-     overlay.html
-     app.py
-4. Click Commit changes. Your Render service automatically deploys main.
-5. Open the Sportscast Studio control page and hard refresh with Command+Shift+R.
-6. Select NFL → CBS → No Possession to confirm SPORTSCAST is displayed in the center.
+INSTALL
+1. Open https://github.com/coltensiegel5-cmyk/Sports-cast-scroebord/upload/main
+2. Upload controller.html, overlay.html and app.py from this ZIP to the repository root.
+3. Commit changes and allow Render to deploy.
+4. Refresh controller and OBS browser source. Select College Football > ABC / ESPN.
+Controller: https://sportscast-studio-colten.onrender.com/control
+OBS: https://sportscast-studio-colten.onrender.com/obs
+Keep controller open during broadcasts. Use Command+Shift+R if cached.
 
-NOTE: app.py is included because the server must recognize the new CBS design for OBS.
-The OBS overlay.html is included for the new CBS layout, but its output dimensions have not been altered for the smaller controller preview.
-Do not upload the preview PNG to GitHub.
-This ZIP is ready to upload, not yet published to the live website.
+Local tests: controller design switching, rank, possession colors, no possession, NFL selection independence, and OBS state updates passed. Official broadcast font was approximated with system fonts. Production deployment and external logo/record feeds not tested.
+
+FONT UPDATE: custom vector score and clock numerals, wider team labels. No external font files. Only ABC / ESPN CFB design is affected.
+
+TRANSLUCENT UPDATE: ABC / ESPN team-color gradient stops use 76% opacity, preserving opaque lettering and logos. Gloss and shadows vary the effective transparency. Other designs and server unchanged.
+
+ABC/ESPN: when neither team has possession, the down strip displays SPORTSCAST (one word). Review, flag and timeout announcements retain priority.
