@@ -49,7 +49,7 @@ def _espn_get(path):
 def _college_catalog(force=False):
     with COLLEGE_LOCK:
         if COLLEGE_CACHE['teams'] and time.time()-COLLEGE_CACHE['time'] < (90 if force else 1200):
-            return {'teams':COLLEGE_CACHE['teams'], 'source':COLLEGE_CACHE.get('source','fallback'), 'cached':True}
+            return {'teams':COLLEGE_CACHE['teams'], 'source':COLLEGE_CACHE.get('source','fallback'), 'cached':True,'rankingsAvailable':COLLEGE_CACHE.get('rankingsAvailable',False)}
         import concurrent.futures
         import re
         # Fetch Division I FBS/FCS catalogs, current-week records and conference standings in parallel.
@@ -60,8 +60,9 @@ def _college_catalog(force=False):
         }
         paths.update({f'games{g}':f'/apis/site/v2/sports/football/college-football/scoreboard?groups={g}&limit=500' for g in (80,81)})
         paths.update({f'standings{g}':f'/apis/v2/sports/football/college-football/standings?season={year}&group={g}' for g in (80,81)})
+        paths['rankings']='/apis/site/v2/sports/football/college-football/rankings'
         payloads = {}
-        with concurrent.futures.ThreadPoolExecutor(max_workers=6) as ex:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=7) as ex:
             future_map={ex.submit(_espn_get,path):name for name,path in paths.items()}
             for future in concurrent.futures.as_completed(future_map):
                 try:payloads[future_map[future]]=future.result()
@@ -90,12 +91,22 @@ def _college_catalog(force=False):
                     if not logo:logo=f'https://a.espncdn.com/i/teamlogos/ncaa/500/{tid}.png'
                     entries[tid]={'code':abbr,'abbr':abbr,'name':name,'id':tid,'bg':'#'+color,'trim':'#'+trim,'record':'','logo':logo}
         records={}
+        ranks={}
+        # Prefer the game broadcast's curated rank, then the AP poll for other teams.
+        for poll in (payloads.get('rankings') or {}).get('rankings',[]):
+            if 'ap' not in str(poll.get('shortName','')).lower() and 'associated press' not in str(poll.get('name','')).lower():continue
+            for item in poll.get('ranks',[]):
+                tid=str((item.get('team') or {}).get('id','')); rank=item.get('current')
+                if tid and str(rank).isdigit() and 1<=int(rank)<=25:ranks[tid]=str(rank)
+        rankings_available=bool(ranks)
         for group in (80,81):
             payload=payloads.get(f'games{group}') or {}
             for event in payload.get('events') or []:
                 for competition in event.get('competitions') or []:
                     for competitor in competition.get('competitors') or []:
                         tid=str((competitor.get('team') or {}).get('id',''))
+                        rank=(competitor.get('curatedRank') or {}).get('current')
+                        if tid and str(rank).isdigit() and 1<=int(rank)<=25:ranks[tid]=str(rank)
                         arr=competitor.get('records') or []
                         overall=next((str(r.get('summary','')) for r in arr if r.get('type')=='total' or r.get('name')=='overall'), '')
                         if not overall and arr:overall=str(arr[0].get('summary',''))
@@ -141,12 +152,14 @@ def _college_catalog(force=False):
             while code in used:code=row['code']+'_'+str(index);index+=1
             row['code']=code;used.add(code)
             row['record']=records.get(row['id'],'')
+            row['rank']=ranks.get(row['id'],'')
         rows.sort(key=lambda t:t['name'].casefold())
         if entries or not COLLEGE_CACHE['teams']:
             COLLEGE_CACHE['teams']=rows
             COLLEGE_CACHE['time']=time.time()
             COLLEGE_CACHE['source']='ESPN+fallback' if entries else 'fallback'
-        return {'teams':COLLEGE_CACHE['teams'],'source':COLLEGE_CACHE.get('source','fallback'),'cached':False}
+            COLLEGE_CACHE['rankingsAvailable']=rankings_available
+        return {'teams':COLLEGE_CACHE['teams'],'source':COLLEGE_CACHE.get('source','fallback'),'cached':False,'rankingsAvailable':COLLEGE_CACHE.get('rankingsAvailable',False)}
 
 PORT = int(os.environ.get('PORT', '8765'))
 HOST = os.environ.get('HOST', '127.0.0.1')
